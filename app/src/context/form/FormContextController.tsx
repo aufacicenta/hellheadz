@@ -15,7 +15,6 @@ import {
 } from "context/message/MessageContext.types";
 import { useRoutes } from "hooks/useRoutes/useRoutes";
 import { useAuthorizationContext } from "context/authorization/useAuthorizationContext";
-import { useFileContext } from "context/file/useFileContext";
 import { X_PUBLIC_BUCKET_NAME } from "providers/chat/constants";
 
 import { FormContextControllerProps, FormContextType, FormState } from "./FormContext.types";
@@ -60,13 +59,7 @@ export const FormContextController = ({ children }: FormContextControllerProps) 
 
   const authContext = useAuthorizationContext();
 
-  const fileContext = useFileContext();
-
   const router = useRouter();
-
-  useEffect(() => {
-    setCurrentMessageMetadata({ bucketName: fileContext.getStorageBucketName() });
-  }, []);
 
   useEffect(() => {
     if (authContext.getOpenAISessionID()) {

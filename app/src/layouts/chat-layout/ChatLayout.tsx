@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 
 import { MainPanel } from "ui/mainpanel/MainPanel";
 import { ToastContextController } from "context/toast/ToastContextController";
-import { FileContextController } from "context/file/FileContextController";
 import { MessageContextController } from "context/message/MessageContextController";
 import { FormContextController } from "context/form/FormContextController";
 import { Navbar } from "ui/fileagent/navbar/Navbar";
@@ -36,19 +35,17 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({ children }) => {
             <ChatSidebarContextController>
               <MessageContextController>
                 <AuthorizationContextController>
-                  <FileContextController>
-                    <FormContextController>
-                      <div id="modal-root" />
-                      <div id="dropdown-portal" />
-                      <div className={clsx(styles["chat-layout"])}>
-                        <Sheet>
-                          <Navbar />
+                  <FormContextController>
+                    <div id="modal-root" />
+                    <div id="dropdown-portal" />
+                    <div className={clsx(styles["chat-layout"])}>
+                      <Sheet>
+                        <Navbar />
 
-                          <MainPanel>{children}</MainPanel>
-                        </Sheet>
-                      </div>
-                    </FormContextController>
-                  </FileContextController>
+                        <MainPanel>{children}</MainPanel>
+                      </Sheet>
+                    </div>
+                  </FormContextController>
                 </AuthorizationContextController>
               </MessageContextController>
             </ChatSidebarContextController>
