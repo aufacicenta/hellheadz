@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/router";
 
 import { useLocalStorage } from "hooks/useLocalStorage/useLocalStorage";
 import { MessageFileType } from "ui/dropzone/message-file-type/MessageFileType";
@@ -24,8 +23,6 @@ export const MessageContextController = ({ children }: MessageContextControllerP
   const [actions, setActions] = useState<MessageContextActions>({
     isProcessingRequest: false,
   });
-
-  const router = useRouter();
 
   const ls = useLocalStorage();
 
@@ -205,31 +202,6 @@ export const MessageContextController = ({ children }: MessageContextControllerP
   };
 
   const displayInitialMessage = () => {
-    const fileName = router.query?.fileName;
-
-    if (fileName) {
-      switch (fileName) {
-        case "Constitucion_politica_de_la_republica_de_guatemala.pdf":
-          appendMessage({
-            content: `¡Hola! **Pregúntale a la Constitución Política de Guatemala**.
-
-Extrajimos el contenido de este archivo PDF: <a href="https://dosykuehmswkuuurtgyx.supabase.co/storage/v1/object/sign/guest-a62e/Constitucion_politica_de_la_republica_de_guatemala.pdf?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJndWVzdC1hNjJlL0NvbnN0aXR1Y2lvbl9wb2xpdGljYV9kZV9sYV9yZXB1YmxpY2FfZGVfZ3VhdGVtYWxhLnBkZiIsImlhdCI6MTY5Nzc0MDg3MywiZXhwIjoyMDEzMTAwODczfQ.7_rdImgNN1JVq4yDKaF9oAS05qBEFD7XDKhcb9m_WY4&t=2023-10-19T18%3A41%3A13.490Z" target="_blank">Constitucion_politica_de_la_republica_de_guatemala.pdf</a> para que le preguntes lo que querrás!
-
-En vez de leerla... 🥱`,
-            role: "assistant",
-            readOnly: true,
-            hasInnerHtml: true,
-            type: "text",
-          });
-          break;
-
-        default:
-          break;
-      }
-
-      return;
-    }
-
     const lsMessages = ls.get<ChatContextMessage[]>(LocalStorageKeys.messages);
 
     if (lsMessages && lsMessages?.length > 0) {
@@ -261,9 +233,9 @@ En vez de leerla... 🥱`,
     }
 
     appendMessage({
-      content: `Hello, I'm an intelligent File Agent. You can upload PDF files (more file types in the way) and I'll try to understand and do things with them if you ask me to.
+      content: `Hi! I'm the Lease721 property manager. I can help you to list any of your ERC721 (NFTs) for rent.
 
-        Try uploading your first file by dragging and dropping it in the box below or by clicking the box and selecting a file from your computer.`,
+      Start by connecting your wallet or paste a wallet address and I'll fetch all the digital assets it owns.`,
       role: "assistant",
       readOnly: true,
       type: "text",
