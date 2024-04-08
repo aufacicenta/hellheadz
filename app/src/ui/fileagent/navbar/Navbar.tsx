@@ -2,8 +2,8 @@ import clsx from "clsx";
 
 import { Typography } from "ui/typography/Typography";
 import { Grid } from "ui/grid/Grid";
-import { FileAgentLogo } from "ui/icons/FileAgentLogo";
 import { useThemeContext } from "context/theme/useThemeContext";
+import { Lease721Logo } from "ui/icons/Lease721Logo";
 
 import { NavbarProps } from "./Navbar.types";
 import styles from "./Navbar.module.scss";
@@ -20,12 +20,12 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
               <div className={styles["navbar__left--item"]}>
                 <div className={clsx(styles.navbar__logo, styles["navbar__logo-mobile"])}>
                   <Typography.Link href="#">
-                    <FileAgentLogo theme={theme} />
+                    <Lease721Logo theme={theme} />
                   </Typography.Link>
                 </div>
                 <div className={clsx(styles.navbar__logo, styles["navbar__logo-desktop"])}>
                   <Typography.Link href="#">
-                    <FileAgentLogo theme={theme} />
+                    <Lease721Logo theme={theme} />
                   </Typography.Link>
                 </div>
               </div>

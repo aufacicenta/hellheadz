@@ -12,7 +12,7 @@
   position: relative;
   display: block;
   height: 100vh;
-  padding-top: $navbar-height * 1.5;
+  padding-top: $navbar-height;
   padding-left: $navbar-height * 1.5;
   background-color: var(--color-background);
 
@@ -35,7 +35,7 @@
       padding: $space-default;
       padding-bottom: $space-l;
       padding-left: $navbar-height;
-      background-color: white;
+      background-color: var(--color-secondary);
     }
 
     &--actions {
@@ -97,7 +97,7 @@
     padding-top: $navbar-height;
     padding-bottom: 280px;
     overflow-y: scroll;
-    background-color: white;
+    background-color: var(--color-secondary);
 
     &--item {
       border-bottom: 1px solid var(--color-horizontal-line-background);

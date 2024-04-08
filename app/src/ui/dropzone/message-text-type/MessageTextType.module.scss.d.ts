@@ -6,6 +6,9 @@ export type Styles = {
   "message-text-type__loading-spinner": string;
   "message-text-type__options": string;
   "message-text-type__options--dropbox-button": string;
+  "message-text-type__role-text": string;
+  "message-text-type__role-text--assistant": string;
+  "message-text-type__role-text--user": string;
   "message-text-type__static-options": string;
   "z-depth-0": string;
   "z-depth-1": string;

@@ -7,10 +7,10 @@ import { LocalStorageKeys } from "hooks/useLocalStorage/useLocalStorage.types";
 import { ThemeContext } from "./ThemeContext";
 import { ThemeContextControllerProps } from "./ThemeContext.types";
 
-const themes: Theme[] = ["fileagent", "fileagent-dark", "yipiti-light", "yipiti-dark"];
+const themes: Theme[] = ["fileagent", "fileagent-dark", "yipiti-light", "yipiti-dark", "lease-721"];
 
 export const ThemeContextController = ({ children }: ThemeContextControllerProps) => {
-  const [theme, setTheme] = useState<Theme>("yipiti-light");
+  const [theme, setTheme] = useState<Theme>("lease-721");
 
   const localStorage = useLocalStorage();
 

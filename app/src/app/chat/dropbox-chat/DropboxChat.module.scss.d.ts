@@ -7,6 +7,7 @@ export type Styles = {
   "dropbox-chat__textarea--card": string;
   "dropbox-chat__textarea--card-actions": string;
   "dropbox-chat__textarea--card-actions-button": string;
+  "dropbox-chat__textarea--card-content": string;
   "dropbox-chat__textarea--card-field": string;
   "z-depth-0": string;
   "z-depth-1": string;
