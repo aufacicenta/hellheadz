@@ -9,25 +9,25 @@ $font-weight-regular: 400 !default;
 $font-weight-medium: 500 !default;
 $font-weight-bold: 700 !default;
 
-$font-size-headline-1: rem(31);
-$font-size-headline-2: rem(24);
-$font-size-headline-3: rem(21);
-$font-size-headline-4: rem(18);
-$font-size-headline-5: rem(16);
-$font-size-headline-6: rem(14);
-$font-size-headline-7: rem(12);
-$font-size-text: rem(16);
-$font-size-input-label: rem(13);
-$font-size-input-text: rem(12);
+$font-size-headline-1: rem-calc(31);
+$font-size-headline-2: rem-calc(24);
+$font-size-headline-3: rem-calc(21);
+$font-size-headline-4: rem-calc(18);
+$font-size-headline-5: rem-calc(16);
+$font-size-headline-6: rem-calc(14);
+$font-size-headline-7: rem-calc(12);
+$font-size-text: rem-calc(16);
+$font-size-input-label: rem-calc(13);
+$font-size-input-text: rem-calc(12);
 $font-size-text-lead: 1.25rem;
 $font-size-text-bold: $font-size-text;
-$font-size-subtitle: rem(16);
+$font-size-subtitle: rem-calc(16);
 $font-size-subtitle-semi-bold: $font-size-subtitle;
 $font-size-button-label: $font-size-text;
-$font-size-sm-button-label: rem(12);
-$font-size-mini-button-label: rem(10);
-$font-size-description: rem(12);
-$font-size-mini-description: rem(11);
+$font-size-sm-button-label: rem-calc(12);
+$font-size-mini-button-label: rem-calc(10);
+$font-size-description: rem-calc(12);
+$font-size-mini-description: rem-calc(11);
 
 $typography-headline-1: (
   font: (
@@ -171,10 +171,10 @@ $typography-link: (
   ),
 );
 
-$font-size-1: rem(11) !default;
-$font-size-2: rem(13) !default;
-$font-size-3: rem(14) !default;
-$font-size-4: rem(15) !default;
-$font-size-5: rem(16) !default;
+$font-size-1: rem-calc(11) !default;
+$font-size-2: rem-calc(13) !default;
+$font-size-3: rem-calc(14) !default;
+$font-size-4: rem-calc(15) !default;
+$font-size-5: rem-calc(16) !default;
 
 $line-height-baseline: 1.6 !default;

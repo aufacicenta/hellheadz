@@ -10,8 +10,6 @@ import { Icon } from "ui/icon/Icon";
 import { WalletSelectorProps } from "./WalletSelector.types";
 import styles from "./WalletSelector.module.scss";
 
-import "@near-wallet-selector/modal-ui/styles.css";
-
 export const WalletSelector: React.FC<WalletSelectorProps> = ({ className }) => {
   const { open } = useWeb3Modal();
   const { address, isConnected } = useAccount();

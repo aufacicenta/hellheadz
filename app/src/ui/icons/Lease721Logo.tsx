@@ -1,6 +1,6 @@
 import { Theme } from "ui/theme-selector/ThemeSelector.types";
 
-export const Lease721Logo = ({ className, theme }: { className?: string; theme: Theme }) => (
+export const Lease721Logo = ({ className }: { className?: string; theme: Theme }) => (
   <svg
     width="127"
     height="21"

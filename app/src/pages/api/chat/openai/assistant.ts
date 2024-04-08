@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Thread } from "openai/resources/beta/threads/threads";
-import { MessageContentText } from "openai/resources/beta/threads/messages/messages";
+import { TextContentBlock } from "openai/resources/beta/threads/messages/messages";
 
 import logger from "providers/logger";
 import openai from "providers/openai";
@@ -125,7 +125,7 @@ Categoría:
         {
           message: {
             role: "assistant",
-            content: (messages.data[0].content[0] as MessageContentText).text.value,
+            content: (messages.data[0].content[0] as TextContentBlock).text.value,
             label: ChatLabel.chat_completion_success,
             type: "text",
             metadata: {

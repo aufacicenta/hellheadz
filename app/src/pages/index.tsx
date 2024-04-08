@@ -3,11 +3,10 @@ import { i18n, useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 
-import { AccountId } from "providers/near/contracts/market/market.types";
 import { ChatLayout } from "layouts/chat-layout/ChatLayout";
 import { DropboxChatContainer } from "app/chat/dropbox-chat/DropboxChatContainer";
 
-const Index: NextPage<{ marketId: AccountId }> = () => {
+const Index: NextPage = () => {
   const { t } = useTranslation("head");
 
   return (

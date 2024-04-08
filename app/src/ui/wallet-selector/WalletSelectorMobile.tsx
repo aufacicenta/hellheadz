@@ -4,7 +4,6 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount } from "wagmi";
 
 import { Button } from "../button/Button";
-import { BalancePill } from "ui/pulse/sidebar/balance-pill/BalancePill";
 import { Typography } from "ui/typography/Typography";
 import { Icon } from "ui/icon/Icon";
 
@@ -44,8 +43,6 @@ export const WalletSelectorMobile: React.FC<WalletSelectorProps> = ({ className 
           <>{t("promptWars.connectWallet")}</>
         )}
       </Button>
-
-      {isConnected ? <BalancePill /> : null}
 
       {isConnected ? (
         <Typography.Description

@@ -26,7 +26,8 @@
       "layouts/*": ["src/layouts/*"],
       "api/*": ["src/pages/api/*"],
       "providers/*": ["src/providers/*"],
-      "types/*": ["src/types/*"]
+      "types/*": ["src/types/*"],
+      "react": ["./node_modules/@types/react"]
     },
     "incremental": true
   },

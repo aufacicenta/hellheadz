@@ -1,5 +1,5 @@
 @import "src/ui/typography/variables";
 
-@function rem($pixels) {
+@function rem-calc($pixels) {
   @return ($pixels / $font-size-base * 1rem);
 }
