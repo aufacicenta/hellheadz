@@ -12,6 +12,7 @@ import { AuthorizationContextController } from "context/authorization/Authorizat
 import { ThemeContextController } from "context/theme/ThemeContextController";
 import { ChatSidebarContextController } from "context/chat-sidebar/ChatSidebarContextController";
 import { Sheet } from "ui/shadcn/sheet/Sheet";
+import { EvmWalletSelectorContextController } from "context/evm/wallet-selector/EvmWalletSelectorContextController";
 
 import { ChatLayoutProps } from "./ChatLayout.types";
 import styles from "./ChatLayout.module.scss";
@@ -30,27 +31,29 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({ children }) => {
         <meta property="og:locale" content={locale} />
       </Head>
       <ThemeContextController>
-        <ToastContextController>
-          <ChatSidebarContextController>
-            <MessageContextController>
-              <AuthorizationContextController>
-                <FileContextController>
-                  <FormContextController>
-                    <div id="modal-root" />
-                    <div id="dropdown-portal" />
-                    <div className={clsx(styles["chat-layout"])}>
-                      <Sheet>
-                        <Navbar />
+        <EvmWalletSelectorContextController>
+          <ToastContextController>
+            <ChatSidebarContextController>
+              <MessageContextController>
+                <AuthorizationContextController>
+                  <FileContextController>
+                    <FormContextController>
+                      <div id="modal-root" />
+                      <div id="dropdown-portal" />
+                      <div className={clsx(styles["chat-layout"])}>
+                        <Sheet>
+                          <Navbar />
 
-                        <MainPanel>{children}</MainPanel>
-                      </Sheet>
-                    </div>
-                  </FormContextController>
-                </FileContextController>
-              </AuthorizationContextController>
-            </MessageContextController>
-          </ChatSidebarContextController>
-        </ToastContextController>
+                          <MainPanel>{children}</MainPanel>
+                        </Sheet>
+                      </div>
+                    </FormContextController>
+                  </FileContextController>
+                </AuthorizationContextController>
+              </MessageContextController>
+            </ChatSidebarContextController>
+          </ToastContextController>
+        </EvmWalletSelectorContextController>
       </ThemeContextController>
     </>
   );
