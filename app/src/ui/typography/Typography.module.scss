@@ -25,7 +25,11 @@
 
   &__truncate {
     @extend .typography__inline;
-    width: 210px;
+
+    @include atLargeTablet {
+      width: 210px;
+    }
+    width: 98px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

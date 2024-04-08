@@ -9,11 +9,14 @@
 }
 
 .dropbox-chat {
+  @include atLargeTablet {
+    padding-top: $navbar-height;
+    padding-left: $navbar-height * 1.5;
+  }
   position: relative;
   display: block;
   height: 100vh;
-  padding-top: $navbar-height;
-  padding-left: $navbar-height * 1.5;
+  padding-top: $navbar-height-mobile;
   background-color: var(--color-background);
 
   &__textarea {
@@ -26,15 +29,18 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    border-top: 1px solid var(--color-horizontal-line-background);
+    border-top: 1px solid var(--color-secondary-shade-low);
     padding-top: 0;
     background-color: var(--color-background);
 
     > div {
       @extend .z-depth-1;
+
+      @include atLargeTablet {
+        padding-bottom: $space-l;
+        padding-left: $navbar-height;
+      }
       padding: $space-default;
-      padding-bottom: $space-l;
-      padding-left: $navbar-height;
       background-color: var(--color-secondary);
     }
 
@@ -87,6 +93,8 @@
 
   &__messages {
     @include atLargeTablet {
+      border-top-left-radius: $border-radius-card;
+      padding-top: $navbar-height / 2;
       padding-bottom: 270px;
     }
 
@@ -94,14 +102,18 @@
     position: relative;
     height: calc(100vh - $navbar-height * 1.5);
     border-top-left-radius: $border-radius-card;
-    padding-top: $navbar-height;
+    border-top-right-radius: $border-radius-card;
+    padding-top: $navbar-height-mobile;
     padding-bottom: 280px;
     overflow-y: scroll;
     background-color: var(--color-secondary);
 
     &--item {
+      @include atLargeTablet {
+        padding-top: $navbar-height / 3;
+        padding-left: $navbar-height / 2;
+      }
       border-bottom: 1px solid var(--color-horizontal-line-background);
-      padding-left: $navbar-height;
 
       > div {
         @include width;

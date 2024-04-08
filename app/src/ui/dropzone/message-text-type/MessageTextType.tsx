@@ -5,7 +5,6 @@ import hljs from "highlight.js";
 
 import { Typography } from "ui/typography/Typography";
 import { useTypingSimulation } from "hooks/useTypingSimulation/useTypingSimulation";
-import { LoadingSpinner } from "ui/icons/LoadingSpinner";
 import { Button } from "ui/button/Button";
 import { useFormContext } from "context/form/useFormContext";
 import { FormFieldNames } from "app/chat/dropbox-chat/DropboxChat.types";
@@ -101,7 +100,7 @@ Tell me what's the most sold product:`,
                 [styles["message-text-type__role-text--assistant"]]: message.role === "assistant",
               })}
             >
-              <LoadingSpinner className={styles["message-text-type__loading-spinner"]} /> Thinking
+              Thinking...
             </Typography.Description>
           ) : (
             <Typography.Description

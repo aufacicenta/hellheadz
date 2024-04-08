@@ -53,7 +53,7 @@ body[data-theme="lease-721"] {
   --color-button-primary: var(--color-primary);
   --color-button-primary-text: var(--color-background);
   --color-button-primary-hover: var(--color-primary);
-  --color-button-primary-hover-text: var(--color-background);
+  --color-button-primary-hover-text: var(--color-background-contrast);
   --color-button-primary-disabled: var(--color-dark-5);
   --color-button-secondary: var(--color-white);
   --color-button-secondary-text: var(--color-white);
@@ -65,6 +65,11 @@ body[data-theme="lease-721"] {
   --color-button-status-critical-hover-text: var(--color-white);
 
   // Button outlined
+  --color-button-outlined-primary-text: var(--color-primary);
+  --color-button-outlined-primary-hover: var(--color-primary);
+  --color-button-outlined-primary-hover-text: var(--color-dark-4);
+  --color-button-outlined-primary-border: var(--color-primary);
+  --color-button-outlined-primary-border-hover: var(--color-dark-4);
   --color-button-outlined-info: #ffd74b;
   --color-button-outlined-info-text: #ffd74b;
   --color-button-outlined-disabled: #5b5b65;
@@ -107,7 +112,7 @@ body[data-theme="lease-721"] {
   --color-market-fees-card-text: #fff;
 
   // Horizontal Line
-  --color-horizontal-line-background: var(--color-background-contrast);
+  --color-horizontal-line-background: var(--color-secondary-shade-mid);
 
   // Data Visualization colors
   --color-value-increase: #00d3a1;
