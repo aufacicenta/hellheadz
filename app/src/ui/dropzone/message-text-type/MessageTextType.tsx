@@ -110,13 +110,14 @@ Tell me what's the most sold product:`,
                 [styles["message-text-type__role-text--assistant"]]: message.role === "assistant",
               })}
             >
-              {message.role === "user" ? "You" : "Assistant"}
+              {message.role === "user" ? "You" : "Lease721"}
             </Typography.Description>
           )}
         </div>
-        <div className={styles["message-text-type__content"]}>
-          {message.beforeContentComponent && simulationEnded && message.beforeContentComponent}
 
+        {message.beforeContentComponent && simulationEnded && message.beforeContentComponent}
+
+        <div className={styles["message-text-type__content"]}>
           {!isSimulationEnabled ? (
             <div
               // eslint-disable-next-line react/no-danger
@@ -137,9 +138,9 @@ Tell me what's the most sold product:`,
           )}
 
           {message.role === "assistant" && getOptionComponentsByLabel()}
-
-          {message.afterContentComponent && simulationEnded && message.afterContentComponent}
         </div>
+
+        {message.afterContentComponent && simulationEnded && message.afterContentComponent}
       </div>
     </div>
   );

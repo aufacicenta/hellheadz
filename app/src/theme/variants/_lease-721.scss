@@ -75,6 +75,17 @@ body[data-theme="lease-721"] {
   --color-button-outlined-disabled: #5b5b65;
   --color-button-outlined-disabled-text: #8a8a98;
 
+  // Button text
+  --color-button-outlined-primary-text: var(--color-primary);
+  --color-button-outlined-primary-hover: var(--color-primary);
+  --color-button-outlined-primary-hover-text: var(--color-dark-4);
+  --color-button-outlined-primary-border: var(--color-primary);
+  --color-button-outlined-primary-border-hover: var(--color-dark-4);
+  --color-button-outlined-info: #ffd74b;
+  --color-button-outlined-info-text: #ffd74b;
+  --color-button-outlined-disabled: #5b5b65;
+  --color-button-outlined-disabled-text: #8a8a98;
+
   //Theme Selector
   --color-theme-button-light: #ffffff00;
   --color-theme-button-dark: #ffffff40;
@@ -92,8 +103,8 @@ body[data-theme="lease-721"] {
   --color-typography-subtitle: var(--color-dark-5);
   --color-typography-button-label: var(--color-white);
   --color-typography-mini-button-label: var(--color-white);
-  --color-typography-description: var(--color-dark-9);
-  --color-typography-mini-description: var(--color-dark-8);
+  --color-typography-description: var(--color-dark-5);
+  --color-typography-mini-description: var(--color-dark-5);
   --color-typography-link: var(--color-primary);
 
   // Tab

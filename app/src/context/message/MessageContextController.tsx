@@ -7,6 +7,7 @@ import { FormFieldNames } from "app/chat/dropbox-chat/DropboxChat.types";
 import { DropzoneFileExtended } from "ui/dropzone/Dropzone.types";
 import { useChatSidebarContext } from "context/chat-sidebar/useChatSidebarContext";
 import { LocalStorageKeys } from "hooks/useLocalStorage/useLocalStorage.types";
+import { LatestLeaseItems } from "ui/lease721/latest-lease-items/LatestLeaseItems";
 
 import { MessageContext } from "./MessageContext";
 import {
@@ -235,10 +236,13 @@ export const MessageContextController = ({ children }: MessageContextControllerP
     appendMessage({
       content: `Hi! I'm the Lease721 property manager. I can help you to list any of your ERC721 (NFTs) for rent.
 
-      Start by connecting your wallet or paste a wallet address and I'll fetch all the digital assets it owns.`,
+      Start by connecting your wallet or paste a wallet address and I'll fetch all the digital assets it owns.
+
+      Check out the latest listings:`,
       role: "assistant",
       readOnly: true,
       type: "text",
+      afterContentComponent: <LatestLeaseItems />,
     });
   };
 

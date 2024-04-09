@@ -1,12 +1,7 @@
 @import "src/theme/base";
 @import "src/theme/forms/variables";
 @import "src/ui/fileagent/navbar/variables";
-
-@mixin width {
-  @include atLargeTablet {
-    max-width: 50vw;
-  }
-}
+@import "src/ui/dropzone/mixins";
 
 .dropbox-chat {
   @include atLargeTablet {
@@ -38,7 +33,7 @@
 
       @include atLargeTablet {
         padding-bottom: $space-l;
-        padding-left: $navbar-height;
+        padding-left: $navbar-height / 2;
       }
       padding: $space-default;
       background-color: var(--color-secondary);

@@ -2,6 +2,11 @@
 @import "src/ui/table/variables";
 @import "src/ui/table/mixins";
 
+@mixin width {
+  @include atLargeTablet {
+    max-width: 50vw;
+  }
+}
 @mixin role-text {
   &__role-text {
     display: flex;

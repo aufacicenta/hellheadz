@@ -71,7 +71,7 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
         return Object.assign([], { ...prev, [i]: { ...item, isAuthorized: true } });
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -94,7 +94,7 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
         return Object.assign([], { ...prev, [i]: { ...item, isAuthorized: true } });
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
