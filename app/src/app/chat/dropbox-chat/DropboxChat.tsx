@@ -10,6 +10,7 @@ import { ChatContextMessage } from "context/message/MessageContext.types";
 import { MessageFileType } from "ui/dropzone/message-file-type/MessageFileType";
 import { MessageTextType } from "ui/dropzone/message-text-type/MessageTextType";
 import { useFormContext } from "context/form/useFormContext";
+import { Icon } from "ui/icon/Icon";
 
 import { DropboxChatProps, FormFieldNames } from "./DropboxChat.types";
 import styles from "./DropboxChat.module.scss";
@@ -111,8 +112,8 @@ export const DropboxChat: React.FC<DropboxChatProps> = ({ className, onSubmit })
                 disabled={actions.isProcessingRequest}
               />
               <div className={styles["dropbox-chat__textarea--card-actions-button"]}>
-                <Button type="submit" disabled={actions.isProcessingRequest}>
-                  Send
+                <Button type="submit" disabled={actions.isProcessingRequest} variant="outlined">
+                  <Icon name="icon-paper-plane" />
                 </Button>
               </div>
             </Card.Content>
