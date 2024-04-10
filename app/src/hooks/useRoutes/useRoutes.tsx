@@ -39,19 +39,19 @@ export const routes: RouteMap = {
   },
   api: {
     promptWars: {
-      createGuestAccount: () => `${process.env.NEXT_PUBLIC_ORIGIN}/api/prompt-wars/create-guest-account`,
-      create: () => `${process.env.NEXT_PUBLIC_ORIGIN}/api/prompt-wars/create`,
-      reveal: () => `${process.env.NEXT_PUBLIC_ORIGIN}/api/prompt-wars/reveal`,
-      resolve: () => `${process.env.NEXT_PUBLIC_ORIGIN}/api/prompt-wars/resolve`,
+      createGuestAccount: () => `/api/prompt-wars/create-guest-account`,
+      create: () => `/api/prompt-wars/create`,
+      reveal: () => `/api/prompt-wars/reveal`,
+      resolve: () => `/api/prompt-wars/resolve`,
     },
     chat: {
-      dropboxESign: () => `${process.env.NEXT_PUBLIC_ORIGIN}/api/chat/dropbox-e-sign`,
+      dropboxESign: () => `/api/chat/dropbox-e-sign`,
       openai: {
-        completionsAPI: () => `${process.env.NEXT_PUBLIC_ORIGIN}/api/chat/openai/completions`,
-        assistantsAPI: () => `${process.env.NEXT_PUBLIC_ORIGIN}/api/chat/openai/assistant`,
+        completionsAPI: () => `/api/chat/openai/completions`,
+        assistantsAPI: () => `/api/chat/openai/assistant`,
       },
       googleai: {
-        completionsAPI: () => `${process.env.NEXT_PUBLIC_ORIGIN}/api/chat/googleai/completions`,
+        completionsAPI: () => `/api/chat/googleai/completions`,
       },
     },
   },
