@@ -8,11 +8,13 @@ import logger from "providers/logger";
 
 import { get_full_name_args, FunctionCallToolActionOutput, FunctionToolCallName } from "./chat.types";
 import insert_full_name from "./functions/database/insert_full_name";
+import get_latest_listings from "./functions/assistant/asst_lIFI22Fp6TB0s77kClJ2L7PE/get_latest_listings";
+import { get_latest_listing_args } from "./functions/assistant/asst_lIFI22Fp6TB0s77kClJ2L7PE/types";
 
 const functions: Record<
   FunctionToolCallName,
   (
-    args: get_full_name_args,
+    args: Record<string, any>,
     agentRequest: FileAgentRequest,
     request: NextApiRequest,
   ) => Promise<FunctionCallToolActionOutput>
@@ -22,6 +24,11 @@ const functions: Record<
     agentRequest: FileAgentRequest,
     request: NextApiRequest,
   ) => insert_full_name(args, agentRequest, request),
+  [FunctionToolCallName.get_latest_listings]: (
+    args: get_latest_listing_args,
+    agentRequest: FileAgentRequest,
+    request: NextApiRequest,
+  ) => get_latest_listings(args, agentRequest, request),
 };
 
 const processFunctionToolCalls = (

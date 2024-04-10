@@ -13,7 +13,7 @@ import sequelize from "providers/sequelize";
 
 export default async function Fn(request: NextApiRequest, response: NextApiResponse) {
   try {
-    logger.info(`calling chat assitant from ID asst_Ukvy8hXlI6s0uR36XLQO3vrN`);
+    logger.info(`calling chat assitant from ID ${process.env.OPENAI_ASSISTANT_ID}`);
 
     const data: FileAgentRequest = (() => {
       if (request.body?.currentMessageMetadata?.source === "messagebird") {
@@ -68,30 +68,10 @@ export default async function Fn(request: NextApiRequest, response: NextApiRespo
       content: data.currentMessage.content as string,
     });
 
-    const assistant = await openai.client.beta.assistants.retrieve("asst_Ukvy8hXlI6s0uR36XLQO3vrN");
+    const assistant = await openai.client.beta.assistants.retrieve(process.env.OPENAI_ASSISTANT_ID!);
 
     const run = await openai.client.beta.threads.runs.create(thread.id, {
       assistant_id: assistant.id,
-      // TODO pass the data that's already been collected
-      instructions: `Eres un asistente que pide información básica para crear una base de datos de proveedores.
-
-Esta es la información que debes consultar y recolectar una por una (IMPORTANTE que sea una por una) para no abrumar al proveedor:
-
-Nombre y apellido
-Número de Whatsapp
-Dirección (insiste amablemente hasta que tengas todos estos datos: país "country", ciudad "city", código postal "zip_code", calle y número "address_1", cómo llegar "address_2")
-NIT (Número de Identificación Tributaria)
-Categoría (puede ser una de estas: carpintería, plomería, electricista, albañil, ferretería, materiales de construcción, repuestos para carros, carros usados)
-
-Esta es la información que ya tienes:
-
-Nombre y apellido:
-Número de Whatsapp:
-Dirección:
-NIT (Número de Facturación):
-Categoría:
-
-`,
     });
 
     const runStatusCompleted = () =>
@@ -128,6 +108,7 @@ Categoría:
             content: (messages.data[0].content[0] as TextContentBlock).text.value,
             label: ChatLabel.chat_completion_success,
             type: "text",
+            hasInnerHtml: true,
             metadata: {
               openai: {
                 threadId: thread.id,

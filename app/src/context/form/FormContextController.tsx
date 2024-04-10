@@ -28,7 +28,6 @@ const processingMessages = [
   "Still on it...",
   "Hold on...",
   "Almost there...",
-  "Huge file?",
   "Please be patient...",
 ];
 
@@ -155,14 +154,13 @@ export const FormContextController = ({ children }: FormContextControllerProps) 
         authContext.setOpenAISessionID(openAIThreadID!);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       messageContext.deleteMessage(loadingMessage.id!);
 
       messageContext.appendMessage({
         content: `Apologies, I wasn't able to complete your request.
 
-        - Maybe the file is too large?
         - The content may be unreadable
         - Check your internet connection`,
         role: "assistant",
