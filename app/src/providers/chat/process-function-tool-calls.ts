@@ -6,10 +6,11 @@ import { Thread } from "openai/resources/beta/threads/threads";
 import openai from "providers/openai";
 import logger from "providers/logger";
 
-import { get_full_name_args, FunctionCallToolActionOutput, FunctionToolCallName } from "./chat.types";
+import { get_full_name_args } from "./chat.types";
 import insert_full_name from "./functions/database/insert_full_name";
 import get_latest_listings from "./functions/assistant/asst_lIFI22Fp6TB0s77kClJ2L7PE/get_latest_listings";
 import { get_latest_listing_args } from "./functions/assistant/asst_lIFI22Fp6TB0s77kClJ2L7PE/types";
+import { FunctionCallToolActionOutput, FunctionToolCallName } from "./functions/functions.types";
 
 const functions: Record<
   FunctionToolCallName,
@@ -17,18 +18,21 @@ const functions: Record<
     args: Record<string, any>,
     agentRequest: FileAgentRequest,
     request: NextApiRequest,
+    action: FunctionToolCallName,
   ) => Promise<FunctionCallToolActionOutput>
 > = {
   [FunctionToolCallName.get_full_name]: (
     args: get_full_name_args,
     agentRequest: FileAgentRequest,
     request: NextApiRequest,
-  ) => insert_full_name(args, agentRequest, request),
+    action: FunctionToolCallName,
+  ) => insert_full_name(args, agentRequest, request, action),
   [FunctionToolCallName.get_latest_listings]: (
     args: get_latest_listing_args,
     agentRequest: FileAgentRequest,
     request: NextApiRequest,
-  ) => get_latest_listings(args, agentRequest, request),
+    action: FunctionToolCallName,
+  ) => get_latest_listings(args, agentRequest, request, action),
 };
 
 const processFunctionToolCalls = (
@@ -37,8 +41,8 @@ const processFunctionToolCalls = (
   request: NextApiRequest,
   thread: Thread,
   run: Run,
-) => {
-  actions.forEach(async (action) => {
+) =>
+  actions.map(async (action) => {
     try {
       const { arguments: args, name } = action.function;
 
@@ -46,7 +50,23 @@ const processFunctionToolCalls = (
         typeof args === "object" ? args : (JSON.parse(args) as any),
         agentRequest,
         request,
+        name as FunctionToolCallName,
       );
+
+      await openai.client.beta.threads.runs.submitToolOutputs(thread.id, run.id, {
+        tool_outputs: [
+          {
+            tool_call_id: action.id,
+            output: JSON.stringify({ success: true }),
+          },
+        ],
+      });
+
+      return output;
+    } catch (error) {
+      logger.error(error);
+
+      const output = { success: false, error: (error as Error).message };
 
       await openai.client.beta.threads.runs.submitToolOutputs(thread.id, run.id, {
         tool_outputs: [
@@ -56,19 +76,9 @@ const processFunctionToolCalls = (
           },
         ],
       });
-    } catch (error) {
-      logger.error(error);
 
-      await openai.client.beta.threads.runs.submitToolOutputs(thread.id, run.id, {
-        tool_outputs: [
-          {
-            tool_call_id: action.id,
-            output: JSON.stringify({ success: false, error: (error as Error).message }),
-          },
-        ],
-      });
+      return output;
     }
   });
-};
 
 export default processFunctionToolCalls;

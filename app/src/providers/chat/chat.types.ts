@@ -15,17 +15,6 @@ export enum FunctionCallName {
   get_square_payments = "get_square_payments",
 }
 
-export enum FunctionToolCallName {
-  // Database
-  get_full_name = "get_full_name",
-  // Assistants
-  get_latest_listings = "get_latest_listings",
-}
-
-export type FunctionCallToolActionOutput = {
-  success: boolean;
-};
-
 export type ChatCompletionChoice = OpenAI.Chat.ChatCompletion.Choice & {
   message: ChatCompletionMessage &
     Pick<ChatContextMessage, "hasInnerHtml" | "type" | "label" | "readOnly" | "metadata">;

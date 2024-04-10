@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Thread } from "openai/resources/beta/threads/threads";
 import { TextContentBlock } from "openai/resources/beta/threads/messages/messages";
+import { Run } from "openai/resources/beta/threads/runs/runs";
 
 import logger from "providers/logger";
 import openai from "providers/openai";
@@ -10,6 +11,7 @@ import json from "providers/json";
 import chat from "providers/chat";
 import { ChatCompletionChoice } from "providers/chat/chat.types";
 import sequelize from "providers/sequelize";
+import { FunctionCallToolActionOutput } from "providers/chat/functions/functions.types";
 
 export default async function Fn(request: NextApiRequest, response: NextApiResponse) {
   try {
@@ -74,7 +76,12 @@ export default async function Fn(request: NextApiRequest, response: NextApiRespo
       assistant_id: assistant.id,
     });
 
-    const runStatusCompleted = () =>
+    let functionCallsOutput: Array<FunctionCallToolActionOutput | { success: boolean; error: string }> = [];
+
+    const runStatusCompleted = (): Promise<{
+      currentRun: Run;
+      functionCallsOutput: Array<FunctionCallToolActionOutput | { success: boolean; error: string }>;
+    }> =>
       new Promise((resolve) => {
         const interval = setInterval(async () => {
           const currentRun = await openai.client.beta.threads.runs.retrieve(thread.id, run.id);
@@ -85,24 +92,29 @@ export default async function Fn(request: NextApiRequest, response: NextApiRespo
 
             logger.info(`requiredActions: ${JSON.stringify(requiredActions)}`);
 
-            await chat.processFunctionToolCalls(requiredActions!, data, request, thread, run);
+            functionCallsOutput = await Promise.all(
+              chat.processFunctionToolCalls(requiredActions!, data, request, thread, run),
+            );
           }
 
           if (currentRun.status === "completed") {
             clearInterval(interval);
 
-            resolve(currentRun);
+            resolve({ currentRun, functionCallsOutput });
           }
         }, 1000);
       });
 
-    await runStatusCompleted();
+    const result = await runStatusCompleted();
 
     const messages = await openai.client.beta.threads.messages.list(thread.id);
 
     response.status(200).json({
       choices: [
         {
+          index: 0,
+          finish_reason: "function_call",
+          logprobs: null,
           message: {
             role: "assistant",
             content: (messages.data[0].content[0] as TextContentBlock).text.value,
@@ -112,6 +124,7 @@ export default async function Fn(request: NextApiRequest, response: NextApiRespo
             metadata: {
               openai: {
                 threadId: thread.id,
+                functionCallData: result.functionCallsOutput,
               },
             },
           },

@@ -3,6 +3,7 @@ import { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { SquareGetLocationsMetadata } from "providers/chat/functions/square/square.types";
 import { DropzoneFileExtended } from "ui/dropzone/Dropzone.types";
+import { OpenAIAssistantMetadata } from "providers/chat/functions/assistant/assistant.types";
 
 export enum SquareAPILabel {
   square_get_locations_request_success = "square:get_locations:request:success",
@@ -26,12 +27,6 @@ export enum ChatLabel {
   chat_completion_success = "chat:completion:success",
   chat_completion_error = "chat:completion:error",
 }
-
-export type OpenAIAssistantMetadata = {
-  openai?: {
-    threadId?: string;
-  };
-};
 
 export type ChatMessageBase = ChatCompletionMessageParam & {
   id?: string;

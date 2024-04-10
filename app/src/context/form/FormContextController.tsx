@@ -8,17 +8,16 @@ import { useRouter } from "next/router";
 
 import { useMessageContext } from "context/message/useMessageContext";
 import { ChatFormValues, FormFieldNames } from "app/chat/dropbox-chat/DropboxChat.types";
-import {
-  ChatContextMessage,
-  OpenAIAssistantMetadata,
-  TextChatCompletionMessage,
-} from "context/message/MessageContext.types";
+import { ChatContextMessage, TextChatCompletionMessage } from "context/message/MessageContext.types";
 import { useRoutes } from "hooks/useRoutes/useRoutes";
 import { useAuthorizationContext } from "context/authorization/useAuthorizationContext";
 import { X_PUBLIC_BUCKET_NAME } from "providers/chat/constants";
+import { OpenAIAssistantMetadata } from "providers/chat/functions/assistant/assistant.types";
+import { LatestLeaseItems } from "ui/lease721/latest-lease-items/LatestLeaseItems";
+import { FunctionToolCallName } from "providers/chat/functions/functions.types";
 
-import { FormContextControllerProps, FormContextType, FormState } from "./FormContext.types";
 import { FormContext } from "./FormContext";
+import { FormContextControllerProps, FormContextType, FormState } from "./FormContext.types";
 
 const defaultHeight = "63px";
 
@@ -74,6 +73,29 @@ export const FormContextController = ({ children }: FormContextControllerProps) 
 
       form?.focus(field);
     }, 100);
+  };
+
+  const processResult = (result: FileAgentResponse) => {
+    console.log(result);
+
+    const message = result.choices[0].message as TextChatCompletionMessage;
+
+    if ((message.metadata as OpenAIAssistantMetadata)?.openai?.functionCallData) {
+      (message.metadata as OpenAIAssistantMetadata)?.openai?.functionCallData?.forEach((data) => {
+        if (data.functionCallName === FunctionToolCallName.get_latest_listings) {
+          message.afterContentComponent = <LatestLeaseItems items={data.data} />;
+          message.hasInnerHtml = false;
+        }
+      });
+    }
+
+    messageContext.appendMessage(message);
+
+    const openAIThreadID = (result.choices[0].message.metadata as OpenAIAssistantMetadata)?.openai?.threadId;
+
+    if (openAIThreadID) {
+      authContext.setOpenAISessionID(openAIThreadID!);
+    }
   };
 
   const submit = async (values: ChatFormValues) => {
@@ -142,17 +164,9 @@ export const FormContextController = ({ children }: FormContextControllerProps) 
         ? axios.post<FileAgentResponse>(routes.api.chat.openai.assistantsAPI(), options)
         : axios.post<FileAgentResponse>(routes.api.chat.googleai.completionsAPI(), options));
 
-      console.log(result);
-
       messageContext.deleteMessage(loadingMessage.id!);
 
-      messageContext.appendMessage({ ...result.data.choices[0].message } as TextChatCompletionMessage);
-
-      const openAIThreadID = (result.data.choices[0].message.metadata as OpenAIAssistantMetadata)?.openai?.threadId;
-
-      if (openAIThreadID) {
-        authContext.setOpenAISessionID(openAIThreadID!);
-      }
+      processResult(result.data);
     } catch (error) {
       console.error(error);
 
