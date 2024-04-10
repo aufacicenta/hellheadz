@@ -109,7 +109,7 @@ export default async function Fn(request: NextApiRequest, response: NextApiRespo
 
     const messages = await openai.client.beta.threads.messages.list(thread.id);
 
-    response.status(200).json({
+    return response.status(200).json({
       choices: [
         {
           index: 0,
@@ -134,7 +134,7 @@ export default async function Fn(request: NextApiRequest, response: NextApiRespo
   } catch (error) {
     logger.error(error);
 
-    response.status(200).json({
+    return response.status(200).json({
       error: (error as Error).message,
       choices: [
         {
