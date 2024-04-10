@@ -19,7 +19,7 @@ export const DropboxChat: React.FC<DropboxChatProps> = ({ className, onSubmit })
 
   const formContext = useFormContext();
 
-  const { messages, actions, clearMessages, saveMessageThread } = useMessageContext();
+  const { messages, actions, clearMessages } = useMessageContext();
 
   useEffect(() => {
     if (!form) return;
@@ -79,9 +79,6 @@ export const DropboxChat: React.FC<DropboxChatProps> = ({ className, onSubmit })
           <div className={styles["dropbox-chat__textarea--actions"]}>
             <Button variant="text" color="secondary" size="s" onClick={clearMessages}>
               Clear
-            </Button>
-            <Button variant="text" color="secondary" size="s" onClick={saveMessageThread}>
-              Save this thread
             </Button>
           </div>
           <Card className={styles["dropbox-chat__textarea--card"]} shadow>
