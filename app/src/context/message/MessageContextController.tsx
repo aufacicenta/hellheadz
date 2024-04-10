@@ -137,6 +137,7 @@ export const MessageContextController = ({ children }: MessageContextControllerP
       role: "assistant",
       readOnly: true,
       type: "text",
+      afterContentComponent: <InitialMessageOptions />,
     });
   };
 
