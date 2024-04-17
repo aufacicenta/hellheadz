@@ -95,16 +95,17 @@ body[data-theme="lease-721"] {
   // Typography
   --color-typography-headline-1: var(--color-white);
   --color-typography-headline-2: var(--color-white);
-  --color-typography-headline-3: var(--color-white);
-  --color-typography-headline-4: var(--color-white);
-  --color-typography-headline-5: var(--color-white);
+  --color-typography-headline-3: var(--color-dark-4);
+  --color-typography-headline-4: var(--color-dark-4);
+  --color-typography-headline-5: var(--color-dark-4);
   --color-typography-headline-6: var(--color-white);
   --color-typography-text: var(--color-white);
+  --color-typography-text-lead: var(--color-dark-4);
   --color-typography-text-bold: var(--color-white);
   --color-typography-subtitle: var(--color-dark-5);
   --color-typography-button-label: var(--color-white);
   --color-typography-mini-button-label: var(--color-white);
-  --color-typography-description: var(--color-status-warning);
+  --color-typography-description: var(--color-dark-4);
   --color-typography-mini-description: var(--color-dark-5);
   --color-typography-link: var(--color-secondary-shade-mid);
   --color-typography-link-hover: var(--color-secondary-shade-low);

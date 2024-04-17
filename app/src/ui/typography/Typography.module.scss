@@ -2,6 +2,25 @@
 @import "./variables";
 @import "./mixins";
 
+@font-face {
+  font-weight: 375;
+  font-family: "PPNeueMachina";
+  font-style: normal;
+  src: url("/fonts/PPNeueMachina-InktrapRegular.otf");
+  src: url("/fonts/PPNeueMachina-InktrapRegular.woff") format("woff"),
+    url("/fonts/PPNeueMachina-InktrapRegular.woff2") format("woff2"),
+    url("/fonts/PPNeueMachina-InktrapRegular.ttf") format("truetype");
+}
+@font-face {
+  font-weight: 600;
+  font-family: "PPNeueMachina";
+  font-style: normal;
+  src: url("/fonts/PPNeueMachina-InktrapSemibold.otf");
+  src: url("/fonts/PPNeueMachina-InktrapSemibold.woff") format("woff"),
+    url("/fonts/PPNeueMachina-InktrapSemibold.woff2") format("woff2"),
+    url("/fonts/PPNeueMachina-InktrapSemibold.ttf") format("truetype");
+}
+
 .typography {
   position: relative;
 

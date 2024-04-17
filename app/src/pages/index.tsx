@@ -4,6 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 
 import { HomeLayout } from "layouts/home-layout/HomeLayout";
+import { Home } from "ui/svpervnder/home/Home";
 
 const Index: NextPage = () => {
   const { t } = useTranslation("head");
@@ -17,6 +18,8 @@ const Index: NextPage = () => {
         <meta property="og:description" content={t("head.og.description")} />
         <meta property="og:url" content="https://fileagent.ai/" />
       </Head>
+
+      <Home />
     </HomeLayout>
   );
 };
