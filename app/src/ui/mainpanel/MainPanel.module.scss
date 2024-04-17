@@ -7,6 +7,7 @@
   }
   position: relative;
   width: 100%;
+  padding-bottom: $navbar-height * 2;
   background-color: var(--color-background);
 
   &--with-navbar {

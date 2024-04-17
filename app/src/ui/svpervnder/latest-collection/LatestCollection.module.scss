@@ -1,0 +1,56 @@
+@import "src/theme/base";
+@import "src/ui/typography/variables";
+
+.latest-collection {
+  display: block;
+
+  &__intro {
+    text-align: right;
+
+    &--artist-name {
+      color: var(--color-primary);
+    }
+  }
+
+  &__grid {
+    margin-top: $space-l;
+  }
+
+  &__item {
+    display: block;
+    margin-bottom: $space-default;
+
+    &--img {
+      padding: $space-xs;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    &--price-row {
+      display: flex;
+      justify-content: space-between;
+
+      > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    &--price {
+      color: var(--color-typography-text);
+
+      span {
+        color: var(--color-typography-description);
+      }
+    }
+
+    &--expand {
+      font-size: $font-size-text;
+      color: var(--color-typography-description);
+    }
+  }
+}

@@ -1,8 +1,6 @@
 export type Styles = {
   home: string;
   home__hero: string;
-  "home__latest-collections": string;
-  "home__latest-collections--artist-name": string;
   "z-depth-0": string;
   "z-depth-1": string;
   "z-depth-1-half": string;
