@@ -27,8 +27,8 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
             </Typography.Headline4>
             <Typography.Description>31/150 Sold</Typography.Description>
             <Typography.Text>
-              Lars Kristoffer Hormander's Hellheads is the latest from its #darkart creations. Featuring an astonishing
-              150 items series of digital handcraft mastery. Own one of this limited art today.
+              Larskristo Hellheads is the latest from its #darkart creations. Featuring an astonishing {metadata.length}{" "}
+              items series of digital handcraft mastery. Own one of this limited art today.
             </Typography.Text>
             <Grid.Row>
               <Grid.Col>
