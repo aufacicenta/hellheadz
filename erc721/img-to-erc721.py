@@ -130,6 +130,31 @@ def get_image_description(image_url):
     return response.choices[0].message[1].content[0].text
 
 
+def create_token_uri_from_metadata_object():
+    # Read the metadata from the JSON file
+    with open("metadata.json", "r") as f:
+        metadata_list = json.load(f)
+
+    # Loop through each metadata object
+    for metadata in metadata_list:
+        # Create a temporary JSON file for the metadata object
+        temp_file_path = "./temp_metadata.json"
+        with open(temp_file_path, "w") as temp_file:
+            json.dump(metadata, temp_file)
+
+        # Upload the temporary JSON file to IPFS
+        token_uri = upload_file_to_ipfs(temp_file_path)
+        print(f"create_token_uri_from_metadata_object.token_uri: {token_uri}")
+
+        with open("tokenURIs.txt", "a") as f:
+            # Write the token URI to a text file
+            f.write(f"\n{token_uri}")
+            f.close()
+
+        # Remove the temporary JSON file
+        os.remove(temp_file_path)
+
+
 def create_metadata():
     metadata_list = []
     counter = 0
@@ -176,7 +201,8 @@ def create_metadata():
 
 
 def main():
-    create_metadata()
+    # create_metadata()
+    create_token_uri_from_metadata_object()
     # create_img_thumbnails()
     # add_image_watermark()
 
