@@ -96,6 +96,7 @@ $HALF_LOADER_SIZE: 15px;
 
   &--extra-small {
     @include font-properties($typography-mini-button-label);
+    border-width: 1px;
     padding: 3px 14px;
   }
 

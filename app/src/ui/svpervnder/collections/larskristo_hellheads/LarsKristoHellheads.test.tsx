@@ -1,10 +1,10 @@
 import { screen, render } from "tests";
 
-import { LatestCollection } from "./LatestCollection";
+import { LarsKristoHellheads } from "./LarsKristoHellheads";
 
 describe("LatestCollection", () => {
   it("renders children correctly", () => {
-    render(<LatestCollection>LatestCollection</LatestCollection>);
+    render(<LarsKristoHellheads>LatestCollection</LarsKristoHellheads>);
 
     const element = screen.getByText("LatestCollection");
 

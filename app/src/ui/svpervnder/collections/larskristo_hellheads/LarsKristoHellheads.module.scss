@@ -28,6 +28,11 @@
       }
     }
 
+    &--name-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
     &--price-row {
       display: flex;
       justify-content: space-between;

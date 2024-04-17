@@ -6,6 +6,7 @@ export type Styles = {
   "latest-collection__item": string;
   "latest-collection__item--expand": string;
   "latest-collection__item--img": string;
+  "latest-collection__item--name-row": string;
   "latest-collection__item--price": string;
   "latest-collection__item--price-row": string;
   "z-depth-0": string;

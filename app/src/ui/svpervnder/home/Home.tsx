@@ -2,7 +2,7 @@ import clsx from "clsx";
 
 import { Typography } from "ui/typography/Typography";
 import { Grid } from "ui/grid/Grid";
-import { LatestCollection } from "../latest-collection/LatestCollection";
+import { LarsKristoHellheads } from "../collections/larskristo_hellheads/LarsKristoHellheads";
 
 import { HomeProps } from "./Home.types";
 import styles from "./Home.module.scss";
@@ -23,6 +23,6 @@ export const Home: React.FC<HomeProps> = ({ className }) => (
       </Grid.Row>
     </Grid.Container>
 
-    <LatestCollection />
+    <LarsKristoHellheads />
   </div>
 );
