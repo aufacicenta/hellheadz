@@ -3,6 +3,7 @@ import { AnchorHTMLAttributes, HTMLAttributes, ReactNode } from "react";
 import { ButtonCommonProps } from "ui/button/Button.types";
 
 type GeneralProps = {
+  children?: ReactNode;
   inline?: boolean;
   flat?: boolean;
   truncate?: boolean;

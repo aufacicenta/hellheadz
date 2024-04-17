@@ -1,10 +1,5 @@
 export type Styles = {
-  "message-file-type": string;
-  "message-file-type__avatar": string;
-  "message-file-type__avatar-box": string;
-  "message-file-type__content": string;
-  "message-file-type__options": string;
-  "message-file-type__options--dropbox-button": string;
+  "home-layout": string;
   "z-depth-0": string;
   "z-depth-1": string;
   "z-depth-1-half": string;

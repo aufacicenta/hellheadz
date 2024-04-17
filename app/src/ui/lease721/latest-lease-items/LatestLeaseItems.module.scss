@@ -1,9 +1,0 @@
-@import "src/theme/base";
-@import "src/ui/dropzone/mixins";
-
-.latest-lease-items {
-  @include width;
-  display: flex;
-  padding: 0 $space-default;
-  overflow-x: scroll;
-}
