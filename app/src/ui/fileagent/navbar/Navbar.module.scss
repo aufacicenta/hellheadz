@@ -9,6 +9,7 @@
   left: 0;
   z-index: $z-index-content;
   width: 100%;
+  border-bottom: 1px solid var(--color-background-contrast);
   background-color: var(--color-navbar-background);
 
   &__sidebar-toggle {
@@ -85,6 +86,13 @@
       flex-direction: column;
       justify-content: center;
       height: $navbar-height-mobile;
+    }
+
+    svg {
+      @include atLargeTablet {
+        height: $navbar-logo-width;
+      }
+      width: $navbar-logo-width-mobile;
     }
 
     svg,
@@ -170,15 +178,9 @@
     }
     display: none;
 
-    a {
-      color: var(--color-typography-subtitle);
-
-      &:hover {
-        text-decoration: none;
-      }
-    }
-
     &--item {
+      margin-left: $space-l;
+
       p {
         margin: 0;
         color: var(--color-typography-subtitle);

@@ -27,7 +27,7 @@ export const WalletSelector: React.FC<WalletSelectorProps> = ({ className }) => 
   return (
     <div className={clsx(styles["wallet-selector"], className)}>
       <Button
-        color="primary"
+        color="secondary"
         variant="outlined"
         onClick={handleOnDisplayWidgetClick}
         rightIcon={<Icon name={address ? "icon-power" : "icon-power-crossed"} />}

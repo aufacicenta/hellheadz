@@ -7,6 +7,7 @@ import { MainPanel } from "ui/mainpanel/MainPanel";
 import { ToastContextController } from "context/toast/ToastContextController";
 import { ThemeContextController } from "context/theme/ThemeContextController";
 import { EvmWalletSelectorContextController } from "context/evm/wallet-selector/EvmWalletSelectorContextController";
+import { Footer } from "ui/footer/Footer";
 
 import { ChatLayoutProps } from "./HomeLayout.types";
 import styles from "./HomeLayout.module.scss";
@@ -33,6 +34,8 @@ export const HomeLayout: React.FC<ChatLayoutProps> = ({ children }) => {
               <Navbar />
 
               <MainPanel>{children}</MainPanel>
+
+              <Footer />
             </div>
           </ToastContextController>
         </EvmWalletSelectorContextController>

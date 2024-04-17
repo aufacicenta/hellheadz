@@ -6,4 +6,4 @@ export type ThemeSelectorProps = {
   fixed?: boolean;
 };
 
-export type Theme = "fileagent" | "fileagent-dark" | "yipiti-light" | "yipiti-dark" | "lease-721";
+export type Theme = "svpervnder";
