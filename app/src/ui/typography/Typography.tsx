@@ -55,8 +55,14 @@ const Headline3: React.FC<TypographyProps> = ({ children, className, flat, ...pr
   </h3>
 );
 
-const Headline4: React.FC<TypographyProps> = ({ children, className, inline, ...props }) => (
-  <h4 className={clsx(styles.typography__headline4, className, { [styles.typography__inline]: inline })} {...props}>
+const Headline4: React.FC<TypographyProps> = ({ children, className, inline, flat, ...props }) => (
+  <h4
+    className={clsx(styles.typography__headline4, className, {
+      [styles.typography__inline]: inline,
+      [styles.typography__flat]: flat,
+    })}
+    {...props}
+  >
     {children}
   </h4>
 );

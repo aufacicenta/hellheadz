@@ -1,7 +1,5 @@
 import { ReactNode } from "react";
 
-import { LarsKristoHellheads } from "providers/evm/contracts/larskristohellheads/LarsKristoHellheads";
-
 export type LarskristoHellheadsContextControllerProps = {
   children: ReactNode;
 };
@@ -11,12 +9,14 @@ export type LarskristoHellheadsContextActions = {
 };
 
 export type LarskristoHellheadsContractValues = {
-  name: LarsKristoHellheads["name"];
-  symbol: LarsKristoHellheads["symbol"];
+  name: string;
+  symbol: string;
 };
 
 export type LarskristoHellheadsContextType = {
   contractValues?: LarskristoHellheadsContractValues;
+  contractAddress?: string;
   actions: LarskristoHellheadsContextActions;
   fetchContractValues: (address: string) => Promise<void>;
+  ownerOf: (tokenId: number) => Promise<`0x${string}`>;
 };

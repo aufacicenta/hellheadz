@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 import { createWeb3Modal } from "@web3modal/wagmi/react";
 import { WagmiProvider, cookieStorage, createStorage } from "wagmi";
 import { mainnet, sepolia } from "wagmi/chains";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { EvmWalletSelectorContext } from "./EvmWalletSelectorContext";
 import {
@@ -40,11 +41,15 @@ createWeb3Modal({
 });
 
 export const EvmWalletSelectorContextController = ({ children }: EvmWalletSelectorContextControllerProps) => {
+  const [queryClient] = useState(() => new QueryClient());
+
   const props: EvmWalletSelectorContextType = {};
 
   return (
     <WagmiProvider config={wagmiConfig}>
-      <EvmWalletSelectorContext.Provider value={props}>{children}</EvmWalletSelectorContext.Provider>
+      <QueryClientProvider client={queryClient}>
+        <EvmWalletSelectorContext.Provider value={props}>{children}</EvmWalletSelectorContext.Provider>
+      </QueryClientProvider>
     </WagmiProvider>
   );
 };

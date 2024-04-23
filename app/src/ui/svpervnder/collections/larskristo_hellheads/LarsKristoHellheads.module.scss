@@ -56,6 +56,11 @@
     &--expand {
       font-size: $font-size-text;
       color: var(--color-typography-description);
+
+      &:hover {
+        color: var(--color-primary);
+        cursor: pointer;
+      }
     }
   }
 }

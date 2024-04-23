@@ -3,7 +3,7 @@
 @mixin fullscreen {
   position: absolute;
   align-self: center;
-  width: 95vw;
+  width: 75vw;
   max-height: 95%;
   overflow-y: auto;
 }
@@ -113,7 +113,7 @@
 
   &__content {
     @include font-properties($typography-text);
-    max-height: 50vh;
+    max-height: 65vh;
     padding: $space-ml;
     overflow-y: auto;
     background-color: var(--color-background-contrast);

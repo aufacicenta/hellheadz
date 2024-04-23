@@ -3,8 +3,8 @@
 /* eslint-disable */
 import { Contract, ContractFactory, ContractTransactionResponse, Interface } from "ethers";
 import type { Signer, ContractDeployTransaction, ContractRunner } from "ethers";
-import type { NonPayableOverrides } from "../../common";
-import type { LarsKristoHellheads, LarsKristoHellheadsInterface } from "../../contracts/LarsKristoHellheads";
+import type { NonPayableOverrides } from "../common";
+import type { LarsKristoHellheads, LarsKristoHellheadsInterface } from "./LarsKristoHellheads";
 
 const _abi = [
   {

@@ -36,14 +36,12 @@
 @mixin headline5 {
   @include font-properties($typography-headline-5);
   @include normalizeTypography;
-  margin-top: $space-default;
   margin-bottom: $space-default;
   color: var(--color-typography-headline-5);
 }
 @mixin headline6 {
   @include font-properties($typography-headline-6);
   @include normalizeTypography;
-  margin-top: $space-default;
   margin-bottom: $space-default;
   color: var(--color-typography-headline-6);
 }

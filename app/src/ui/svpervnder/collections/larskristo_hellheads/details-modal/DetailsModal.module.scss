@@ -1,0 +1,68 @@
+@import "src/theme/base";
+@import "src/ui/typography/variables";
+
+.details-modal {
+  display: block;
+
+  &__header {
+    &--row {
+      display: flex;
+
+      > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-right: $space-default;
+      }
+    }
+  }
+
+  &__img-container {
+    margin-bottom: $space-default;
+
+    img {
+      width: 100%;
+      border-radius: $border-radius;
+    }
+  }
+
+  &__price-card,
+  &__details-card,
+  &__author-card {
+    margin-bottom: $space-default;
+  }
+
+  &__details-card {
+    &--row {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  &__price-block {
+    display: flex;
+    justify-content: space-between;
+
+    &--price {
+      margin-top: 0;
+      color: var(--color-typography-text);
+
+      span {
+        @include font-properties($typography-text);
+        color: var(--color-typography-description);
+      }
+    }
+
+    &--owner-pill {
+      text-align: right;
+
+      span {
+        color: var(--color-typography-description);
+      }
+
+      a {
+        color: var(--color-typography-text);
+      }
+    }
+  }
+}

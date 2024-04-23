@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { Typography } from "ui/typography/Typography";
 import { Grid } from "ui/grid/Grid";
 import { LarsKristoHellheads } from "../collections/larskristo_hellheads/LarsKristoHellheads";
+import { LarskristoHellheadsContextController } from "context/evm/larskristo-hellheads/LarskristoHellheadsContextController";
 
 import { HomeProps } from "./Home.types";
 import styles from "./Home.module.scss";
@@ -23,6 +24,8 @@ export const Home: React.FC<HomeProps> = ({ className }) => (
       </Grid.Row>
     </Grid.Container>
 
-    <LarsKristoHellheads />
+    <LarskristoHellheadsContextController>
+      <LarsKristoHellheads />
+    </LarskristoHellheadsContextController>
   </div>
 );
