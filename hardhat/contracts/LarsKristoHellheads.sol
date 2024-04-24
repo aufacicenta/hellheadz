@@ -17,6 +17,8 @@ contract LarsKristoHellheads is ERC721Royalty {
     uint256 amount
   );
 
+  event SetTokenForSale(address indexed owner, uint256 indexed tokenId, uint256 price);
+
   address public author = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266; // larskristo.eth
   address public operator = 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC; // svpervnder.eth
 
@@ -318,21 +320,13 @@ contract LarsKristoHellheads is ERC721Royalty {
    * @param price The price at which to sell the token.
    */
   function setTokenForSale(uint256 tokenId, uint256 price) public {
-    _requireTokenPriceSet(tokenId);
-
     address owner = ownerOf(tokenId);
 
     _checkAuthorized(owner, _msgSender(), tokenId);
 
     _tokenPrices[tokenId] = price;
-  }
 
-  /**
-   * @dev Returns the base URI for token metadata.
-   * @return The base URI string.
-   */
-  function _baseURI() internal view virtual override returns (string memory) {
-    return "https://blockchainassetregistry.infura-ipfs.io/ipfs/";
+    emit SetTokenForSale(owner, tokenId, price);
   }
 
   /**
@@ -351,6 +345,14 @@ contract LarsKristoHellheads is ERC721Royalty {
     string memory tokenURIhash = tokenURIs[tokenId];
 
     return bytes(baseURI).length > 0 ? string.concat(baseURI, tokenURIhash) : "";
+  }
+
+  /**
+   * @dev Returns the base URI for token metadata.
+   * @return The base URI string.
+   */
+  function _baseURI() internal view virtual override returns (string memory) {
+    return "https://blockchainassetregistry.infura-ipfs.io/ipfs/";
   }
 
   /**

@@ -134,17 +134,17 @@ describe("Lease", function () {
   });
 
   it("buyToken", async function () {
-    const [author, , operator, buyer] = await ethers.getSigners();
+    const [author, someoneElse, operator, buyer] = await ethers.getSigners();
 
-    let authorBalance = await ethers.provider.getBalance(author.address);
-    let operatorBalance = await ethers.provider.getBalance(operator.address);
-    let buyerBalance = await ethers.provider.getBalance(buyer.address);
+    // let authorBalance = await ethers.provider.getBalance(author.address);
+    // let operatorBalance = await ethers.provider.getBalance(operator.address);
+    // let buyerBalance = await ethers.provider.getBalance(buyer.address);
 
-    console.log({
-      authorBalance: ethers.formatEther(authorBalance),
-      operatorBalance: ethers.formatEther(operatorBalance),
-      buyerBalance: ethers.formatEther(buyerBalance),
-    });
+    // console.log({
+    //   authorBalance: ethers.formatEther(authorBalance),
+    //   operatorBalance: ethers.formatEther(operatorBalance),
+    //   buyerBalance: ethers.formatEther(buyerBalance),
+    // });
 
     const ERC721 = await createERC721Contract();
 
@@ -152,15 +152,15 @@ describe("Lease", function () {
 
     await ERC721.connect(operator).setTokenForSale(0, BigInt(ethers.parseEther("1")));
 
-    authorBalance = await ethers.provider.getBalance(author.address);
-    operatorBalance = await ethers.provider.getBalance(operator.address);
-    buyerBalance = await ethers.provider.getBalance(buyer.address);
+    // authorBalance = await ethers.provider.getBalance(author.address);
+    // operatorBalance = await ethers.provider.getBalance(operator.address);
+    // buyerBalance = await ethers.provider.getBalance(buyer.address);
 
-    console.log({
-      authorBalance: ethers.formatEther(authorBalance),
-      operatorBalance: ethers.formatEther(operatorBalance),
-      buyerBalance: ethers.formatEther(buyerBalance),
-    });
+    // console.log({
+    //   authorBalance: ethers.formatEther(authorBalance),
+    //   operatorBalance: ethers.formatEther(operatorBalance),
+    //   buyerBalance: ethers.formatEther(buyerBalance),
+    // });
 
     ERC721.on("Transfer", (from, to, tokenId) => {
       // console.log({ from, to, tokenId });
@@ -187,14 +187,28 @@ describe("Lease", function () {
 
     expect(ownerOf0).to.equal(buyer.address);
 
-    authorBalance = await ethers.provider.getBalance(author.address);
-    operatorBalance = await ethers.provider.getBalance(operator.address);
-    buyerBalance = await ethers.provider.getBalance(buyer.address);
+    // authorBalance = await ethers.provider.getBalance(author.address);
+    // operatorBalance = await ethers.provider.getBalance(operator.address);
+    // buyerBalance = await ethers.provider.getBalance(buyer.address);
 
-    console.log({
-      authorBalance: ethers.formatEther(authorBalance),
-      operatorBalance: ethers.formatEther(operatorBalance),
-      buyerBalance: ethers.formatEther(buyerBalance),
-    });
+    // console.log({
+    //   authorBalance: ethers.formatEther(authorBalance),
+    //   operatorBalance: ethers.formatEther(operatorBalance),
+    //   buyerBalance: ethers.formatEther(buyerBalance),
+    // });
+
+    // only the buyer should set prices now
+    await expect(ERC721.connect(author).setTokenForSale(0, BigInt(ethers.parseEther("2")))).to.be.reverted;
+    await expect(ERC721.connect(operator).setTokenForSale(0, BigInt(ethers.parseEther("2")))).to.be.reverted;
+
+    await expect(ERC721.connect(buyer).setTokenForSale(0, BigInt(ethers.parseEther("2"))))
+      .to.emit(ERC721, "SetTokenForSale")
+      .withArgs(buyer.address, 0, BigInt(ethers.parseEther("2")));
+
+    const newPrice = await ERC721.getTokenPrice(0);
+    expect(ethers.formatEther(newPrice)).to.equal("2.0");
+
+    // too poor to buy
+    await expect(ERC721.connect(someoneElse).buyToken(0, { value: BigInt(ethers.parseEther("1")) })).to.be.reverted;
   });
 });
