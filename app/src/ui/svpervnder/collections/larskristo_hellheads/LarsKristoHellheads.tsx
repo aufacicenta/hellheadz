@@ -68,11 +68,6 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                         <div>
                           <Typography.Description>{item.name}</Typography.Description>
                         </div>
-                        <div>
-                          <Button size="xs" variant="outlined" color="secondary">
-                            Available
-                          </Button>
-                        </div>
                       </div>
                       <div className={styles["latest-collection__item--price-row"]}>
                         <div>

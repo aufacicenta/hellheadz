@@ -8,12 +8,14 @@ import { Grid } from "ui/grid/Grid";
 import { Card } from "ui/card/Card";
 import { Button } from "ui/button/Button";
 import { useLarskristoHellheadsContext } from "context/evm/larskristo-hellheads/useLarskristoHellheadsContext";
+import currency from "providers/currency";
 
 import { DetailsModalProps } from "./DetailsModal.types";
 import styles from "./DetailsModal.module.scss";
 
 export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, item }) => {
   const [owner, setOwner] = useState<`0x${string}`>();
+  const [usdPrice, setUsdPrice] = useState<string>("0.00");
 
   const { contractAddress, contractValues, ownerOf } = useLarskristoHellheadsContext();
   const { data: ensName } = useEnsName({ address: owner });
@@ -22,6 +24,13 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
     (async () => {
       const o = await ownerOf(item.id!);
       setOwner(o);
+    })();
+  }, [item.id]);
+
+  useEffect(() => {
+    (async () => {
+      const currentPrice = await currency.getCoinCurrentPrice("ethereum", "usd");
+      console.log(currentPrice);
     })();
   }, [item.id]);
 

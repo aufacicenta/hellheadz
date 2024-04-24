@@ -4,7 +4,12 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract LarsKristoHellheads is ERC721 {
-  address public owner = 0x9921dc045D0890788Fb174A14D93bbC46D449363; // larskristo.eth
+  error ERC721InvalidPrice(uint256 price);
+
+  address public owner = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266; // larskristo.eth
+
+  mapping(uint256 tokenId => uint256) private _tokenPrices;
+
   string[] tokenURIs = [
     "QmbbdDACM5nkGqRG3cSmk8hYL46XWFkT8zvkbnrbcbSqa1",
     "QmcYmjn38SgzALqpPbF9CZW8cYAsXfJ1mhtwbgLzduyhg8",
@@ -228,13 +233,59 @@ contract LarsKristoHellheads is ERC721 {
   constructor(string memory name_, string memory symbol_) ERC721(name_, symbol_) {
     for (uint i = 0; i < tokenURIs.length; i++) {
       _safeMint(owner, i);
+      _tokenPrices[i] = 0.5 ether; // initial token price
     }
   }
 
+  // function buyToken(uint256 tokenId) public {
+  //   _requireTokenPriceSet(tokenId);
+  // }
+
+  /**
+   * @dev Retrieves the price of a token.
+   * @param tokenId The ID of the token.
+   * @return The price of the token.
+   */
+  function getTokenPrice(uint256 tokenId) public view returns (uint256) {
+    return _tokenPrices[tokenId];
+  }
+
+  /**
+   * @dev Sets the token for sale with the specified price.
+   *
+   * Requirements:
+   * - The caller must be the owner of the token.
+   *
+   * @param tokenId The ID of the token to set for sale.
+   * @param price The price at which to sell the token.
+   */
+  function setTokenForSale(address _owner, uint256 tokenId, uint256 price) public {
+    if (price <= 0) {
+      revert ERC721InvalidPrice(price);
+    }
+
+    _checkAuthorized(_owner, _msgSender(), tokenId);
+
+    _tokenPrices[tokenId] = price;
+  }
+
+  /**
+   * @dev Returns the base URI for token metadata.
+   * @return The base URI string.
+   */
   function _baseURI() internal view virtual override returns (string memory) {
     return "https://blockchainassetregistry.infura-ipfs.io/ipfs/";
   }
 
+  /**
+   * @dev Returns the URI for a given token ID.
+   *
+   * Requirements:
+   * - The caller must own the token.
+   *
+   * @param tokenId The ID of the token.
+   * @return The URI for the given token ID.
+   */
   function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
     _requireOwned(tokenId);
 
@@ -242,5 +293,21 @@ contract LarsKristoHellheads is ERC721 {
     string memory tokenURIhash = tokenURIs[tokenId];
 
     return bytes(baseURI).length > 0 ? string.concat(baseURI, tokenURIhash) : "";
+  }
+
+  /**
+   * @dev Checks if the caller is the owner of the specified token.
+   * @param tokenId The ID of the token to check ownership for.
+   * @return The address of the token owner.
+   * @dev Throws an error if the caller is not the owner of the token.
+   */
+  function _requireTokenOwner(uint256 tokenId) internal view returns (address) {
+    address _owner = _requireOwned(tokenId);
+
+    if (_owner == address(0) || _owner != _msgSender()) {
+      revert ERC721IncorrectOwner(_msgSender(), tokenId, _owner);
+    }
+
+    return _owner;
   }
 }
