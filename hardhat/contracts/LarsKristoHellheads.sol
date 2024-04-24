@@ -1,14 +1,27 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Royalty.sol";
 
-contract LarsKristoHellheads is ERC721 {
+contract LarsKristoHellheads is ERC721Royalty {
   error ERC721InvalidPrice(uint256 price);
+  error ERC721InvalidPurchaseAmount(uint256 tokenId, uint256 price, uint256 balance);
 
-  address public owner = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266; // larskristo.eth
+  event Purchase(
+    address indexed from,
+    address indexed to,
+    uint256 indexed tokenId,
+    uint256 price,
+    uint256 royaltyAmount,
+    uint256 transactionFee,
+    uint256 amount
+  );
+
+  address public author = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266; // larskristo.eth
+  address public operator = 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC; // svpervnder.eth
 
   mapping(uint256 tokenId => uint256) private _tokenPrices;
+  uint256 private _transactionFraction = 3;
 
   string[] tokenURIs = [
     "QmbbdDACM5nkGqRG3cSmk8hYL46XWFkT8zvkbnrbcbSqa1",
@@ -232,14 +245,44 @@ contract LarsKristoHellheads is ERC721 {
 
   constructor(string memory name_, string memory symbol_) ERC721(name_, symbol_) {
     for (uint i = 0; i < tokenURIs.length; i++) {
-      _safeMint(owner, i);
+      _safeMint(author, i);
       _tokenPrices[i] = 0.5 ether; // initial token price
     }
+
+    _setDefaultRoyalty(author, 10); // 10% royalty
   }
 
-  // function buyToken(uint256 tokenId) public {
-  //   _requireTokenPriceSet(tokenId);
-  // }
+  function buyToken(uint256 tokenId) public payable returns (uint256, uint256, uint256) {
+    uint256 price = _requireTokenPriceSet(tokenId);
+    uint256 balance = msg.value;
+
+    if (balance != price) {
+      revert ERC721InvalidPurchaseAmount(tokenId, price, balance);
+    }
+
+    // pay royalties to author
+    (address royaltyReceiver, uint256 royaltyAmount) = royaltyInfo(tokenId, price);
+    payable(royaltyReceiver).transfer(royaltyAmount);
+
+    // charge the transaction fee
+    uint256 transactionFee = getTransactionFee(tokenId);
+    payable(operator).transfer(transactionFee);
+
+    // transfer the token to the new owner
+    address previousOwner = ownerOf(tokenId);
+    _safeTransfer(previousOwner, _msgSender(), tokenId);
+
+    // transfer the payment to the previous owner
+    uint256 priceMinusRoyalty = balance - royaltyAmount - transactionFee;
+    payable(previousOwner).transfer(priceMinusRoyalty);
+
+    emit Purchase(previousOwner, _msgSender(), tokenId, price, royaltyAmount, transactionFee, priceMinusRoyalty);
+
+    // reset the token price
+    _tokenPrices[tokenId] = 0;
+
+    return (tokenId, price, balance);
+  }
 
   /**
    * @dev Retrieves the price of a token.
@@ -247,7 +290,22 @@ contract LarsKristoHellheads is ERC721 {
    * @return The price of the token.
    */
   function getTokenPrice(uint256 tokenId) public view returns (uint256) {
+    _requireTokenPriceSet(tokenId);
+
     return _tokenPrices[tokenId];
+  }
+
+  /**
+   * @dev Retrieves the transaction fee for a given token ID.
+   * @param tokenId The ID of the token.
+   * @return The transaction fee amount.
+   */
+  function getTransactionFee(uint256 tokenId) public view returns (uint256) {
+    uint256 _price = _requireTokenPriceSet(tokenId);
+
+    uint256 _transactionFee = (_price * _transactionFraction) / _feeDenominator();
+
+    return _transactionFee;
   }
 
   /**
@@ -259,12 +317,12 @@ contract LarsKristoHellheads is ERC721 {
    * @param tokenId The ID of the token to set for sale.
    * @param price The price at which to sell the token.
    */
-  function setTokenForSale(address _owner, uint256 tokenId, uint256 price) public {
-    if (price <= 0) {
-      revert ERC721InvalidPrice(price);
-    }
+  function setTokenForSale(uint256 tokenId, uint256 price) public {
+    _requireTokenPriceSet(tokenId);
 
-    _checkAuthorized(_owner, _msgSender(), tokenId);
+    address owner = ownerOf(tokenId);
+
+    _checkAuthorized(owner, _msgSender(), tokenId);
 
     _tokenPrices[tokenId] = price;
   }
@@ -309,5 +367,21 @@ contract LarsKristoHellheads is ERC721 {
     }
 
     return _owner;
+  }
+
+  /**
+   * @dev Checks if the token price is set for a given token ID.
+   * @param tokenId The ID of the token to check the price for.
+   * @return The price of the token.
+   * @dev Throws an error if the token price is not set.
+   */
+  function _requireTokenPriceSet(uint256 tokenId) internal view returns (uint256) {
+    uint256 _price = _tokenPrices[tokenId];
+
+    if (_price <= 0) {
+      revert ERC721InvalidPrice(_price);
+    }
+
+    return _price;
   }
 }
