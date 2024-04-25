@@ -103,7 +103,7 @@ describe("Lease", function () {
 
     const [receiver, royaltyAmount] = royaltyInfo;
 
-    expect(ethers.formatEther(royaltyAmount)).to.equal("0.0005");
+    expect(ethers.formatEther(royaltyAmount)).to.equal("0.05");
     expect(receiver).to.equal(author.address);
   });
 
@@ -176,9 +176,9 @@ describe("Lease", function () {
         buyer.address,
         BigInt(0),
         ethers.parseEther("1"),
-        ethers.parseEther("0.001"),
-        ethers.parseEther("0.0003"),
-        ethers.parseEther("0.9987"),
+        ethers.parseEther("0.1"),
+        ethers.parseEther("0.03"),
+        ethers.parseEther("0.87"),
       );
 
     const ownerOf0 = await ERC721.ownerOf(0);

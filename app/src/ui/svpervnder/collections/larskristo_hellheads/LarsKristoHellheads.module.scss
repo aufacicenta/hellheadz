@@ -20,6 +20,18 @@
     display: block;
     margin-bottom: $space-default;
 
+    &:hover {
+      [class*="icon-"] {
+        color: var(--color-primary);
+        transform: scale(1.5);
+        transition: transform 0.1s ease-in-out;
+      }
+    }
+
+    [class*="icon-"] {
+      transition: transform 0.1s ease-in-out;
+    }
+
     &--img {
       padding: $space-xs;
 
@@ -58,7 +70,6 @@
       color: var(--color-typography-description);
 
       &:hover {
-        color: var(--color-primary);
         cursor: pointer;
       }
     }

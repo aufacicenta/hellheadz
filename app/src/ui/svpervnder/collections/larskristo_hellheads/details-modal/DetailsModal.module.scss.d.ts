@@ -6,6 +6,8 @@ export type Styles = {
   "details-modal__header--row": string;
   "details-modal__img-container": string;
   "details-modal__price-block": string;
+  "details-modal__price-block--buy-now": string;
+  "details-modal__price-block--connect-wallet": string;
   "details-modal__price-block--owner-pill": string;
   "details-modal__price-block--price": string;
   "details-modal__price-card": string;

@@ -41,8 +41,9 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 </Typography.Headline4>
                 <Typography.Description>31/150 Sold</Typography.Description>
                 <Typography.Text>
-                  Larskristo Hellheads is the latest from its #darkart creations. Featuring an astonishing{" "}
-                  {metadata.length} items series of digital handcraft mastery. Own one of this limited art today.
+                  In 2022, Larskristo ventured deeper into the abyss, exploring the unsettling terrain of AI dark art.
+                  This foray birthed HellheadS—a chilling fusion of the ordinary and the grotesque. Here, everyday
+                  objects metamorphosed into eerie spectacles, blurring the lines between reality and nightmare.
                 </Typography.Text>
                 <Grid.Row>
                   <Grid.Col>

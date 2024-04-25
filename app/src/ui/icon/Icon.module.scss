@@ -4,8 +4,12 @@
   display: inline-block;
 }
 
-.icon-near:before {
+.icon-tiktok:before {
   content: "\e9ea";
+}
+
+.icon-instagram:before {
+  content: "\e9eb";
 }
 
 .icon-home:before {
@@ -4014,44 +4018,4 @@
 
 .icon-ellipsis:before {
   content: "\e9e9";
-}
-
-.icon-bell:before {
-  content: "\e9eb";
-}
-
-.icon-search:before {
-  content: "\e9ec";
-}
-
-.icon-logout:before {
-  content: "\e9ed";
-}
-
-.icon-profile-2:before {
-  content: "\e9ee";
-}
-
-.icon-bets:before {
-  content: "\e9ef";
-}
-
-.icon-sports:before {
-  content: "\e9f0";
-}
-
-.icon-dashboard:before {
-  content: "\e9f1";
-}
-
-.icon-moon-2:before {
-  content: "\e9f2";
-}
-
-.icon-pulse-menu:before {
-  content: "\e9f3";
-}
-
-.icon-pulse-menu-2:before {
-  content: "\e9";
 }

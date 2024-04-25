@@ -43,6 +43,14 @@
     display: flex;
     justify-content: space-between;
 
+    &--connect-wallet {
+      margin-bottom: $space-default;
+    }
+
+    &--buy-now {
+      display: block;
+    }
+
     &--price {
       margin-top: 0;
       color: var(--color-typography-text);

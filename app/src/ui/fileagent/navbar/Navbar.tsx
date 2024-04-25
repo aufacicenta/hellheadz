@@ -2,6 +2,7 @@ import clsx from "clsx";
 
 import { Typography } from "ui/typography/Typography";
 import { Grid } from "ui/grid/Grid";
+import { WalletSelector } from "ui/wallet-selector/WalletSelector";
 
 import { NavbarProps } from "./Navbar.types";
 import styles from "./Navbar.module.scss";
@@ -31,7 +32,9 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => (
         </Grid.Col>
         <Grid.Col lg={4} sm={4} xs={4}>
           <div className={styles.navbar__right}>
-            <div className={styles["navbar__right--item"]}>{/* <WalletSelector /> */}</div>
+            <div className={styles["navbar__right--item"]}>
+              <WalletSelector />
+            </div>
           </div>
         </Grid.Col>
       </Grid.Row>

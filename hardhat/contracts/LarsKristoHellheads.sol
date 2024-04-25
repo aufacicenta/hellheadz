@@ -23,7 +23,7 @@ contract LarsKristoHellheads is ERC721Royalty {
   address public operator = 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC; // svpervnder.eth
 
   mapping(uint256 tokenId => uint256) private _tokenPrices;
-  uint256 private _transactionFraction = 3;
+  uint256 private _transactionFraction = 300; // 3%
 
   string[] tokenURIs = [
     "QmbbdDACM5nkGqRG3cSmk8hYL46XWFkT8zvkbnrbcbSqa1",
@@ -251,7 +251,7 @@ contract LarsKristoHellheads is ERC721Royalty {
       _tokenPrices[i] = 0.5 ether; // initial token price
     }
 
-    _setDefaultRoyalty(author, 10); // 10% royalty
+    _setDefaultRoyalty(author, 1000); // 10% royalty
   }
 
   function buyToken(uint256 tokenId) public payable returns (uint256, uint256, uint256) {
