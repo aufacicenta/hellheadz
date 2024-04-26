@@ -43,6 +43,13 @@
     display: flex;
     justify-content: space-between;
 
+    &--success {
+      margin-top: $space-default;
+      padding: $space-default;
+      color: var(--color-background);
+      background-color: var(--color-primary-shade-low);
+    }
+
     &--connect-wallet {
       margin-bottom: $space-default;
     }

@@ -10,6 +10,7 @@ export type Styles = {
   "details-modal__price-block--connect-wallet": string;
   "details-modal__price-block--owner-pill": string;
   "details-modal__price-block--price": string;
+  "details-modal__price-block--success": string;
   "details-modal__price-card": string;
   "z-depth-0": string;
   "z-depth-1": string;

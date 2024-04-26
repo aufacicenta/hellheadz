@@ -1,8 +1,10 @@
 export type Styles = {
-  "latest-collection": string;
-  "latest-collection__grid": string;
-  "latest-collection__intro": string;
-  "latest-collection__intro--artist-name": string;
+  "grid-item": string;
+  "grid-item__expand": string;
+  "grid-item__img": string;
+  "grid-item__name-row": string;
+  "grid-item__price": string;
+  "grid-item__price-row": string;
   "z-depth-0": string;
   "z-depth-1": string;
   "z-depth-1-half": string;

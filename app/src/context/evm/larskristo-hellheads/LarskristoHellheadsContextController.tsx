@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Client, getContract } from "viem";
-import { useAccount, useWriteContract } from "wagmi";
+import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { getClient } from "@wagmi/core";
 import { ethers } from "ethers";
 
@@ -32,11 +32,33 @@ export const LarskristoHellheadsContextController = ({ children }: LarskristoHel
     fetchContractValues: {
       isLoading: false,
     },
+    buyToken: {
+      isPending: false,
+      isConfirmed: false,
+    },
   });
 
   const { address: connectedAccountAddress, chainId } = useAccount();
   const { wagmiConfig } = useEvmWalletSelectorContext();
-  const { error: writeContractError, writeContract } = useWriteContract();
+  const { data: hash, error: writeContractError, writeContract, isPending } = useWriteContract();
+  const {
+    isLoading: isConfirming,
+    isSuccess: isConfirmed,
+    data,
+  } = useWaitForTransactionReceipt({
+    hash,
+  });
+
+  useEffect(() => {
+    setActions((prev) => ({
+      ...prev,
+      buyToken: {
+        isPending: isPending || isConfirming,
+        isConfirmed,
+        transactionHash: data?.transactionHash,
+      },
+    }));
+  }, [isPending, isConfirming, isConfirmed, data]);
 
   if (writeContractError) {
     console.error(writeContractError);

@@ -8,6 +8,7 @@ export type LarskristoHellheadsContextControllerProps = {
 
 export type LarskristoHellheadsContextActions = {
   fetchContractValues: { isLoading: boolean };
+  buyToken: { isPending: boolean; isConfirmed: boolean; transactionHash?: string };
 };
 
 export type LarskristoHellheadsContractValues = {

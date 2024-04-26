@@ -4,13 +4,12 @@ import { useState } from "react";
 import { Grid } from "ui/grid/Grid";
 import { Typography } from "ui/typography/Typography";
 import { Button } from "ui/button/Button";
-import { Card } from "ui/card/Card";
-import { Icon } from "ui/icon/Icon";
 
 import styles from "./LarsKristoHellheads.module.scss";
 import { ItemMetadata, LatestCollectionProps } from "./LarsKristoHellheads.types";
 import metadata from "./metadata.json";
 import { DetailsModal } from "./details-modal/DetailsModal";
+import { GridItem } from "./grid-item/GridItem";
 
 export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className }) => {
   const [isDetailsModalVisible, displayDetailsModals] = useState(false);
@@ -59,34 +58,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
           <section className={styles["latest-collection__grid"]}>
             <Grid.Row>
               {metadata.map((item: ItemMetadata, index) => (
-                <Grid.Col lg={3} xs={6} key={item.thumbnail}>
-                  <Card className={styles["latest-collection__item"]} withSpotlightEffect>
-                    <div className={styles["latest-collection__item--img"]}>
-                      <img src={item.thumbnail} alt={item.name} />
-                    </div>
-                    <Card.Content>
-                      <div className={styles["latest-collection__item--name-row"]}>
-                        <div>
-                          <Typography.Description>{item.name}</Typography.Description>
-                        </div>
-                      </div>
-                      <div className={styles["latest-collection__item--price-row"]}>
-                        <div>
-                          <Typography.TextLead flat className={styles["latest-collection__item--price"]}>
-                            1.75 <span>ETH</span>
-                          </Typography.TextLead>
-                        </div>
-                        <div>
-                          <Icon
-                            name="icon-expand"
-                            className={styles["latest-collection__item--expand"]}
-                            onClick={() => handleExpand(item, index)}
-                          />
-                        </div>
-                      </div>
-                    </Card.Content>
-                  </Card>
-                </Grid.Col>
+                <GridItem key={item.thumbnail} item={item} index={index} handleExpand={handleExpand} />
               ))}
             </Grid.Row>
           </section>

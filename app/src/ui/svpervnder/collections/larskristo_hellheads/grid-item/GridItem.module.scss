@@ -1,0 +1,60 @@
+@import "src/theme/base";
+
+.grid-item {
+  display: block;
+  margin-bottom: $space-default;
+
+  &:hover {
+    [class*="icon-"] {
+      color: var(--color-primary);
+      transform: scale(1.5);
+      transition: transform 0.1s ease-in-out;
+    }
+  }
+
+  [class*="icon-"] {
+    transition: transform 0.1s ease-in-out;
+  }
+
+  &__img {
+    padding: $space-xs;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  &__name-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__price-row {
+    display: flex;
+    justify-content: space-between;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &__price {
+    color: var(--color-typography-text);
+
+    span {
+      color: var(--color-typography-description);
+    }
+  }
+
+  &__expand {
+    font-size: $font-size-text;
+    color: var(--color-typography-description);
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

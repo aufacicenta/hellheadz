@@ -10,13 +10,14 @@ import { Card } from "ui/card/Card";
 import { Button } from "ui/button/Button";
 import { useLarskristoHellheadsContext } from "context/evm/larskristo-hellheads/useLarskristoHellheadsContext";
 import { Icon } from "ui/icon/Icon";
+import evm from "providers/evm";
 
 import { DetailsModalProps } from "./DetailsModal.types";
 import styles from "./DetailsModal.module.scss";
 
 export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, item }) => {
-  const larskristohellheads = useLarskristoHellheadsContext();
-  const { data: ensName } = useEnsName({ address: larskristohellheads.owner });
+  const ERC721 = useLarskristoHellheadsContext();
+  const { data: ensName } = useEnsName({ address: ERC721.owner });
   const { open } = useWeb3Modal();
   const { isConnected } = useAccount();
 
@@ -29,23 +30,23 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
   };
 
   const handleOnBuyNowClick = () => {
-    larskristohellheads.buyToken(item.id!);
+    ERC721.buyToken(item.id!);
   };
 
   useEffect(() => {
     (async () => {
-      await larskristohellheads.ownerOf(item.id!);
-      await larskristohellheads.getTokenPrice(item.id!);
+      await ERC721.ownerOf(item.id!);
+      await ERC721.getTokenPrice(item.id!);
     })();
   }, [item.id]);
 
   useEffect(() => {
-    if (!larskristohellheads.tokenPrice?.rawValue) return;
+    if (!ERC721.tokenPrice?.rawValue) return;
 
     (async () => {
-      await larskristohellheads.royaltyInfo(item.id!);
+      await ERC721.royaltyInfo(item.id!);
     })();
-  }, [larskristohellheads.tokenPrice?.rawValue]);
+  }, [ERC721.tokenPrice?.rawValue]);
 
   return (
     <Modal
@@ -68,7 +69,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
           </div>
         </div>
         <Typography.TextLead flat>
-          {larskristohellheads.contractValues?.name}, {larskristohellheads.contractValues?.symbol}
+          {ERC721.contractValues?.name}, {ERC721.contractValues?.symbol}
         </Typography.TextLead>
       </Modal.Header>
       <Modal.Content>
@@ -88,14 +89,13 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                     <div>
                       <Typography.Headline5 flat>Price</Typography.Headline5>
                       <Typography.Headline4 className={styles["details-modal__price-block--price"]}>
-                        {larskristohellheads.tokenPrice?.formattedValue}{" "}
-                        <span>ETH | {larskristohellheads.tokenPrice?.exchangeRateFormatted}</span>
+                        {ERC721.tokenPrice?.formattedValue}{" "}
+                        <span>ETH | {ERC721.tokenPrice?.exchangeRateFormatted}</span>
                       </Typography.Headline4>
                     </div>
                     <div>
                       <Typography.Text flat truncate className={styles["details-modal__price-block--owner-pill"]}>
-                        <span>Owned by:</span>{" "}
-                        <Typography.Anchor>{ensName || larskristohellheads.owner}</Typography.Anchor>
+                        <span>Owned by:</span> <Typography.Anchor>{ensName || ERC721.owner}</Typography.Anchor>
                       </Typography.Text>
                     </div>
                   </div>
@@ -107,10 +107,29 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                     </div>
                   )}
                   <div className={styles["details-modal__price-block--buy-now"]}>
-                    <Button fullWidth disabled={!isConnected} onClick={handleOnBuyNowClick}>
-                      Buy for: {larskristohellheads.tokenPrice?.formattedValue} ETH
+                    <Button
+                      fullWidth
+                      disabled={!isConnected || ERC721.actions.buyToken.isPending}
+                      onClick={handleOnBuyNowClick}
+                      isLoading={ERC721.actions.buyToken.isPending}
+                    >
+                      Buy for: {ERC721.tokenPrice?.formattedValue} ETH
                     </Button>
                   </div>
+                  {ERC721.actions.buyToken.isConfirmed && (
+                    <div className={styles["details-modal__price-block--success"]}>
+                      {ERC721.actions.buyToken.isConfirmed && (
+                        <Typography.Text flat>
+                          Purchase confirmed! Check your transaction{" "}
+                          <Typography.Anchor
+                            href={`${evm.getBlockExplorerUrl()}/tx/${ERC721.actions.buyToken.transactionHash}`}
+                          >
+                            here <Icon name="icon-exit-up2" />
+                          </Typography.Anchor>
+                        </Typography.Text>
+                      )}
+                    </div>
+                  )}
                 </Card.Content>
               </Card>
               <Card className={styles["details-modal__author-card"]}>
@@ -145,7 +164,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                   <Typography.Headline5>Details</Typography.Headline5>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Contract Address</Typography.Text>
-                    <Typography.Anchor truncate>{larskristohellheads.contractAddress}</Typography.Anchor>
+                    <Typography.Anchor truncate>{ERC721.contractAddress}</Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Token ID</Typography.Text>
@@ -157,11 +176,11 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Owner</Typography.Text>
-                    <Typography.Anchor truncate>{ensName || larskristohellheads.owner}</Typography.Anchor>
+                    <Typography.Anchor truncate>{ensName || ERC721.owner}</Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Royalty</Typography.Text>
-                    <Typography.Anchor>{larskristohellheads.royalty?.percentageFormatted}</Typography.Anchor>
+                    <Typography.Anchor>{ERC721.royalty?.percentageFormatted}</Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Chain</Typography.Text>
