@@ -145,6 +145,10 @@
       text-align: center;
       color: var(--color-background);
       background-color: var(--color-background);
+
+      &-setTokenForSale {
+        margin-top: $space-default;
+      }
     }
 
     &--connect-wallet {

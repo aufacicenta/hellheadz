@@ -18,6 +18,7 @@ export type Styles = {
   "details-modal__price-block--owner-pill": string;
   "details-modal__price-block--price": string;
   "details-modal__price-block--success": string;
+  "details-modal__price-block--success-setTokenForSale": string;
   "details-modal__price-card": string;
   "details-modal__set-for-sale": string;
   "details-modal__set-for-sale--form": string;

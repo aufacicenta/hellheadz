@@ -353,7 +353,7 @@ $HALF_LOADER_SIZE: 15px;
       &[disabled] {
         border-color: var(--color-dark-1);
         color: var(--color-dark-1);
-        background-color: var(--color-white);
+        background-color: transparent;
 
         &:active,
         &:hover,

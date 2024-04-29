@@ -30,8 +30,8 @@ export const GridItem: React.FC<GridItemProps> = ({ item, index, handleExpand, c
       setTokenPrice(result);
 
       setIsFetchingTokenPrice(false);
-    }, 100 * (index + 1));
-  }, [tokenPrice?.rawValue]);
+    }, 500 + 100 * (index + 1));
+  }, [index]);
 
   const renderTokenPrice = () => {
     if (tokenPrice?.rawValue === BigInt(0)) {

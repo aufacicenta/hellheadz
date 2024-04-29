@@ -35,6 +35,10 @@ export const LarskristoHellheadsContextController = ({ children }: LarskristoHel
       isPending: false,
       isConfirmed: false,
     },
+    setTokenForSale: {
+      isPending: false,
+      isConfirmed: false,
+    },
     getTokenPrice: {
       isLoading: false,
     },
@@ -51,6 +55,42 @@ export const LarskristoHellheadsContextController = ({ children }: LarskristoHel
     });
 
   const connectedAccountIsOwner = () => owner === connectedAccountAddress;
+
+  const setTokenForSale = async (tokenId: number, price: string) => {
+    try {
+      setActions((prev) => ({
+        ...prev,
+        setTokenForSale: {
+          isPending: true,
+          isConfirmed: false,
+        },
+      }));
+
+      const contract = getContractInstance();
+
+      const hash = await contract.write.setTokenForSale([BigInt(tokenId), ethers.parseEther(price)], {
+        account: connectedAccountAddress as ZeroXAddress,
+        chain: undefined,
+      });
+
+      console.log({ hash });
+
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+
+      console.log({ receipt });
+
+      setActions((prev) => ({
+        ...prev,
+        setTokenForSale: {
+          isPending: false,
+          isConfirmed: true,
+          transactionHash: receipt.transactionHash,
+        },
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const buyToken = async (tokenId: number) => {
     try {
@@ -230,6 +270,7 @@ export const LarskristoHellheadsContextController = ({ children }: LarskristoHel
     royaltyInfo,
     royalty,
     connectedAccountIsOwner,
+    setTokenForSale,
   };
 
   return <LarskristoHellheadsContext.Provider value={props}>{children}</LarskristoHellheadsContext.Provider>;

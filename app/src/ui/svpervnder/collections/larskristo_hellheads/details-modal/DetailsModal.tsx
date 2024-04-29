@@ -16,10 +16,6 @@ import evm from "providers/evm";
 import { DetailsModalProps } from "./DetailsModal.types";
 import styles from "./DetailsModal.module.scss";
 
-const handleOnSetTokenPriceSubmit = (values: Record<string, string>) => {
-  console.log({ values });
-};
-
 export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, item }) => {
   const [isSetForSale, setIsSetForSale] = useState(false);
   const tokenPriceInputRef = useRef<HTMLInputElement | undefined>();
@@ -35,6 +31,11 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
     } else {
       open();
     }
+  };
+
+  const handleOnSetTokenPriceSubmit = async (values: Record<string, string>) => {
+    await ERC721.setTokenForSale(item.id!, values.tokenPrice);
+    setIsSetForSale(false);
   };
 
   const handleOnBuyNowClick = () => {
@@ -53,7 +54,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
       await ERC721.ownerOf(item.id!);
       await ERC721.getTokenPrice(item.id!);
     })();
-  }, [item.id, ERC721.actions.buyToken.isConfirmed]);
+  }, [item.id, ERC721.actions.buyToken.isConfirmed, ERC721.actions.setTokenForSale.isConfirmed]);
 
   useEffect(() => {
     if (!ERC721.tokenPrice?.rawValue) return;
@@ -117,10 +118,17 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                         </div>
                         <div>
                           <Typography.Text flat truncate className={styles["details-modal__price-block--owner-pill"]}>
-                            <span>Owned by:</span> <Typography.Anchor>{ensName || ERC721.owner}</Typography.Anchor>
+                            <span>Owned by:</span>{" "}
+                            <Typography.Anchor
+                              href={`${evm.getBlockExplorerUrl()}/address/${ensName || ERC721.owner}`}
+                              target="_blank"
+                            >
+                              {ensName || ERC721.owner}
+                            </Typography.Anchor>
                           </Typography.Text>
                         </div>
                       </div>
+
                       {!isConnected && (
                         <div className={styles["details-modal__price-block--connect-wallet"]}>
                           <Button fullWidth variant="outlined" onClick={handleOnDisplayWidgetClick}>
@@ -158,7 +166,29 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                           <Typography.Text flat>
                             Purchase confirmed! Check your transaction{" "}
                             <Typography.Anchor
+                              target="_blank"
                               href={`${evm.getBlockExplorerUrl()}/tx/${ERC721.actions.buyToken.transactionHash}`}
+                            >
+                              here <Icon name="icon-exit-up2" />
+                            </Typography.Anchor>
+                          </Typography.Text>
+                        </div>
+                      )}
+
+                      {ERC721.actions.setTokenForSale.isConfirmed && (
+                        <div
+                          className={clsx(
+                            styles["details-modal__price-block--success-setTokenForSale"],
+                            styles["details-modal__price-block--success"],
+                          )}
+                        >
+                          <Typography.Text flat>
+                            New price set! <br />
+                            This token is now for sale.
+                            <br /> Check your transaction{" "}
+                            <Typography.Anchor
+                              target="_blank"
+                              href={`${evm.getBlockExplorerUrl()}/tx/${ERC721.actions.setTokenForSale.transactionHash}`}
                             >
                               here <Icon name="icon-exit-up2" />
                             </Typography.Anchor>
@@ -172,8 +202,8 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                         <Button
                           fullWidth
                           disabled={!isConnected || ERC721.actions.buyToken.isPending}
-                          onClick={handleOnBuyNowClick}
                           isLoading={ERC721.actions.buyToken.isPending}
+                          onClick={handleOnBuyNowClick}
                         >
                           Buy for: {ERC721.tokenPrice?.formattedValue} ETH
                         </Button>
@@ -188,7 +218,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                           onClick={handleSetForSaleToggle}
                           isLoading={ERC721.actions.buyToken.isPending}
                         >
-                          Set For Sale
+                          {ERC721.tokenPrice ? "Set A New Price" : "Set For Sale"}
                         </Button>
                       </Card.Actions>
                     )}
@@ -198,7 +228,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                         <Button
                           variant="outlined"
                           color="secondary"
-                          disabled={!isConnected}
+                          disabled={!isConnected || ERC721.actions.setTokenForSale.isPending}
                           onClick={handleSetForSaleToggle}
                           isLoading={ERC721.actions.buyToken.isPending}
                         >
@@ -206,12 +236,12 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                         </Button>
                         <Button
                           color="primary"
-                          disabled={!isConnected}
-                          isLoading={ERC721.actions.buyToken.isPending}
                           type="submit"
                           onClick={handleSubmit}
+                          disabled={!isConnected || ERC721.actions.setTokenForSale.isPending}
+                          isLoading={ERC721.actions.setTokenForSale.isPending}
                         >
-                          Set For Sale
+                          {ERC721.tokenPrice ? "Confirm New Price" : "Set For Sale"}
                         </Button>
                       </Card.Actions>
                     )}
@@ -220,7 +250,10 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
               />
               <Card className={styles["details-modal__forge-card"]}>
                 <Card.Content>
-                  <Typography.Headline5>Forge This Item</Typography.Headline5>
+                  <Typography.Headline5 flat={!ERC721.connectedAccountIsOwner()}>Forge This Item</Typography.Headline5>
+                  {!ERC721.connectedAccountIsOwner() && (
+                    <Typography.TextLead>(Only the current owner can forge this item)</Typography.TextLead>
+                  )}
                   <Typography.Text flat>Extend this item's story, exclusively for you by Lars Kristo.</Typography.Text>
                   <Typography.Description>
                     * Each forge is also registered in the Ethereum blockchain tied to the original NFT.
@@ -239,7 +272,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                       </div>
                     </Grid.Col>
                     <Grid.Col className={styles["details-modal__forge-card--row-button"]} lg={4}>
-                      <Button variant="outlined" color="secondary">
+                      <Button variant="outlined" color="secondary" disabled={!ERC721.connectedAccountIsOwner()}>
                         Forge
                       </Button>
                     </Grid.Col>
@@ -258,7 +291,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                       </div>
                     </Grid.Col>
                     <Grid.Col className={styles["details-modal__forge-card--row-button"]} lg={4}>
-                      <Button variant="outlined" color="secondary">
+                      <Button variant="outlined" color="secondary" disabled={!ERC721.connectedAccountIsOwner()}>
                         Forge
                       </Button>
                     </Grid.Col>
@@ -277,7 +310,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                       </div>
                     </Grid.Col>
                     <Grid.Col className={styles["details-modal__forge-card--row-button"]} lg={4}>
-                      <Button variant="outlined" color="secondary">
+                      <Button variant="outlined" color="secondary" disabled={!ERC721.connectedAccountIsOwner()}>
                         Forge
                       </Button>
                     </Grid.Col>
@@ -318,11 +351,22 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                   <Typography.Headline5>Details</Typography.Headline5>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Contract Address</Typography.Text>
-                    <Typography.Anchor truncate>{ERC721.contractAddress}</Typography.Anchor>
+                    <Typography.Anchor
+                      truncate
+                      href={`${evm.getBlockExplorerUrl()}/token/${ERC721.contractAddress}`}
+                      target="_blank"
+                    >
+                      {ERC721.contractAddress}
+                    </Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Token ID</Typography.Text>
-                    <Typography.Anchor>#{item.id!}</Typography.Anchor>
+                    <Typography.Anchor
+                      href={`${evm.getBlockExplorerUrl()}/nft/${ERC721.contractAddress}/${item.id!}`}
+                      target="_blank"
+                    >
+                      #{item.id!}
+                    </Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Token Standard</Typography.Text>
@@ -330,15 +374,21 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Owner</Typography.Text>
-                    <Typography.Anchor truncate>{ensName || ERC721.owner}</Typography.Anchor>
+                    <Typography.Anchor
+                      truncate
+                      href={`${evm.getBlockExplorerUrl()}/address/${ensName || ERC721.owner}`}
+                      target="_blank"
+                    >
+                      {ensName || ERC721.owner}
+                    </Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Royalty</Typography.Text>
-                    <Typography.Anchor>{ERC721.royalty?.percentageFormatted}</Typography.Anchor>
+                    <Typography.Text flat>{ERC721.royalty?.percentageFormatted}</Typography.Text>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Chain</Typography.Text>
-                    <Typography.Anchor>Ethereum</Typography.Anchor>
+                    <Typography.Text flat>Ethereum</Typography.Text>
                   </div>
                 </Card.Content>
               </Card>

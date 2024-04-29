@@ -38,16 +38,7 @@ export const Modal = ({
 
   // Save page scrollY before modal is opened and restore it after close
   // It fixes auto scroll to input fields on focus in android
-  const [pageScrollY, setPageScrollY] = useState(0);
-
-  useEffect(() => {
-    if (isOpened && fullscreenVariant === "default") {
-      setTimeout(() => {
-        setPageScrollY(window.scrollY);
-        window.scrollTo(0, 0);
-      }, MODAL_ANIMATION_TIME);
-    }
-  }, [isOpened, fullscreenVariant]);
+  const [pageScrollY] = useState(0);
 
   useEffect(() => {
     if (!isOpened && pageScrollY) {

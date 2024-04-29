@@ -10,6 +10,7 @@ export type LarskristoHellheadsContextActions = {
   fetchContractValues: { isLoading: boolean };
   getTokenPrice: { isLoading: boolean };
   buyToken: { isPending: boolean; isConfirmed: boolean; transactionHash?: string };
+  setTokenForSale: { isPending: boolean; isConfirmed: boolean; transactionHash?: string };
 };
 
 export type LarskristoHellheadsContractValues = {
@@ -42,5 +43,6 @@ export type LarskristoHellheadsContextType = {
   getTokenPrice: (tokenId: number, options?: { excludeExchangeRate?: boolean }) => Promise<TokenPrice | undefined>;
   royaltyInfo: (tokenId: number) => Promise<void>;
   buyToken: (tokenId: number) => Promise<void>;
+  setTokenForSale: (tokenId: number, price: string) => Promise<void>;
   connectedAccountIsOwner: () => boolean;
 };
