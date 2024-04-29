@@ -28,7 +28,8 @@
 
   &__price-card,
   &__details-card,
-  &__author-card {
+  &__author-card,
+  &__forge-card {
     margin-bottom: $space-default;
   }
 
@@ -39,15 +40,81 @@
     }
   }
 
+  &__forge-card {
+    &--row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: $space-s;
+
+      &-price,
+      &-button {
+        display: block;
+      }
+
+      > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      &-img {
+        img {
+          width: 100%;
+          height: auto;
+          border-radius: $border-radius;
+        }
+      }
+
+      &-details {
+        display: flex;
+
+        p {
+          margin-right: $space-m;
+        }
+      }
+    }
+  }
+
+  &__set-for-sale {
+    display: block;
+
+    &--form {
+      position: relative;
+
+      &-price-field {
+        padding-right: 80px !important;
+        font-size: $font-size-text-lead;
+
+        &::placeholder {
+          font-size: $font-size-text-lead;
+        }
+      }
+
+      &-currency {
+        position: absolute;
+        top: 7px;
+        right: $space-default;
+        z-index: $z-index-content;
+      }
+    }
+
+    &--info {
+      border-radius: $border-radius;
+      padding: $space-default;
+      text-align: center;
+      background-color: var(--color-background);
+    }
+  }
+
   &__price-block {
     display: flex;
     justify-content: space-between;
 
     &--success {
-      margin-top: $space-default;
       padding: $space-default;
+      text-align: center;
       color: var(--color-background);
-      background-color: var(--color-primary-shade-low);
+      background-color: var(--color-background);
     }
 
     &--connect-wallet {

@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { useEffect } from "react";
+import { Field, Form as RFForm } from "react-final-form";
+import { useEffect, useRef, useState } from "react";
 import { useAccount, useEnsName } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 
@@ -15,7 +16,14 @@ import evm from "providers/evm";
 import { DetailsModalProps } from "./DetailsModal.types";
 import styles from "./DetailsModal.module.scss";
 
+const handleOnSetTokenPriceSubmit = (values: Record<string, string>) => {
+  console.log({ values });
+};
+
 export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, item }) => {
+  const [isSetForSale, setIsSetForSale] = useState(false);
+  const tokenPriceInputRef = useRef<HTMLInputElement | undefined>();
+
   const ERC721 = useLarskristoHellheadsContext();
   const { data: ensName } = useEnsName({ address: ERC721.owner });
   const { open } = useWeb3Modal();
@@ -33,12 +41,19 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
     ERC721.buyToken(item.id!);
   };
 
+  const handleSetForSaleToggle = () => {
+    setIsSetForSale(!isSetForSale);
+    setTimeout(() => {
+      tokenPriceInputRef.current?.focus();
+    }, 500);
+  };
+
   useEffect(() => {
     (async () => {
       await ERC721.ownerOf(item.id!);
       await ERC721.getTokenPrice(item.id!);
     })();
-  }, [item.id]);
+  }, [item.id, ERC721.actions.buyToken.isConfirmed]);
 
   useEffect(() => {
     if (!ERC721.tokenPrice?.rawValue) return;
@@ -83,53 +98,190 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
             <Typography.Text>{item.description}</Typography.Text> */}
             </Grid.Col>
             <Grid.Col lg={6}>
-              <Card className={styles["details-modal__price-card"]}>
-                <Card.Content>
-                  <div className={styles["details-modal__price-block"]}>
-                    <div>
-                      <Typography.Headline5 flat>Price</Typography.Headline5>
-                      <Typography.Headline4 className={styles["details-modal__price-block--price"]}>
-                        {ERC721.tokenPrice?.formattedValue}{" "}
-                        <span>ETH | {ERC721.tokenPrice?.exchangeRateFormatted}</span>
-                      </Typography.Headline4>
-                    </div>
-                    <div>
-                      <Typography.Text flat truncate className={styles["details-modal__price-block--owner-pill"]}>
-                        <span>Owned by:</span> <Typography.Anchor>{ensName || ERC721.owner}</Typography.Anchor>
-                      </Typography.Text>
-                    </div>
-                  </div>
-                  {!isConnected && (
-                    <div className={styles["details-modal__price-block--connect-wallet"]}>
-                      <Button fullWidth variant="outlined" onClick={handleOnDisplayWidgetClick}>
-                        Connect Wallet
-                      </Button>
-                    </div>
-                  )}
-                  <div className={styles["details-modal__price-block--buy-now"]}>
-                    <Button
-                      fullWidth
-                      disabled={!isConnected || ERC721.actions.buyToken.isPending}
-                      onClick={handleOnBuyNowClick}
-                      isLoading={ERC721.actions.buyToken.isPending}
-                    >
-                      Buy for: {ERC721.tokenPrice?.formattedValue} ETH
-                    </Button>
-                  </div>
-                  {ERC721.actions.buyToken.isConfirmed && (
-                    <div className={styles["details-modal__price-block--success"]}>
-                      {ERC721.actions.buyToken.isConfirmed && (
-                        <Typography.Text flat>
-                          Purchase confirmed! Check your transaction{" "}
-                          <Typography.Anchor
-                            href={`${evm.getBlockExplorerUrl()}/tx/${ERC721.actions.buyToken.transactionHash}`}
-                          >
-                            here <Icon name="icon-exit-up2" />
-                          </Typography.Anchor>
-                        </Typography.Text>
+              <RFForm
+                onSubmit={handleOnSetTokenPriceSubmit}
+                render={({ handleSubmit }) => (
+                  <Card className={styles["details-modal__price-card"]}>
+                    <Card.Content>
+                      <div className={styles["details-modal__price-block"]}>
+                        <div>
+                          <Typography.Headline5 flat>Price</Typography.Headline5>
+                          {!ERC721.tokenPrice ? (
+                            <Typography.Description>Not for sale yet.</Typography.Description>
+                          ) : (
+                            <Typography.Headline4 className={styles["details-modal__price-block--price"]}>
+                              {ERC721.tokenPrice?.formattedValue}{" "}
+                              <span>ETH | {ERC721.tokenPrice?.exchangeRateFormatted}</span>
+                            </Typography.Headline4>
+                          )}
+                        </div>
+                        <div>
+                          <Typography.Text flat truncate className={styles["details-modal__price-block--owner-pill"]}>
+                            <span>Owned by:</span> <Typography.Anchor>{ensName || ERC721.owner}</Typography.Anchor>
+                          </Typography.Text>
+                        </div>
+                      </div>
+                      {!isConnected && (
+                        <div className={styles["details-modal__price-block--connect-wallet"]}>
+                          <Button fullWidth variant="outlined" onClick={handleOnDisplayWidgetClick}>
+                            Connect Wallet
+                          </Button>
+                        </div>
                       )}
-                    </div>
-                  )}
+
+                      {isSetForSale && (
+                        <div className={styles["details-modal__set-for-sale--form"]}>
+                          <Typography.TextLead flat className={styles["details-modal__set-for-sale--form-currency"]}>
+                            ETH
+                          </Typography.TextLead>
+                          <Field
+                            name="tokenPrice"
+                            component="input"
+                            className={clsx("input-field", styles["details-modal__set-for-sale--form-price-field"])}
+                            id="message"
+                            placeholder="Enter a price"
+                            ref={tokenPriceInputRef}
+                          />
+                        </div>
+                      )}
+
+                      {ERC721.connectedAccountIsOwner() && !isSetForSale && !ERC721.actions.buyToken.isConfirmed && (
+                        <div className={styles["details-modal__set-for-sale"]}>
+                          <div className={styles["details-modal__set-for-sale--info"]}>
+                            <Typography.Text flat>You own this item.</Typography.Text>
+                          </div>
+                        </div>
+                      )}
+
+                      {ERC721.actions.buyToken.isConfirmed && (
+                        <div className={styles["details-modal__price-block--success"]}>
+                          <Typography.Text flat>
+                            Purchase confirmed! Check your transaction{" "}
+                            <Typography.Anchor
+                              href={`${evm.getBlockExplorerUrl()}/tx/${ERC721.actions.buyToken.transactionHash}`}
+                            >
+                              here <Icon name="icon-exit-up2" />
+                            </Typography.Anchor>
+                          </Typography.Text>
+                        </div>
+                      )}
+                    </Card.Content>
+
+                    {ERC721.tokenPrice && !ERC721.connectedAccountIsOwner() && (
+                      <Card.Actions>
+                        <Button
+                          fullWidth
+                          disabled={!isConnected || ERC721.actions.buyToken.isPending}
+                          onClick={handleOnBuyNowClick}
+                          isLoading={ERC721.actions.buyToken.isPending}
+                        >
+                          Buy for: {ERC721.tokenPrice?.formattedValue} ETH
+                        </Button>
+                      </Card.Actions>
+                    )}
+
+                    {ERC721.connectedAccountIsOwner() && !isSetForSale && (
+                      <Card.Actions>
+                        <Button
+                          fullWidth
+                          disabled={!isConnected || ERC721.actions.buyToken.isPending}
+                          onClick={handleSetForSaleToggle}
+                          isLoading={ERC721.actions.buyToken.isPending}
+                        >
+                          Set For Sale
+                        </Button>
+                      </Card.Actions>
+                    )}
+
+                    {isSetForSale && (
+                      <Card.Actions>
+                        <Button
+                          variant="outlined"
+                          color="secondary"
+                          disabled={!isConnected}
+                          onClick={handleSetForSaleToggle}
+                          isLoading={ERC721.actions.buyToken.isPending}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          color="primary"
+                          disabled={!isConnected}
+                          isLoading={ERC721.actions.buyToken.isPending}
+                          type="submit"
+                          onClick={handleSubmit}
+                        >
+                          Set For Sale
+                        </Button>
+                      </Card.Actions>
+                    )}
+                  </Card>
+                )}
+              />
+              <Card className={styles["details-modal__forge-card"]}>
+                <Card.Content>
+                  <Typography.Headline5>Forge This Item</Typography.Headline5>
+                  <Typography.Text flat>Extend this item's story, exclusively for you by Lars Kristo.</Typography.Text>
+                  <Typography.Description>
+                    * Each forge is also registered in the Ethereum blockchain tied to the original NFT.
+                  </Typography.Description>
+                  <Grid.Row className={styles["details-modal__forge-card--row"]}>
+                    <Grid.Col className={styles["details-modal__forge-card--row-img"]} lg={2}>
+                      <img src={item.thumbnail} alt={item.id?.toString()} />
+                    </Grid.Col>
+                    <Grid.Col className={styles["details-modal__forge-card--row-price"]} lg={6}>
+                      <Typography.Text flat>3D Animated Character</Typography.Text>
+                      <div className={styles["details-modal__forge-card--row-details"]}>
+                        <Typography.Description flat>1.5 ETH</Typography.Description>
+                        <Button size="s" variant="text" color="secondary">
+                          Learn More
+                        </Button>
+                      </div>
+                    </Grid.Col>
+                    <Grid.Col className={styles["details-modal__forge-card--row-button"]} lg={4}>
+                      <Button variant="outlined" color="secondary">
+                        Forge
+                      </Button>
+                    </Grid.Col>
+                  </Grid.Row>
+                  <Grid.Row className={styles["details-modal__forge-card--row"]}>
+                    <Grid.Col className={styles["details-modal__forge-card--row-img"]} lg={2}>
+                      <img src={item.thumbnail} alt={item.id?.toString()} />
+                    </Grid.Col>
+                    <Grid.Col className={styles["details-modal__forge-card--row-price"]} lg={6}>
+                      <Typography.Text flat>Physical Hellhead Toy</Typography.Text>
+                      <div className={styles["details-modal__forge-card--row-details"]}>
+                        <Typography.Description flat>1.5 ETH</Typography.Description>
+                        <Button size="s" variant="text" color="secondary">
+                          Learn More
+                        </Button>
+                      </div>
+                    </Grid.Col>
+                    <Grid.Col className={styles["details-modal__forge-card--row-button"]} lg={4}>
+                      <Button variant="outlined" color="secondary">
+                        Forge
+                      </Button>
+                    </Grid.Col>
+                  </Grid.Row>
+                  <Grid.Row className={styles["details-modal__forge-card--row"]}>
+                    <Grid.Col className={styles["details-modal__forge-card--row-img"]} lg={2}>
+                      <img src={item.thumbnail} alt={item.id?.toString()} />
+                    </Grid.Col>
+                    <Grid.Col className={styles["details-modal__forge-card--row-price"]} lg={6}>
+                      <Typography.Text flat>Physical Hellhead Oil On Canvas</Typography.Text>
+                      <div className={styles["details-modal__forge-card--row-details"]}>
+                        <Typography.Description flat>1.5 ETH</Typography.Description>
+                        <Button size="s" variant="text" color="secondary">
+                          Learn More
+                        </Button>
+                      </div>
+                    </Grid.Col>
+                    <Grid.Col className={styles["details-modal__forge-card--row-button"]} lg={4}>
+                      <Button variant="outlined" color="secondary">
+                        Forge
+                      </Button>
+                    </Grid.Col>
+                  </Grid.Row>
                 </Card.Content>
               </Card>
               <Card className={styles["details-modal__author-card"]}>

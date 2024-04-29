@@ -1,26 +1,62 @@
 import clsx from "clsx";
-import { useEffect } from "react";
+import { useState } from "react";
 
 import { Grid } from "ui/grid/Grid";
 import { Card } from "ui/card/Card";
 import { Typography } from "ui/typography/Typography";
 import { Icon } from "ui/icon/Icon";
 import { useLarskristoHellheadsContext } from "context/evm/larskristo-hellheads/useLarskristoHellheadsContext";
+import { TokenPrice } from "context/evm/larskristo-hellheads/LarskristoHellheadsContext.types";
 
 import styles from "./GridItem.module.scss";
 import { GridItemProps } from "./GridItem.types";
 
 export const GridItem: React.FC<GridItemProps> = ({ item, index, handleExpand, className }) => {
+  const [tokenPrice, setTokenPrice] = useState<TokenPrice | undefined>();
+  const [isFetchingTokenPrice, setIsFetchingTokenPrice] = useState(false);
+
   const ERC721 = useLarskristoHellheadsContext();
 
-  useEffect(() => {
-    (async () => {
-      await ERC721.getTokenPrice(index);
-    })();
-  }, [index]);
+  const handleMouseEnter = async () => {
+    if (tokenPrice) {
+      return;
+    }
+
+    setIsFetchingTokenPrice(true);
+
+    setTimeout(async () => {
+      const result = await ERC721.getTokenPrice(index, { excludeExchangeRate: true });
+
+      setTokenPrice(result);
+
+      setIsFetchingTokenPrice(false);
+    }, 500);
+  };
+
+  const renderTokenPrice = () => {
+    if (tokenPrice?.rawValue === BigInt(0)) {
+      return "Sold Out";
+    }
+
+    if (tokenPrice?.formattedValue) {
+      return (
+        <>
+          {tokenPrice?.formattedValue} <span> ETH</span>
+        </>
+      );
+    }
+
+    return <>{isFetchingTokenPrice ? "..." : "Reveal Price"}</>;
+  };
 
   return (
-    <Grid.Col lg={3} xs={6} key={item.thumbnail} className={clsx(styles["grid-item"], className)}>
+    <Grid.Col
+      lg={3}
+      xs={6}
+      key={item.thumbnail}
+      className={clsx(styles["grid-item"], className)}
+      onMouseEnter={handleMouseEnter}
+    >
       <Card className={styles["grid-item"]} withSpotlightEffect>
         <div className={styles["grid-item__img"]}>
           <img src={item.thumbnail} alt={item.name} />
@@ -34,7 +70,7 @@ export const GridItem: React.FC<GridItemProps> = ({ item, index, handleExpand, c
           <div className={styles["grid-item__price-row"]}>
             <div>
               <Typography.TextLead flat className={styles["grid-item__price"]}>
-                {ERC721.tokenPrice?.formattedValue} <span>ETH</span>
+                {renderTokenPrice()}
               </Typography.TextLead>
             </div>
             <div>

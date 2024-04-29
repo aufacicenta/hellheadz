@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Client, getContract } from "viem";
-import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { getClient } from "@wagmi/core";
+import { getContract } from "viem";
+import { useAccount } from "wagmi";
 import { ethers } from "ethers";
 
 import { LarsKristoHellheads__factory } from "providers/evm/contracts/larskristohellheads/LarsKristoHellheads__factory";
-import { useEvmWalletSelectorContext } from "../wallet-selector/useEvmWalletSelectorContext";
 import currency from "providers/currency";
 import { ZeroXAddress } from "../wallet-selector/EvmWalletSelectorContext.types";
+import evm from "providers/evm";
 
 import { LarskristoHellheadsContext } from "./LarskristoHellheadsContext";
 import {
@@ -36,82 +35,117 @@ export const LarskristoHellheadsContextController = ({ children }: LarskristoHel
       isPending: false,
       isConfirmed: false,
     },
+    getTokenPrice: {
+      isLoading: false,
+    },
   });
 
-  const { address: connectedAccountAddress, chainId } = useAccount();
-  const { wagmiConfig } = useEvmWalletSelectorContext();
-  const { data: hash, error: writeContractError, writeContract, isPending } = useWriteContract();
-  const {
-    isLoading: isConfirming,
-    isSuccess: isConfirmed,
-    data,
-  } = useWaitForTransactionReceipt({
-    hash,
-  });
+  const { address: connectedAccountAddress } = useAccount();
+  const { publicClient } = evm;
 
-  useEffect(() => {
-    setActions((prev) => ({
-      ...prev,
-      buyToken: {
-        isPending: isPending || isConfirming,
-        isConfirmed,
-        transactionHash: data?.transactionHash,
-      },
-    }));
-  }, [isPending, isConfirming, isConfirmed, data]);
+  const getContractInstance = () =>
+    getContract({
+      address: contractAddress as ZeroXAddress,
+      abi: LarsKristoHellheads__factory.abi,
+      client: publicClient,
+    });
 
-  if (writeContractError) {
-    console.error(writeContractError);
-  }
-
-  const client = getClient(wagmiConfig, { chainId }) as Client;
+  const connectedAccountIsOwner = () => owner === connectedAccountAddress;
 
   const buyToken = async (tokenId: number) => {
     try {
-      await writeContract({
-        address: contractAddress as ZeroXAddress,
-        abi: LarsKristoHellheads__factory.abi,
-        functionName: "buyToken" as "buyToken",
-        args: [BigInt(tokenId)],
+      setActions((prev) => ({
+        ...prev,
+        buyToken: {
+          isPending: true,
+          isConfirmed: false,
+        },
+      }));
+
+      const contract = getContractInstance();
+
+      const hash = await contract.write.buyToken([BigInt(tokenId)], {
         account: connectedAccountAddress as ZeroXAddress,
         value: tokenPrice?.rawValue!,
+        chain: undefined,
       });
+
+      console.log({ hash });
+
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+
+      console.log({ receipt });
+
+      setActions((prev) => ({
+        ...prev,
+        buyToken: {
+          isPending: false,
+          isConfirmed: true,
+          transactionHash: receipt.transactionHash,
+        },
+      }));
     } catch (error) {
       console.error(error);
     }
   };
 
-  const getTokenPrice = async (tokenId: number) => {
+  const getTokenPrice = async (tokenId: number, options?: { excludeExchangeRate?: boolean }) => {
     try {
-      const contract = getContract({
-        address: contractAddress as ZeroXAddress,
-        abi: LarsKristoHellheads__factory.abi,
-        client,
-      });
+      setActions((prev) => ({
+        ...prev,
+        getTokenPrice: {
+          isLoading: true,
+        },
+      }));
+
+      const contract = getContractInstance();
 
       const rawValue = await contract.read.getTokenPrice([BigInt(tokenId)]);
       const formattedValue = ethers.formatEther(rawValue);
-      const exchangeRate = await currency.getCoinCurrentPrice("ethereum", "usd");
-      const exchangeRateFormatted = currency.formatFiatCurrency(Number(formattedValue) * exchangeRate);
 
-      setTokenPrice({
+      const values: TokenPrice = {
         rawValue,
         formattedValue,
-        exchangeRate,
-        exchangeRateFormatted,
-      });
+      };
+
+      if (!options?.excludeExchangeRate) {
+        const exchangeRate = await currency.getCoinCurrentPrice("ethereum", "usd");
+        const exchangeRateFormatted = currency.formatFiatCurrency(Number(formattedValue) * exchangeRate);
+        values.exchangeRate = exchangeRate;
+        values.exchangeRateFormatted = exchangeRateFormatted;
+      }
+
+      setTokenPrice(values);
+
+      setActions((prev) => ({
+        ...prev,
+        getTokenPrice: {
+          isLoading: false,
+        },
+      }));
+
+      return values;
     } catch (error) {
       console.error(error);
+      setTokenPrice(undefined);
     }
+
+    setActions((prev) => ({
+      ...prev,
+      getTokenPrice: {
+        isLoading: false,
+      },
+    }));
+
+    return {
+      rawValue: BigInt(0),
+      formattedValue: "0.00",
+    };
   };
 
   const royaltyInfo = async (tokenId: number) => {
     try {
-      const contract = getContract({
-        address: contractAddress as ZeroXAddress,
-        abi: LarsKristoHellheads__factory.abi,
-        client,
-      });
+      const contract = getContractInstance();
 
       const [, rawValue] = await contract.read.royaltyInfo([BigInt(tokenId), tokenPrice!.rawValue]);
       const percentage = Number(ethers.formatEther(rawValue)) / Number(ethers.formatEther(tokenPrice!.rawValue));
@@ -128,11 +162,7 @@ export const LarskristoHellheadsContextController = ({ children }: LarskristoHel
 
   const ownerOf = async (tokenId: number) => {
     try {
-      const contract = getContract({
-        address: contractAddress as ZeroXAddress,
-        abi: LarsKristoHellheads__factory.abi,
-        client,
-      });
+      const contract = getContractInstance();
 
       const result = await contract.read.ownerOf([BigInt(tokenId)]);
 
@@ -154,7 +184,7 @@ export const LarskristoHellheadsContextController = ({ children }: LarskristoHel
       const contract = getContract({
         address: address as ZeroXAddress,
         abi: LarsKristoHellheads__factory.abi,
-        client,
+        client: publicClient,
       });
 
       const [name, symbol] = await Promise.all([contract.read.name(), contract.read.symbol()]);
@@ -199,6 +229,7 @@ export const LarskristoHellheadsContextController = ({ children }: LarskristoHel
     tokenPrice,
     royaltyInfo,
     royalty,
+    connectedAccountIsOwner,
   };
 
   return <LarskristoHellheadsContext.Provider value={props}>{children}</LarskristoHellheadsContext.Provider>;

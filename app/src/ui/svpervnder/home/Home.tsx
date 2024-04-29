@@ -1,12 +1,20 @@
 import clsx from "clsx";
+import dynamic from "next/dynamic";
 
 import { Typography } from "ui/typography/Typography";
 import { Grid } from "ui/grid/Grid";
-import { LarsKristoHellheads } from "../collections/larskristo_hellheads/LarsKristoHellheads";
-import { LarskristoHellheadsContextController } from "context/evm/larskristo-hellheads/LarskristoHellheadsContextController";
+import { LatestCollectionProps } from "../collections/larskristo_hellheads/LarsKristoHellheads.types";
 
 import { HomeProps } from "./Home.types";
 import styles from "./Home.module.scss";
+
+const LarsKristoHellheadsContainer = dynamic<LatestCollectionProps>(
+  () =>
+    import("../collections/larskristo_hellheads/LarsKristoHellheadsContainer").then(
+      (mod) => mod.LarsKristoHellheadsContainer,
+    ),
+  { ssr: false },
+);
 
 export const Home: React.FC<HomeProps> = ({ className }) => (
   <div className={clsx(styles.home, className)}>
@@ -24,8 +32,6 @@ export const Home: React.FC<HomeProps> = ({ className }) => (
       </Grid.Row>
     </Grid.Container>
 
-    <LarskristoHellheadsContextController>
-      <LarsKristoHellheads />
-    </LarskristoHellheadsContextController>
+    <LarsKristoHellheadsContainer />
   </div>
 );

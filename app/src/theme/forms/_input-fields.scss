@@ -30,10 +30,8 @@ textarea.materialize-textarea {
   border-radius: $border-radius-input;
   padding: $input-padding;
   color: $input-text-color;
-  // General Styles
   outline: none;
-
-  // Disabled input style
+  background-color: $input-background;
 
   &:disabled,
   &[readonly="readonly"] {
