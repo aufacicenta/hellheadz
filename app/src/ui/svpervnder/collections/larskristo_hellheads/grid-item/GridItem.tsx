@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Grid } from "ui/grid/Grid";
 import { Card } from "ui/card/Card";
@@ -17,7 +17,7 @@ export const GridItem: React.FC<GridItemProps> = ({ item, index, handleExpand, c
 
   const ERC721 = useLarskristoHellheadsContext();
 
-  const handleMouseEnter = async () => {
+  useEffect(() => {
     if (tokenPrice) {
       return;
     }
@@ -30,8 +30,8 @@ export const GridItem: React.FC<GridItemProps> = ({ item, index, handleExpand, c
       setTokenPrice(result);
 
       setIsFetchingTokenPrice(false);
-    }, 500);
-  };
+    }, 100 * (index + 1));
+  }, [tokenPrice?.rawValue]);
 
   const renderTokenPrice = () => {
     if (tokenPrice?.rawValue === BigInt(0)) {
@@ -50,13 +50,7 @@ export const GridItem: React.FC<GridItemProps> = ({ item, index, handleExpand, c
   };
 
   return (
-    <Grid.Col
-      lg={3}
-      xs={6}
-      key={item.thumbnail}
-      className={clsx(styles["grid-item"], className)}
-      onMouseEnter={handleMouseEnter}
-    >
+    <Grid.Col lg={3} xs={12} key={item.thumbnail} className={clsx(styles["grid-item"], className)}>
       <Card className={styles["grid-item"]} withSpotlightEffect>
         <div className={styles["grid-item__img"]}>
           <img src={item.thumbnail} alt={item.name} />

@@ -6,19 +6,32 @@
 
   &__header {
     &--row {
-      display: flex;
-
-      > div {
+      @include atLargeTablet {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin-right: $space-default;
+
+        > div {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          margin-right: $space-default;
+        }
       }
+    }
+
+    &--token-id {
+      @include atLargeTablet {
+        margin-bottom: 0;
+      }
+      margin-bottom: $space-default;
     }
   }
 
   &__img-container {
+    @include atLargeTablet {
+      padding-top: 0;
+    }
     margin-bottom: $space-default;
+    padding-top: $space-default;
 
     img {
       width: 100%;
@@ -42,9 +55,22 @@
 
   &__forge-card {
     &--row {
+      @include atLargeTablet {
+        margin-bottom: $space-s;
+      }
       display: flex;
       justify-content: space-between;
-      margin-bottom: $space-s;
+
+      &:not(:last-child) {
+        margin-bottom: $space-ml;
+      }
+
+      &-price {
+        @include atLargeTablet {
+          padding: 0;
+        }
+        padding: $space-default;
+      }
 
       &-price,
       &-button {
@@ -66,7 +92,11 @@
       }
 
       &-details {
+        @include atLargeTablet {
+          justify-content: start;
+        }
         display: flex;
+        justify-content: space-between;
 
         p {
           margin-right: $space-m;

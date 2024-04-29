@@ -36,12 +36,12 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
               <div className={styles["latest-collection__intro"]}>
                 <Typography.Headline5>Latest Collection</Typography.Headline5>
                 <Typography.Headline4 className={styles["latest-collection__intro--artist-name"]}>
-                  larskristo: hellheads
+                  Lars Kristo: Hellheadz
                 </Typography.Headline4>
-                <Typography.Description>31/150 Sold</Typography.Description>
+                <Typography.Description>31/222 Sold</Typography.Description>
                 <Typography.Text>
                   In 2022, Larskristo ventured deeper into the abyss, exploring the unsettling terrain of AI dark art.
-                  This foray birthed HellheadS—a chilling fusion of the ordinary and the grotesque. Here, everyday
+                  This foray birthed Hellheadz — a chilling fusion of the ordinary and the grotesque. Here, everyday
                   objects metamorphosed into eerie spectacles, blurring the lines between reality and nightmare.
                 </Typography.Text>
                 <Grid.Row>

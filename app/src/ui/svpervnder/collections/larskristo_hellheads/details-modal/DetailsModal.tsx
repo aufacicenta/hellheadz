@@ -77,7 +77,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
           <div>
             <Typography.Headline4 flat>{item.name} </Typography.Headline4>
           </div>
-          <div>
+          <div className={styles["details-modal__header--token-id"]}>
             <Button variant="outlined" color="secondary" size="xs">
               Token ID: {item.id!}
             </Button>
@@ -297,18 +297,20 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                     This foray birthed HellheadS—a chilling fusion of the ordinary and the grotesque. Here, everyday
                     objects metamorphosed into eerie spectacles, blurring the lines between reality and nightmare.
                   </Typography.Text>
-                  <Grid.Row justify="end">
-                    <Grid.Col lg={1}>
-                      <Typography.Anchor>
-                        <Icon name="icon-instagram" />
-                      </Typography.Anchor>
-                    </Grid.Col>
-                    <Grid.Col lg={1}>
-                      <Typography.Anchor>
-                        <Icon name="icon-tiktok" />
-                      </Typography.Anchor>
-                    </Grid.Col>
-                  </Grid.Row>
+                  <Grid.Container>
+                    <Grid.Row justify="end">
+                      <Grid.Col lg={1} xs={1}>
+                        <Typography.Anchor>
+                          <Icon name="icon-instagram" />
+                        </Typography.Anchor>
+                      </Grid.Col>
+                      <Grid.Col lg={1} xs={1}>
+                        <Typography.Anchor>
+                          <Icon name="icon-tiktok" />
+                        </Typography.Anchor>
+                      </Grid.Col>
+                    </Grid.Row>
+                  </Grid.Container>
                 </Card.Content>
               </Card>
               <Card className={styles["details-modal__details-card"]}>

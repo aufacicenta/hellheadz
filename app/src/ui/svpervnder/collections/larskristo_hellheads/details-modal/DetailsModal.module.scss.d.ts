@@ -10,6 +10,7 @@ export type Styles = {
   "details-modal__forge-card--row-img": string;
   "details-modal__forge-card--row-price": string;
   "details-modal__header--row": string;
+  "details-modal__header--token-id": string;
   "details-modal__img-container": string;
   "details-modal__price-block": string;
   "details-modal__price-block--buy-now": string;
