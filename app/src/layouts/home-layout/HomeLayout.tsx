@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Script from "next/script";
 
 import { Navbar } from "ui/fileagent/navbar/Navbar";
 import { MainPanel } from "ui/mainpanel/MainPanel";
@@ -17,6 +18,9 @@ export const HomeLayout: React.FC<ChatLayoutProps> = ({ children }) => {
 
   return (
     <>
+      {process.env.NEXT_PUBLIC_NODE_ENV === "production" && (
+        <Script defer src="https://api.pirsch.io/pa.js" id="pianjs" data-code="QUOVXtsuf3gMNfQ5MEqIlHGPmw5aeAt9" />
+      )}
       <Head>
         <meta property="og:locale" content={locale} />
       </Head>

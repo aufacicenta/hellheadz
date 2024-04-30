@@ -1,5 +1,4 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import Script from "next/script";
 
 import loader from "ui/generic-loader/generic-loader";
 import { LoadingSpinner } from "ui/icons/LoadingSpinner";
@@ -15,10 +14,6 @@ export default function Document() {
         <meta name="twitter:image" content="/svpervnder/og-image.png" />
 
         <style>{loader}</style>
-
-        {process.env.NEXT_PUBLIC_NODE_ENV === "production" && (
-          <Script defer src="https://api.pirsch.io/pa.js" id="pianjs" data-code="QUOVXtsuf3gMNfQ5MEqIlHGPmw5aeAt9" />
-        )}
       </Head>
       <body>
         <div id="global-loader">
