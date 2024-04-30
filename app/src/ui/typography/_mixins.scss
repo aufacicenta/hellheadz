@@ -7,7 +7,7 @@
 @mixin headline1 {
   @include font-properties($typography-headline-1);
   @include normalizeTypography;
-  margin-bottom: $space-s;
+  margin-bottom: $space-default;
   color: var(--color-typography-headline-1);
 }
 @mixin headline2 {
@@ -19,13 +19,13 @@
 @mixin headline3 {
   @include font-properties($typography-headline-3);
   @include normalizeTypography;
-  margin-bottom: $space-s;
+  margin-bottom: $space-default;
   color: var(--color-typography-headline-3);
 }
 @mixin headline4 {
   @include font-properties($typography-headline-4);
   @include normalizeTypography;
-  margin-bottom: $space-s;
+  margin-bottom: $space-default;
   color: var(--color-typography-headline-4);
 
   [class^="icon-"],
@@ -36,15 +36,13 @@
 @mixin headline5 {
   @include font-properties($typography-headline-5);
   @include normalizeTypography;
-  margin-top: $space-default;
-  margin-bottom: $space-xs;
+  margin-bottom: $space-default;
   color: var(--color-typography-headline-5);
 }
 @mixin headline6 {
   @include font-properties($typography-headline-6);
   @include normalizeTypography;
-  margin-top: $space-default;
-  margin-bottom: $space-xs;
+  margin-bottom: $space-default;
   color: var(--color-typography-headline-6);
 }
 @mixin text {
@@ -62,7 +60,7 @@
   @include font-properties($typography-text-lead);
   @include normalizeTypography;
   margin-bottom: $space-m;
-  color: var(--color-typography-text);
+  color: var(--color-typography-text-lead);
 }
 @mixin textBold {
   @include font-properties($typography-text-bold);
@@ -72,13 +70,13 @@
 @mixin subtitle {
   @include font-properties($typography-subtitle);
   @include normalizeTypography;
-  margin-bottom: $space-xs;
+  margin-bottom: $space-default;
   color: var(--color-typography-subtitle);
 }
 @mixin description {
   @include font-properties($typography-description);
   @include normalizeTypography;
-  margin-bottom: $space-xs;
+  margin-bottom: $space-default;
   color: var(--color-typography-description);
 }
 @mixin miniDescription {
@@ -94,7 +92,8 @@
   color: var(--color-typography-link);
 
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    color: var(--color-typography-link-hover);
     cursor: pointer;
   }
 

@@ -3,25 +3,24 @@ import { i18n, useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 
-import { AccountId } from "providers/near/contracts/market/market.types";
-import { ChatLayout } from "layouts/chat-layout/ChatLayout";
-import { DropboxChatContainer } from "app/chat/dropbox-chat/DropboxChatContainer";
+import { HomeLayout } from "layouts/home-layout/HomeLayout";
+import { Home } from "ui/svpervnder/home/Home";
 
-const Index: NextPage<{ marketId: AccountId }> = () => {
+const Index: NextPage = () => {
   const { t } = useTranslation("head");
 
   return (
-    <ChatLayout>
+    <HomeLayout>
       <Head>
         <title>{t("head.og.title")}</title>
         <meta name="description" content={t("head.og.description")} />
         <meta property="og:title" content={t("head.og.title")} />
         <meta property="og:description" content={t("head.og.description")} />
-        <meta property="og:url" content="https://fileagent.ai/" />
+        <meta property="og:url" content="https://svpervnder.com/" />
       </Head>
 
-      <DropboxChatContainer />
-    </ChatLayout>
+      <Home />
+    </HomeLayout>
   );
 };
 
@@ -30,7 +29,7 @@ export const getServerSideProps = async ({ locale }: GetServerSidePropsContext) 
 
   return {
     props: {
-      ...(await serverSideTranslations(locale!, ["common", "head", "chat"])),
+      ...(await serverSideTranslations(locale!, ["common", "head", "chat", "prompt-wars"])),
     },
   };
 };

@@ -22,7 +22,7 @@ export const Notifications: React.FC<NotificationsProps> = ({ className }) => {
       <></>
     ) : (
       <div className={styles["notifications__content--empty"]}>
-        <Icon name="icon-bell" />
+        <Icon name="icon-dumbbell" />
         <Typography.Description>No new notifications</Typography.Description>
       </div>
     );
@@ -34,7 +34,7 @@ export const Notifications: React.FC<NotificationsProps> = ({ className }) => {
         placement="bottom-end"
         listboxClassName={styles.notifications__list}
         size="l"
-        trigger={<Icon name="icon-bell" className={styles.notifications__trigger} />}
+        trigger={<Icon name="icon-dumbbell" className={styles.notifications__trigger} />}
       >
         <div className={styles.notifications__header}>
           <div className={styles["notifications__header--title"]}>

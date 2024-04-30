@@ -1,11 +1,37 @@
 @import "src/theme/base";
 @import "src/ui/typography/mixins";
+@import "src/ui/fileagent/navbar/variables";
 
 .footer {
-  background-color: black;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid var(--color-background-contrast);
+  background-color: var(--color-background);
+
+  &__left,
+  &__right,
+  &__center {
+    &--item {
+      @include atLargeTablet {
+        min-height: $navbar-height;
+      }
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: $navbar-height-mobile;
+      padding: $space-default 0;
+    }
+  }
+
+  &__center {
+    text-align: center;
+  }
 
   &__right {
-    padding: $space-default;
     text-align: right;
 
     a {
@@ -14,15 +40,8 @@
   }
 
   &__powered-by {
-    @include description;
-    display: flex;
-    justify-content: flex-end;
-    color: var(--color-typography-text);
-
     svg {
-      width: 18px;
-      fill: var(--color-background);
-      margin-right: $space-xs;
+      width: 70px;
     }
   }
 

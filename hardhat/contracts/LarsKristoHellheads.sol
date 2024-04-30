@@ -1,0 +1,389 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Royalty.sol";
+
+contract LarsKristoHellheads is ERC721Royalty {
+  error ERC721InvalidPrice(uint256 price);
+  error ERC721InvalidPurchaseAmount(uint256 tokenId, uint256 price, uint256 balance);
+
+  event Purchase(
+    address indexed from,
+    address indexed to,
+    uint256 indexed tokenId,
+    uint256 price,
+    uint256 royaltyAmount,
+    uint256 transactionFee,
+    uint256 amount
+  );
+
+  event SetTokenForSale(address indexed owner, uint256 indexed tokenId, uint256 price);
+
+  address public author = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266; // larskristo.eth
+  address public operator = 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC; // svpervnder.eth
+
+  mapping(uint256 tokenId => uint256) private _tokenPrices;
+  uint256 private _transactionFraction = 300; // 3%
+
+  string[] tokenURIs = [
+    "QmbbdDACM5nkGqRG3cSmk8hYL46XWFkT8zvkbnrbcbSqa1",
+    "QmcYmjn38SgzALqpPbF9CZW8cYAsXfJ1mhtwbgLzduyhg8",
+    "QmcbENcreBLSTcAAvLCjPBo49pVJNJtkbyzpb3ynhqJGBS",
+    "QmY5QA3UpM2SRLUnSsaW9QdhJWjUkYEMRTuSCHsEYnuEsp",
+    "QmSV5d7ZMFh4YwbSeu5z3dQEfmDpRypYDs38PxPfAA5t2F",
+    "QmSvgLvyJGhGTV6poQqDF7jzpPPwfTnud9zHifYTxBBacC",
+    "QmYaro69wvY7roAFWDFyCC5dh5kn17HN8qgWUZAuciA6h6",
+    "QmaDsufnz36gbmPYA6eYu1G5XpNwV8cwnx75oRhqaRYFqV",
+    "QmVQcamJetJUh8QZVZq5qFU3zYJTh9ACdSrZnztxCFwP19",
+    "QmWivRHkyCKKsvkMjVNBjyHQUbxtnhaog8hb6csA2XNehE",
+    "QmUbGMGEsj5JBcDfQrXz8qS3EjLUmxjJakz1nr1EwcuiBE",
+    "QmaZAeeNX5b9fxqVhggTTBGM2p67EBMUvXNxF2hsvgn4fz",
+    "QmQeFpmqBSb3bSypkMS9pFfPcma61vCGw7SLynDdTW29hA",
+    "QmY41UVGSxQFENpZ62HUGb2F9xP4fZHvgN68jG96bUyaDH",
+    "QmeqevWbhRpwvdMshsnKNcQ8EggYeybRcuhq9oo1L5tbha",
+    "Qme1bL83bGNSyWX4QPMKbj21HR6Mh8Pazqz2Uns2uXQvWW",
+    "QmTa3fkvUYdwpcX2kLXH8S28UzHzsLc9RYbxkmtX6oyBwE",
+    "QmWxSwMnmQxRdgeEqKjqwu821mN7V5PJ4Fctqb3Dou5tBD",
+    "QmNZak29mEDytCYzqA8kwGXeFVoLTASR9q3QpEgDLJefH8",
+    "QmeVkf6NWZjgghEDWPaBEJBHnNcTfwkAVa8pJiCNhdyE33",
+    "QmRxss3JisSBfZFe9KY5VFYmHCppRsapqvnbYw9uwxuvBb",
+    "QmaLrNsnbE1cTVaFvfohE764Gnvom1FVhLEaXxHu8awkjA",
+    "QmW1zoFiF6dMBizNqvuKZez3dyGm1Q3zmuw5RzDSG9mUW8",
+    "QmVjpYoFFQUvB99cKGkxAKdVAMsBeXNMx9CXMVBnx9GiAs",
+    "QmWDFcT37hCLprTfqv1PqPix5eapbpkjpLUSHbaQpVx6MZ",
+    "QmNakwy819jDbAMZkUwTTukoB4PD8YLFTPijDv1jTrwKUe",
+    "QmT4C7bdAWowfT1mDRdtYPaseTmpedh96ZUh6pA5QT1wut",
+    "QmYG5BVqoM54NLHA2dhLrN5jFv1ArMEa4qkKAURweMTNon",
+    "QmTfSNu43KVhjvGwf3tC1BfQD5fgaFeHnhaPoBp6VAqPXd",
+    "QmbKCT31PPjEFVr4k279bvwYv8eTZRXYwYK2cTkGXeKAc1",
+    "QmepCstMc2eoEQJTkteUzwLwWDP8TNcBY7A1bX87NdcuKW",
+    "QmXpCreF6b3uybT4x8dkXaJVtik2wRT5o4QFMeRZnphCVs",
+    "Qma42tY8ktp2ETqhEt4aiLN1QL7Gw59uRCmp5EUJrcexwR",
+    "QmUwdprTEHUNHzMTXcGZZcddAmyCSfxvmQ4A8HSCGsvAFB",
+    "QmdoQ814eFQnpdgX5dMW5pCkXaiLv694YdmLyboazKBKK9",
+    "QmVYuKVqfz4ie2xzTjLgMWaebAnQxXg2iQZ2Di6iVLbbz3",
+    "QmVaFakYPojEKAAEeuQDd2GB7GSkX6Q2qz9NbTSyCH1rfU",
+    "QmeHxSAoef1ySdGF8VGyTdUAo4ZhiZcY7GUb4hi5gahKH8",
+    "QmdtuHPG8rdCBc5iLtmmTZytxmqqnPySVU687w2A2X8PCe",
+    "QmRxkF5T5zmsyF5geyc1WeGxqXf1AztSTrTEVV4QwDAuTZ",
+    "QmXJF6t4gbspWBCgr254emvqqhpWi4XLaMtyMGSEezCoLf",
+    "QmcgrQXex9RAt7QFHYKMYtWqffjkc8QKFCPAZep3SZJ51B",
+    "QmVfREzqSaccNUMQAEN4N9WVzQxEDdAdxXimFmq8Ed59Sk",
+    "Qma6j1mcW2rpmUpfS7uscSkCJqdksAHkBA9BRVD3jAhVFS",
+    "QmdCYaTe5FxhfjSoEZaePZcA5FKjGXqHGo6aqYHpwS4hU9",
+    "QmPByuoc7CeBLd3J2RhJPTHBKTas6jNXm4BE2XHrF8ws1u",
+    "QmejTdfRQ9Xc1mHaGU5511auaHrHDZsKbsfJ2iD5EXJHCY",
+    "QmUsyRMFC15QHaNtqPuvnH7kSUhomzHgEZGrP882d6EaYz",
+    "QmSZ4X5REvSQ6tA8qtmxR7VwZpbmmLiGvbSRhTfhkzGRHH",
+    "QmNeYz18UWuZnxGuQnoynfEZdB9gojeB1x4h9FAL2gs8oW",
+    "QmXa2ZVm4Pmn5C4LCaWYeBYwzGCNzQwE2GyQHJfYE3gUPj",
+    "Qmbs7hoZWBn123wyQWmVyMnQ6jYY1EA8MmDqB4ZwAx28oc",
+    "Qma4QpXdgn5715Wwi4DWQqq1FdJ3ws9AeNBtvkZLcH5Udn",
+    "QmSVn4B6r4Ft6g8HFnW2zXryA3wv6SbdmxVqqMo2G1yjYA",
+    "QmRdjcSNVUmd8JakgbFpcVyCwsnjR3yN3VNpqL6VJJmFi6",
+    "QmYvEkTk1yRTh1inHPwamiFzQMcdZ2RCK1Rk5sGFbNsxNL",
+    "QmT5ncGe3vxB99EnHo5Meg4V5Yc18ZN6LozFGU86KTnWfB",
+    "QmbfU3ptmKhPxQRiroXeKt45ixYiBr6LEja5c1M2pkHwFq",
+    "QmSupanySvd5RuYPojZk2ZBqC6euygPDfTSu1Sb3wABj4o",
+    "QmNmz1LLUJgz3Yvrs4hyhjmE5yA7ZXWAcmFkrof7bGYhYV",
+    "QmdScjX8gGpi6RHkTgaDhmaKae2RF32KRhLwAYFEVCrx7B",
+    "QmZtwc8CYRjUdzMc11ZQiPo4X1FhgXDwu3CwbWdM551heF",
+    "Qmc4HVZCdsS5V6mrsTwr7wLAyDWYddQ16UnYmN2r2Y5GbM",
+    "QmeQ8GRvuBB2oo9qkerfYkLDFR94QoVcNjmFxJMQvPbhJA",
+    "QmQyMT81muL6bwCTqt68iafswfY1ZCJ94WesyNNHwqctLw",
+    "QmTMf4gSJvXKEnZLa2YJGYXUDYVpFKxoYArRVpyCvPGXk6",
+    "QmZk62dd6bvXtgib7B6ZcKf7vi3jCvAwQAqGjFCFy6A284",
+    "QmPnA6bqxXGmYSz8fzBMrQm8rzoZgrpvYsF1S5FApwPeud",
+    "QmPVLjY3hNfeHUUMGMuta9KzmoH7n8YrDhBkPq912fmgCe",
+    "QmaisZ7rACQWBmBZrY7RCXBHM9wfgC9LDtgMd3w3fT6kAJ",
+    "QmNSiR1QcYBUDkMKH9Fxj4aYX6mBZFWgFaqQAdoMDtxS8G",
+    "Qmbyxt9ExcKTXLaqmyp4QabvByPCcFkrgVmQYHJ3tgUqS7",
+    "QmZLJxxcN3xG8iZ2spsa879sy9vVHRRwK8Y2XhRDDo9xjv",
+    "QmPd7jVP4QQeuFNXTbUmPHhXPbab8uP82pn6qBBaVaS8GR",
+    "QmSzHG7fDKbb4a4ZrZawZGHbqydC31KPTBK3BNaTF1nWzg",
+    "QmV9k12oa3WJZQwPgmt5CNHwwqqXh4spjqhQEQPNG66Fjf",
+    "QmbY7qzZUf7M5beMff4L7yS6vqx5eD6cyZwPAQe1JsBmc1",
+    "QmbMSeNhBLcRqZJnzA2uiqGvS8jhiMPiuzM65ed4W5Ph6T",
+    "QmYTZjxx67kK5DvfgYo8t5dfiffcJcPcNAi7bKfaAgtLf4",
+    "QmR27mMTm1BSXhPiL6zMWvULsYTK5N1XyQ68WRf25axR2K",
+    "QmP7xmFwmRf7ERv8rKud81kjiXhtF1uoBcERjm97s1N5NC",
+    "QmYAL88eBSHxkPmASAQC1E4WLdJLb11sRb5y9YPwukqB5a",
+    "QmWecPEgDyuSTrjZRQS4qw7CCndgYX9JStbhTynivD7xJN",
+    "Qmd1YyKi16y3V6qxxb4f2esLvTm5w8XnfbQ8fHq76Hizn1",
+    "Qmad7PkFENYw5Qtf4qjSJv2iAVLYXYTTWZZGgGGp3MSLUe",
+    "QmUnkAtPJ1g2oFxYd2tmVigHAEn8Mw8Fcb3uzAqsAm7Fut",
+    "QmfEnMLjnWxiPMgxUpjrexTiu14MXPEb6SmLBxTdEjN1we",
+    "QmcopC9BjYXRsSvn2LfwrrBswptMwYm6xyzL9sbWhdkHV4",
+    "QmXDxh5qRaYiqTQvzPuDvV1sivV7zWPHrP1aB1yY2ygc8P",
+    "QmZeErxFCGT5kNDhK67fiZmQtv38BMvAj7nvz5sH9Bt9ow",
+    "QmRE1443hwhZSBwfPNhQmtoEWFUhiGLBpgw7TPcYmq6TFe",
+    "QmYmzeKaB3FzDjjCZA25wnJ8xWrP1FqWAEzTZ76Mbcp4CE",
+    "QmVkxtLhc9VV6xgP6PPwJrhPs6wrHZzTTCkTDvGAAsdaqu",
+    "QmNvbnktMAnAbD3FYax3f9Gan4ApVw16645jgqLtvhjc5k",
+    "QmVVBB8idfGtMovMUNbJa9sAKNPV3LLU25vVmafPzuVg2h",
+    "QmaVwqm3bpggyq49JjHiGSdS69VYgWwpiuLivWTu2bLx4W",
+    "QmRM1ftrxw4YLT7S9ucrJeQfCBuFzoLq6FcqA3JymBAoLo",
+    "QmQzKm9Fk8y5os7JFZ1MQ15V9ySAB6k1Tn47foV3mhf3dz",
+    "QmQEUoKAaVukYktrf5vCDsJVu5TYbLVNPqTxjzAFr2bc9B",
+    "QmeVbaL74ihFs8P983iTVtaoKKhVCKXHgZq744aT1tT9MB",
+    "QmUPJ88Dfs5v8ocrz1SaeJ5xFo4NYSJUr4K2ayeEkYjMNw",
+    "QmTmZSPDNSFztWBgX839niBcdeaUR7BAmqGaurV9WNif9D",
+    "QmeG7FMXqffE8FTzwsEkQuDaqyfP9YobMmBuY44cHrxXWM",
+    "QmXgzTFSGkJuxLaNRKPKtrpXsdEugsWLy58jzM817QkHVz",
+    "Qmc4fiLHP9MotXtk1T3Bi1TbQrhCX8U6Ji25HVq9QpmmQE",
+    "QmZY4GMWSaUS1E9yKGYqD5Y5SadzUwdWrds4LMxZD19yNX",
+    "QmSzH41S2G5izsjkWpR4DBpCs1b6z3UEbqFaJHF5iPUGMM",
+    "QmbgxFTX6EbSSULE2TtGKmgAtoEJJKx4PfydN9EzRzr8cW",
+    "QmVCrnV5zjys4gWxPVpPdtQL7oiHJhUa2cs2u7YieTtwQ1",
+    "QmRmDv2TCRLcjqba61EDgUCGcLyRvZgW1KxXJ2nvUTuVxj",
+    "QmZ9sXTradRXreYZjNWUSVkKWFHV5fBdzGTtxr1qum2deE",
+    "QmVjvzFDgkKKYDtz4AQaLRP1uEmzzRSWMt3NSxwHJaxuV7",
+    "QmVVcdqbNWfwGKAqvrMmFMMU9ixf5eBgGiB38V2DXeSzts",
+    "QmeXfArA7Dq7bxFudZ71YkiXrFaFX7nyYnBgh6UEh3szY2",
+    "QmQ9wcYHCFK8nuiV7m5Gk677qgvZNnjhoK18pcfwHxDmJc",
+    "QmbguL9A5TMrZke1wJfvhWUHy41B1FmrixKanENkCBCQxX",
+    "Qmd5HWFW8yo3b1qcRBykqMyVyNef2oas1tS8RXu4dvPRkA",
+    "QmZU9rawbSC698AbavHeB45PaTQaV7k1yotPA8FdW3k2oP",
+    "QmfEVdsPSk2uMADPDbeYrPVfJefN7rMZCsbucisVUV3fFh",
+    "QmRELXeoQdJPMh6byGywgQU4zLqLFRpVCNgqKdv91YExhj",
+    "QmcERoHHM3pRKTBBM2DikupJGgN1MQwPCQi9svXouKmF1S",
+    "QmPSXQ6D4ZZCKtiNfzjGyZxemTBbgmDWVT1dVsx3mgLirh",
+    "QmW1NRKdv4z4d8UyBtG77CJvR2Nuh8sT1xnfKNTZFWK8qx",
+    "QmReZDRvfJC4fpeb93qa9oh8RRRJMtgEhwdqUM4sKA7kXF",
+    "QmR3FFakcG5nKynW1h24GCcxDEbwhUZ4Zv3vhQBY1Aa3py",
+    "QmU2aQqUmqZdw9fQKT4oaEaeKrKnzk8T9SbYbG4H3FVDDD",
+    "QmXr7eEWJHvmPpkP64HqHMzo7mfEnGSWbY9bU5QNBnnSDv",
+    "QmVDZdaP5G2CZJbZUEhFE4ux17RSvTPoi8ntn9dMUZx6an",
+    "QmekpQsFQwZdqqPm49u67tRJSnP5ZYAfcnWtr6xyVytEVa",
+    "QmRteoxxNQt7F6xrbC4E2fiCWFZCM5QWH5MwB5DztVCiT5",
+    "QmddA33ELdYfA65k1VQfze7aRzkhmWuqQvgjs8XmmuErBe",
+    "QmUAYjkpdFwXgUeR3myJqaTF5ruBWPaa6FG9ACQw9T9V8F",
+    "QmaPCZYcwxHxmmf9DozoLyhyrwu1f55CoEiudqu4tJpsfR",
+    "QmUfvr4pUBmXKTRkWGk9TZqf1ZmZNtwCC5S6gCKwBh7P3X",
+    "QmY6Cwer8qFKahvDRPXs9t9y6AiiW4nvVVJjRVPwdQkvvm",
+    "QmTsgf9WHPNcTx6LCA5Yg52uVAxuPxoJRhEVjJWKBVQyhC",
+    "QmQbKmAZQLBNuUqfrmoBVBnB7PH5oxW6wAsu4JZ5Wp4eXh",
+    "QmT8gETJgxuEG1aZVdaGNAhbgEf38W44ikohSvEEudqhXf",
+    "QmZDk2bGeEFAitxM7wsiT9gBxyTGYjcV4WqMshcEQdhTVh",
+    "QmRHoDvdbMSUTMoY5nLKTtnrFUDeTzmgzyf9ywhDDWzgif",
+    "QmSKow46cd3MKB8EqSNxD578YPYu8Dpy7LbHVG1ZUDgcgB",
+    "Qmcge9n28RWZNNSoP7dxbcRjpavzMZWM9bDb4PHTaUj7bx",
+    "QmXmbxUTxQGUUTfx3Uj31hp7Jy3wbjZY4pnoCo1hWTs8d1",
+    "QmNfZxeZnLmGgVasC2MQQnVu2Co8Zh6EkVvxdb2UvSyd7m",
+    "QmamFye2g3CRLDWTabeG2HrZtV7ZAeSE4PzeQvYVzqr864",
+    "QmdLg1SKrfJF3uWq9gLiEEXC5FEm8zhkQ5VafS1fMH7riM",
+    "QmT9LUQym2LTeDWhxRrVhN4bFw7FRANVhLuTzU1Hkad8AH",
+    "QmePLbmWZjHgGptYHbKgfAP8Re6DYCfcgmB6GMQLrSTs3s",
+    "QmfVS3QxSmLvf7MEZWYjGmM7veYJYrJrYTywpJdLL9nMst",
+    "QmdF66fzTL9D1EVS2sw5kTsdpQ2e5C1CCCfWpZNMUraGqE",
+    "QmbatBDJv7bgBjr483SCvrorrCokZDPtMYwaf7UMVyoXGH",
+    "Qma59pWTgMJSJH41dwbQj7h1ZCTk3iLgpuRJNuQPyZjvPk",
+    "Qman6pYNE7AxyBywifKxT8vxta5hewVGq3Mi2RGW9zcKH3",
+    "QmeiGDGV9hWmqsCyughHf4DAmp7dMZ2ZwkdPLRAYf6VPYn",
+    "QmbmcrkRBqrpaQdvybiND6kvMHigMpxZahtYqDGyBPSMmf",
+    "QmcWnuzFybyEFFTEGPUSPd4GAFhboRJsyjcH6KqxtW9u5q",
+    "QmZTWVhe99Q3G27qLiURaz6id513mWFjDa5rq6eVEipLpY",
+    "QmdeEDUff6pA1777eCJpgtPnrwatwRSm2rm3e9EWQmPvwW",
+    "QmcvmUh2ZXu2JgdA59rxxCyHdqRT75hMUw2oUBcRB5iNHw",
+    "QmRRBd6d5jjrN9opXGYzKKBVL3kwcXUafeVUyiQop7Sbtp",
+    "QmUwDiXwRRi5kA5fgABMDk7gNQPzMCDbymRQuoGFwacW26",
+    "Qmajj875hZDA1gpqSNKHCEsGFsTfwU4uFVx6ZiCJHokfDk",
+    "QmTXKewsMdYS2jtHH86YDpzaSzrMSotrx64DeUH3WZFP6U",
+    "QmfZfk1bLDX2QtkXEEBGHyW8pg5LwqyWZmn6BhFJacUQDT",
+    "QmcRyaaV2HB6amgnAauRSseD2Z7GaThFzM6zdhJi8SKngd",
+    "QmXhAGobHY8GA6naGJsrVJtTnuTgqLPaiLRg4qcaKeMqop",
+    "QmQpW1uZQ1hQhDJGdcosu9RhYZW5u5eKSqAJkeo35AXLmQ",
+    "QmPy2dGJfea1PMfpapkCsX3yH1RdjfGsHXEcznfrjAQd5z",
+    "QmUfSEm3Ysw1kZtZAhtrVBNE5WQ9pv8pCRzt7M1xG1cXPo",
+    "QmYb3ikKsA2f9GCu2Z2EVwowTYoTFks24gghkmRupSNmSR",
+    "QmTMzxsHec6Lg8uKgMHYURduWFrwpAMReqWx3Zu1hkWY5r",
+    "QmfR9eyg1BHhewaHJx2ePpGKr4NhT7sKgSskEhJttasTfS",
+    "QmQtqDyqtxqC6qh1SQmUK7s5i16KJ8BSKs3gDiPvKRtdgB",
+    "QmP7NG6s64AR93EDRmbZ9eg96nbbhNNizKACAw47smW8Rk",
+    "QmWJkKkRH3jujYtY2rPt4EpzArFvF4s1Gu2He3twt8rEGf",
+    "QmYAPZzEhG6NyGAuvj17mRsARxNvs2iHUqyogCG18f2BdA",
+    "QmT5fmkBJhzkbsH5SDGEiKTCzDj8DLzXQczpnLoTUxCAbW",
+    "QmNQ22qNkThz1cSyPJzAZ46S3jLu71Rd6Qgpu3MXijsv4r",
+    "QmaXmZ9UWNkcFoMRVnf2mXTuTenVRyVzTSnZQXj2Q1Cin8",
+    "QmZjhXxn4aLzeuxsssRS7noaYF9rVpKyNURGENNdAjZQWQ",
+    "QmYg2hi7dGekgAUMwPP6W7aUZvQTMfFc6w19x3vgmkVwxU",
+    "QmaKNY6iE6PmqPMhAvgsjKajJuN7obDdu9meySFQvkZPUx",
+    "QmabkizqWiWSArJ8JQZ91zXewXqZ1SBoaYsgV64MSVc6Wf",
+    "QmSK3PvZumyr85CetrzPyaTxUeD4CbUcqqd2y3L7oexXu3",
+    "QmcPi1aKwFWStkaUqca1rTphNykpjHbK8j8xGxY9ST1E1L",
+    "QmUz1SyoRrtEcSur5HY26uziGcWKgaG9jMpmUz7Qn4DWUt",
+    "QmNdYb4bqm3QvpBFMf3UxqEEJMZrvz85VoRmG8jwC3K3KW",
+    "QmXni4yjpCKB4y4CJKGHNht24JN7kxoyJ7RAiuQNd9EiLB",
+    "QmXnnQLxNMQgVaRpHTaAVgvx7ZDLHE6gitMHMYP8RZEeji",
+    "QmaXkD35dsghGnif3LbWgWFA1WaV5qM5Q7DdU6wxxSN82x",
+    "QmRrL6PVrtzU3EgrevKn7TfMg5LeBvgoLT51sDo6Ww6ofY",
+    "QmUtEhZeye8tnJdKAgN1LxQGUp1zWCH9HPKivkcGMHhpxu",
+    "QmY9pcWTZHdtx8WUpqyZKjYXYywYxMsN61d8SZznFXkZvv",
+    "QmYbDZ2eKerK28dCDJn8KXAMuB7XLG1tTYM5GqPyuqbJsC",
+    "QmZSArCQGrfwb3x5sRTEwE5koDGtdcZnZpFJm25MH3QqPF",
+    "QmahYyDLFiV7HsJo42sKUTdBMPkrbKe414eHKLjktjUZXA",
+    "QmbqJ4wA46uBJ8ZjKtoDGFpRYWCdzbKfRg3f3SHeLx54jv",
+    "QmT9VoKDr2jGnxa9jepTkktbssLsZXWysHqBtz2EkxeJRr",
+    "QmP8DStwTc2AzJ5AekVJJBXrxWpwYMqjtiJr2F5YrvKUZp",
+    "QmX7SPe5nhbbkPdcFSeNyFta9PDe2cbBPsmbNnfb9SvTCT",
+    "Qmcva2zsj4XpqpYFsgEDCGickkwijfrSwECNRUPBggpzS5",
+    "QmWvgq9WpySsLLQEGkRa51sRQHiSSFndMhcvf3Lo3fNWHg",
+    "QmfQsqEqAotjEao76jqcJ4vWrUfZf2xyYpJDcnmf6GAGRH",
+    "QmXTcdnByABuNitK4XvDXET3P1gQashGEFT4wPc4xKhQUH",
+    "QmP3hJ2zBWTK4Ft9BXPLX3kL1dRmkQFoAP9GRVzY5FA786",
+    "QmcByJPRDjnzXy8C2M6CrYZH2hTJPJA2mVVRAuG1jGiuZq",
+    "Qmeo3zqRdmmJqc9VCSYbzaf1k6eyCrGddap3z8g5vBLV9S",
+    "QmXR4W8xcg39LJurDqBaaHkom7pdP6Wm5NnpjqCFPS2sy5",
+    "QmSRmKb1VniiNkXuGZhzKDfvj1PKZPTKAqfDgNpGuH8z6t",
+    "QmWTnrfhQC4CqCAKX8WnGdKmkpXje3zf3d8UhDi1Tv8nGn",
+    "QmXyVCVRwhy8CDCm8p4N1ZhVEaRz3uZ87nAT9RJDii3pbo",
+    "QmdbFDNEQXe39czCfpNfuyFN1as2QEJPQCGgRE9eQ2qajo",
+    "QmT4GoXaX5ZYXnCmkidBjTWwRL5spPfScQfecnJZdEDD1i",
+    "QmWvJsae9bUBdcQpCbrcX3hTTh3TMqTRMHy1qiZsevynP4",
+    "QmUK8NWeCrEHzDAZzhRv9UtN3S93PHktAtLQEgPKJcXYAk",
+    "QmQutJnFVacdvgaoZYriSKy8FGqc7CPtYCvgnNnqXFkMgM",
+    "QmbdpFqJY5NhihXwFQkDZAJd4jvgUP8YZkAeqyaJkjNuPn"
+  ];
+
+  constructor(string memory name_, string memory symbol_) ERC721(name_, symbol_) {
+    for (uint i = 0; i < tokenURIs.length; i++) {
+      _safeMint(author, i);
+      _tokenPrices[i] = 0.5 ether; // initial token price
+    }
+
+    _setDefaultRoyalty(author, 1000); // 10% royalty
+  }
+
+  function buyToken(uint256 tokenId) public payable returns (uint256, uint256, uint256) {
+    uint256 price = _requireTokenPriceSet(tokenId);
+    uint256 balance = msg.value;
+
+    if (balance != price) {
+      revert ERC721InvalidPurchaseAmount(tokenId, price, balance);
+    }
+
+    // pay royalties to author
+    (address royaltyReceiver, uint256 royaltyAmount) = royaltyInfo(tokenId, price);
+    payable(royaltyReceiver).transfer(royaltyAmount);
+
+    // charge the transaction fee
+    uint256 transactionFee = getTransactionFee(tokenId);
+    payable(operator).transfer(transactionFee);
+
+    // transfer the token to the new owner
+    address previousOwner = ownerOf(tokenId);
+    _safeTransfer(previousOwner, _msgSender(), tokenId);
+
+    // transfer the payment to the previous owner
+    uint256 priceMinusRoyalty = balance - royaltyAmount - transactionFee;
+    payable(previousOwner).transfer(priceMinusRoyalty);
+
+    emit Purchase(previousOwner, _msgSender(), tokenId, price, royaltyAmount, transactionFee, priceMinusRoyalty);
+
+    // reset the token price
+    _tokenPrices[tokenId] = 0;
+
+    return (tokenId, price, balance);
+  }
+
+  /**
+   * @dev Retrieves the price of a token.
+   * @param tokenId The ID of the token.
+   * @return The price of the token.
+   */
+  function getTokenPrice(uint256 tokenId) public view returns (uint256) {
+    _requireTokenPriceSet(tokenId);
+
+    return _tokenPrices[tokenId];
+  }
+
+  /**
+   * @dev Retrieves the transaction fee for a given token ID.
+   * @param tokenId The ID of the token.
+   * @return The transaction fee amount.
+   */
+  function getTransactionFee(uint256 tokenId) public view returns (uint256) {
+    uint256 _price = _requireTokenPriceSet(tokenId);
+
+    uint256 _transactionFee = (_price * _transactionFraction) / _feeDenominator();
+
+    return _transactionFee;
+  }
+
+  /**
+   * @dev Sets the token for sale with the specified price.
+   *
+   * Requirements:
+   * - The caller must be the owner of the token.
+   *
+   * @param tokenId The ID of the token to set for sale.
+   * @param price The price at which to sell the token.
+   */
+  function setTokenForSale(uint256 tokenId, uint256 price) public {
+    address owner = ownerOf(tokenId);
+
+    _checkAuthorized(owner, _msgSender(), tokenId);
+
+    _tokenPrices[tokenId] = price;
+
+    emit SetTokenForSale(owner, tokenId, price);
+  }
+
+  /**
+   * @dev Returns the URI for a given token ID.
+   *
+   * Requirements:
+   * - The caller must own the token.
+   *
+   * @param tokenId The ID of the token.
+   * @return The URI for the given token ID.
+   */
+  function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+    _requireOwned(tokenId);
+
+    string memory baseURI = _baseURI();
+    string memory tokenURIhash = tokenURIs[tokenId];
+
+    return bytes(baseURI).length > 0 ? string.concat(baseURI, tokenURIhash) : "";
+  }
+
+  /**
+   * @dev Returns the base URI for token metadata.
+   * @return The base URI string.
+   */
+  function _baseURI() internal view virtual override returns (string memory) {
+    return "https://blockchainassetregistry.infura-ipfs.io/ipfs/";
+  }
+
+  /**
+   * @dev Checks if the caller is the owner of the specified token.
+   * @param tokenId The ID of the token to check ownership for.
+   * @return The address of the token owner.
+   * @dev Throws an error if the caller is not the owner of the token.
+   */
+  function _requireTokenOwner(uint256 tokenId) internal view returns (address) {
+    address _owner = _requireOwned(tokenId);
+
+    if (_owner == address(0) || _owner != _msgSender()) {
+      revert ERC721IncorrectOwner(_msgSender(), tokenId, _owner);
+    }
+
+    return _owner;
+  }
+
+  /**
+   * @dev Checks if the token price is set for a given token ID.
+   * @param tokenId The ID of the token to check the price for.
+   * @return The price of the token.
+   * @dev Throws an error if the token price is not set.
+   */
+  function _requireTokenPriceSet(uint256 tokenId) internal view returns (uint256) {
+    uint256 _price = _tokenPrices[tokenId];
+
+    if (_price <= 0) {
+      revert ERC721InvalidPrice(_price);
+    }
+
+    return _price;
+  }
+}

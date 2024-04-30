@@ -126,8 +126,8 @@ export NANONETS_API_KEY="..."
 export OPENAI_API_KEY="..."
 
 # SUPABASE, used to store file content after it's read once: https://supabase.com/
-export NEXT_PUBLIC_SUPABASE_URL="..."
-export NEXT_PUBLIC_SUPABASE_ANON_KEY="..."
+export SUPABASE_URL="..."
+export SUPABASE_ANON_KEY="..."
 
 # DROPBOX, used for the Dropbox Sign API features: https://developers.hellosign.com/api/reference/signature-request/
 export DROPBOX_CLIENT_ID="..."

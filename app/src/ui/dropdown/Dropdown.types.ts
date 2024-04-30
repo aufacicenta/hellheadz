@@ -2,6 +2,7 @@ import { DetailedHTMLProps, HTMLAttributes, ReactNode, CSSProperties } from "rea
 import { Placement } from "@popperjs/core";
 
 export type DropdownProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
+  children?: ReactNode;
   id?: string;
   trigger: ReactNode;
   size?: "m" | "l";

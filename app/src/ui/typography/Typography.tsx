@@ -55,20 +55,26 @@ const Headline3: React.FC<TypographyProps> = ({ children, className, flat, ...pr
   </h3>
 );
 
-const Headline4: React.FC<TypographyProps> = ({ children, className, inline, ...props }) => (
-  <h4 className={clsx(styles.typography__headline4, className, { [styles.typography__inline]: inline })} {...props}>
+const Headline4: React.FC<TypographyProps> = ({ children, className, inline, flat, ...props }) => (
+  <h4
+    className={clsx(styles.typography__headline4, className, {
+      [styles.typography__inline]: inline,
+      [styles.typography__flat]: flat,
+    })}
+    {...props}
+  >
     {children}
   </h4>
 );
 
-const Headline5: React.FC<TypographyProps> = ({ children, className, ...props }) => (
-  <h5 className={clsx(styles.typography__headline5, className)} {...props}>
+const Headline5: React.FC<TypographyProps> = ({ children, className, flat, ...props }) => (
+  <h5 className={clsx(styles.typography__headline5, className, { [styles.typography__flat]: flat })} {...props}>
     {children}
   </h5>
 );
 
-const Headline6: React.FC<TypographyProps> = ({ children, className, ...props }) => (
-  <h6 className={clsx(styles.typography__headline6, className)} {...props}>
+const Headline6: React.FC<TypographyProps> = ({ children, className, flat, ...props }) => (
+  <h6 className={clsx(styles.typography__headline6, className, { [styles.typography__flat]: flat })} {...props}>
     {children}
   </h6>
 );
@@ -152,24 +158,23 @@ const Link: React.FC<AnchorProps & LinkProps> = ({
   variant,
   ...props
 }) => (
-  <NextLink href={href} {...props}>
-    <a
-      className={clsx(className, {
-        [styles.typography__link]: as === undefined,
-        [styles.typography__truncate]: truncate,
-        [styles.typography__flat]: flat,
-        [styles["typography__link--button"]]: as === "button",
-        [buttonStyles.button]: as === "button",
-        [buttonStyles["button--primary"]]: as === "button" && variant === "contained",
-        [buttonStyles["button--auto-size"]]: as === "button" && !size,
-        [buttonStyles["button--extra-small"]]: as === "button" && size === "xs",
-        [buttonStyles["button-outline"]]: as === "button" && variant === "outlined",
-        [buttonStyles["button--text"]]: as === "button" && variant === "text",
-      })}
-      {...props}
-    >
-      {children}
-    </a>
+  <NextLink
+    href={href}
+    className={clsx(className, {
+      [styles.typography__link]: as === undefined,
+      [styles.typography__truncate]: truncate,
+      [styles.typography__flat]: flat,
+      [styles["typography__link--button"]]: as === "button",
+      [buttonStyles.button]: as === "button",
+      [buttonStyles["button--primary"]]: as === "button" && variant === "contained",
+      [buttonStyles["button--auto-size"]]: as === "button" && !size,
+      [buttonStyles["button--extra-small"]]: as === "button" && size === "xs",
+      [buttonStyles["button-outline"]]: as === "button" && variant === "outlined",
+      [buttonStyles["button--text"]]: as === "button" && variant === "text",
+    })}
+    {...props}
+  >
+    {children}
   </NextLink>
 );
 

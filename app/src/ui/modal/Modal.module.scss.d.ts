@@ -6,12 +6,15 @@ export type Styles = {
   modal__content: string;
   modal__flat: string;
   modal__header: string;
+  "modal__header--left": string;
+  "modal__header--left-item": string;
   "modal__header--on-close": string;
   "modal__header--on-close-icon": string;
+  "modal__header--right": string;
+  "modal__header--right-item": string;
   modal__overlay: string;
   modal__wrapper: string;
   "modal__wrapper--fullscreen": string;
-  "modal__wrapper--fullscreen-on-mobile": string;
   "modal__wrapper--large": string;
   "modal__wrapper--medium": string;
   "modal__wrapper--pullup": string;

@@ -27,3 +27,7 @@ production.
 
 Please report any bugs with generated code at
 [Sequelize UI Issues](https://github.com/tomjschuster/sequelize-ui/issues).
+
+## OpenAI Threads
+
+https://platform.openai.com/playground?assistant=asst_AZsE2NJRIC6IgPTecyIpExUP&mode=assistant&thread=thread_xqVBXkeEf4EhFQGp0R4r4vAe

@@ -1,6 +1,7 @@
 import { DetailedHTMLProps, HTMLAttributes, CSSProperties, FocusEvent, ChangeEvent } from "react";
 
 export type SelectProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
+  children?: React.ReactNode;
   id: string;
   inputProps: {
     onBlur?: (event?: FocusEvent<HTMLSelectElement>) => void;
@@ -19,6 +20,7 @@ export type SelectProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTML
   selectButtonClassName?: string;
   isNotOutlined?: boolean;
   style?: CSSProperties;
+  placeholder?: string;
   formElementClassName?: string;
   required?: boolean;
   onClear?(): void;

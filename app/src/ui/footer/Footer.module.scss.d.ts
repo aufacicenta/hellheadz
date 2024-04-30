@@ -1,5 +1,7 @@
 export type Styles = {
   footer: string;
+  footer__center: string;
+  "footer__center--item": string;
   footer__copyright: string;
   "footer__copyright--social": string;
   "footer__copyright--social-aufacicenta-icon": string;
@@ -12,8 +14,10 @@ export type Styles = {
   "footer__cta-banner--icon": string;
   "footer__cta-banner--link": string;
   "footer__cta-banner--welcome": string;
+  "footer__left--item": string;
   "footer__powered-by": string;
   footer__right: string;
+  "footer__right--item": string;
   "z-depth-0": string;
   "z-depth-1": string;
   "z-depth-1-half": string;

@@ -1,18 +1,18 @@
 .button-outline {
   @include font-properties($typography-button-label);
   min-width: 88px;
-  border: 2px solid var(--color-button-primary);
+  border: 2px solid var(--color-button-outlined-primary-border);
   border-radius: $border-radius-button;
   padding: 11px 22px;
-  color: var(--color-primary);
+  color: var(--color-button-outlined-primary-text);
   background-position: center;
   transition: background $duration-slow, border-color $duration-medium, color $duration-medium;
 
   &:hover,
   &:focus {
-    border-color: var(--color-button-primary-hover);
-    color: var(--color-button-primary-hover-text);
-    background: var(--color-button-primary-hover);
+    border-color: var(--color-button-outlined-primary-border-hover);
+    color: var(--color-button-outlined-primary-hover-text);
+    background: var(--color-button-outlined-primary-hover);
   }
 
   &:focus {

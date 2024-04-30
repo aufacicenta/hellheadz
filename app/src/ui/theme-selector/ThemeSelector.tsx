@@ -17,9 +17,10 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ className, fixed }
       onClick={handleOnThemeChange}
       onKeyPress={handleOnThemeChange}
       role="button"
+      aria-label="Change theme"
       tabIndex={0}
     >
-      <Icon name={theme === "fileagent" ? "icon-moon-2" : "icon-sun"} className={styles["theme-selector__icon"]} />
+      <Icon name={theme === "svpervnder" ? "icon-moon" : "icon-sun"} className={styles["theme-selector__icon"]} />
     </div>
   );
 };

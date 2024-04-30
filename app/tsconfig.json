@@ -26,10 +26,16 @@
       "layouts/*": ["src/layouts/*"],
       "api/*": ["src/pages/api/*"],
       "providers/*": ["src/providers/*"],
-      "types/*": ["src/types/*"]
+      "types/*": ["src/types/*"],
+      "react": ["./node_modules/@types/react"]
     },
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules", "**/**/*.test.ts", "**/**/*.test.tsx"]
 }

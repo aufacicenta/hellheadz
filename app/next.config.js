@@ -17,14 +17,6 @@ module.exports = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  async headers() {
-    return [
-      {
-        source: "/api/:path*",
-        headers: [{ key: "Access-Control-Allow-Origin", value: process.env.NEXT_PUBLIC_ORIGIN }],
-      },
-    ];
-  },
   webpack: (config) => {
     const oneOf = config.module.rules.find((rule) => typeof rule.oneOf === "object");
 

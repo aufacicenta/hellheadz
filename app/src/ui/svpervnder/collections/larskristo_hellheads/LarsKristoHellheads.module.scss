@@ -1,0 +1,18 @@
+@import "src/theme/base";
+@import "src/ui/typography/variables";
+
+.latest-collection {
+  display: block;
+
+  &__intro {
+    text-align: right;
+
+    &--artist-name {
+      color: var(--color-primary);
+    }
+  }
+
+  &__grid {
+    margin-top: $space-l;
+  }
+}

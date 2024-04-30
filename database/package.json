@@ -1,8 +1,15 @@
 {
   "name": "@aufacicenta/fileagent-db",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
   "main": "server.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aufacicenta/fileagent.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:up": "echo creating && npm run db:create && echo created && npm run db:migrate && echo migrated",

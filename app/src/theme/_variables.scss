@@ -88,7 +88,7 @@ $border-radius-input: 7px !default;
 $border-radius-modal: 23px !default;
 
 // Spacing
-$space-default: rem(16) !default;
+$space-default: rem-calc(16) !default;
 $gutter-width: $space-default * 2;
 $space-xxs: $space-default / 8 !default;
 $space-xs: $space-default / 4 !default;
@@ -216,7 +216,7 @@ $mobile-menu-width: 360px !default;
 
 // Forms
 // Radio Buttons
-$form-radio: rem(20) !default;
+$form-radio: rem-calc(20) !default;
 
 // Checkbox
 $checkbox-size: $form-radio !default;
