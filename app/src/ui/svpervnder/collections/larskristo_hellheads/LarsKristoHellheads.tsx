@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Grid } from "ui/grid/Grid";
 import { Typography } from "ui/typography/Typography";
 import { Button } from "ui/button/Button";
+import { useRoutes } from "hooks/useRoutes/useRoutes";
 
 import styles from "./LarsKristoHellheads.module.scss";
 import { ItemMetadata, LatestCollectionProps } from "./LarsKristoHellheads.types";
@@ -14,6 +15,8 @@ import { GridItem } from "./grid-item/GridItem";
 export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className }) => {
   const [isDetailsModalVisible, displayDetailsModals] = useState(false);
   const [currentItem, setCurrentItem] = useState<ItemMetadata | undefined>();
+
+  const routes = useRoutes();
 
   const handleExpand = (item: ItemMetadata, tokenId: number) => {
     setCurrentItem({ ...item, id: tokenId });
@@ -46,7 +49,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 </Typography.Text>
                 <Grid.Row>
                   <Grid.Col>
-                    <Button color="secondary" size="s" variant="outlined">
+                    <Button color="secondary" size="s" variant="outlined" as="link" href={routes.artists.larskristo()}>
                       See Artist
                     </Button>
                   </Grid.Col>

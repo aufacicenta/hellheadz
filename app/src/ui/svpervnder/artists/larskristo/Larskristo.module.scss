@@ -1,0 +1,25 @@
+@import "src/theme/base";
+@import "src/theme/mixins";
+
+.larskristo {
+  @include hero;
+  display: block;
+
+  &__hero {
+    @include atLargeTablet {
+      justify-content: center;
+    }
+    justify-content: flex-end;
+    height: 80vh;
+  }
+
+  &__socials-row {
+    display: flex;
+    margin-top: $space-ml;
+
+    button,
+    a {
+      margin-right: $space-default;
+    }
+  }
+}

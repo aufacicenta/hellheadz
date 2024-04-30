@@ -11,6 +11,16 @@ export type ButtonCommonProps = {
   leftIcon?: ReactNode;
   fullWidth?: boolean;
   animate?: "pulse";
+  respectCase?: boolean;
+};
+
+export type AnchorButtonProps = Omit<
+  DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>,
+  "ref"
+> & {
+  disabled?: undefined;
+  type?: undefined;
+  as: "a";
 };
 
 export type LinkButtonProps = Omit<
@@ -19,7 +29,7 @@ export type LinkButtonProps = Omit<
 > & {
   disabled?: undefined;
   type?: undefined;
-  as: "a";
+  as: "link";
 };
 
 export type DefaultButtonProps = Omit<
@@ -30,4 +40,4 @@ export type DefaultButtonProps = Omit<
   href?: undefined;
 };
 
-export type ButtonProps = ButtonCommonProps & (LinkButtonProps | DefaultButtonProps);
+export type ButtonProps = ButtonCommonProps & (AnchorButtonProps | DefaultButtonProps | LinkButtonProps);

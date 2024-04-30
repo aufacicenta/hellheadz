@@ -10,6 +10,7 @@ export type Styles = {
   "button__icon--right": string;
   button__loader: string;
   "button__loading-floating-border": string;
+  "button__respect-case": string;
   "button--auto-size": string;
   "button--danger": string;
   "button--dark": string;

@@ -23,6 +23,10 @@ $HALF_LOADER_SIZE: 15px;
   text-align: center;
   cursor: pointer;
 
+  &__respect-case {
+    text-transform: none;
+  }
+
   p,
   span {
     font-size: inherit;
@@ -342,16 +346,28 @@ $HALF_LOADER_SIZE: 15px;
       }
     }
 
-    &.button--secondary {
-      border-color: var(--color-button-secondary);
-      color: var(--color-button-secondary-text);
+    &.button--primary {
+      color: var(--color-button-outlined-primary-text);
 
       &:active,
       &:hover,
       &:focus {
-        border-color: var(--color-button-secondary-hover);
-        color: var(--color-button-secondary-hover-text);
-        background: var(--color-button-secondary-hover);
+        border-color: var(--color-button-outlined-primary-border-hover);
+        color: var(--color-button-outlined-primary-hover-text);
+        background: var(--color-button-outlined-primary-hover);
+      }
+    }
+
+    &.button--secondary {
+      border-color: var(--color-button-outlined-secondary-border);
+      color: var(--color-button-outlined-secondary-text);
+
+      &:active,
+      &:hover,
+      &:focus {
+        border-color: var(--color-button-outlined-secondary-border-hover);
+        color: var(--color-button-outlined-secondary-hover-text);
+        background: var(--color-button-outlined-secondary-hover);
       }
 
       &[disabled] {
@@ -362,9 +378,9 @@ $HALF_LOADER_SIZE: 15px;
         &:active,
         &:hover,
         &:focus {
-          border-color: var(--color-button-secondary-hover);
-          color: var(--color-button-secondary-text);
-          background: var(--color-button-secondary-hover);
+          border-color: var(--color-button-outlined-secondary-hover);
+          color: var(--color-button-outlined-secondary-text);
+          background: var(--color-button-outlined-secondary-hover);
         }
       }
     }
@@ -443,28 +459,6 @@ $HALF_LOADER_SIZE: 15px;
       &:hover,
       &:focus {
         color: var(--color-white);
-      }
-    }
-
-    &.button--primary {
-      background-color: transparent;
-
-      .button__icon--right {
-        svg {
-          fill: var(--color-button-primary);
-        }
-      }
-
-      &:active,
-      &:hover,
-      &:focus {
-        border-color: var(--color-button-outlined-primary-hover-text);
-
-        .button__icon--right {
-          svg {
-            fill: var(--color-button-primary-text);
-          }
-        }
       }
     }
   }
