@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Grid } from "ui/grid/Grid";
 import { Card } from "ui/card/Card";
@@ -7,6 +7,7 @@ import { Typography } from "ui/typography/Typography";
 import { Icon } from "ui/icon/Icon";
 import { useLarskristoHellheadsContext } from "context/evm/larskristo-hellheads/useLarskristoHellheadsContext";
 import { TokenPrice } from "context/evm/larskristo-hellheads/LarskristoHellheadsContext.types";
+import { Button } from "ui/button/Button";
 
 import styles from "./GridItem.module.scss";
 import { GridItemProps } from "./GridItem.types";
@@ -17,21 +18,19 @@ export const GridItem: React.FC<GridItemProps> = ({ item, index, handleExpand, c
 
   const ERC721 = useLarskristoHellheadsContext();
 
-  useEffect(() => {
+  const handleOnRevealPriceClick = async () => {
     if (tokenPrice) {
       return;
     }
 
     setIsFetchingTokenPrice(true);
 
-    setTimeout(async () => {
-      const result = await ERC721.getTokenPrice(index, { excludeExchangeRate: true });
+    const result = await ERC721.getTokenPrice(index, { excludeExchangeRate: true });
 
-      setTokenPrice(result);
+    setTokenPrice(result);
 
-      setIsFetchingTokenPrice(false);
-    }, 500 + 100 * (index + 1));
-  }, [index]);
+    setIsFetchingTokenPrice(false);
+  };
 
   const renderTokenPrice = () => {
     if (tokenPrice?.rawValue === BigInt(0)) {
@@ -46,7 +45,7 @@ export const GridItem: React.FC<GridItemProps> = ({ item, index, handleExpand, c
       );
     }
 
-    return <>{isFetchingTokenPrice ? "..." : "Reveal Price"}</>;
+    return <>{isFetchingTokenPrice && "..."}</>;
   };
 
   return (
@@ -63,9 +62,15 @@ export const GridItem: React.FC<GridItemProps> = ({ item, index, handleExpand, c
           </div>
           <div className={styles["grid-item__price-row"]}>
             <div>
-              <Typography.TextLead flat className={styles["grid-item__price"]}>
-                {renderTokenPrice()}
-              </Typography.TextLead>
+              {!tokenPrice?.formattedValue ? (
+                <Button variant="text" color="secondary" size="l" onClick={handleOnRevealPriceClick}>
+                  Reveal Price
+                </Button>
+              ) : (
+                <Typography.TextLead flat className={styles["grid-item__price"]}>
+                  {renderTokenPrice()}
+                </Typography.TextLead>
+              )}
             </div>
             <div>
               <Icon

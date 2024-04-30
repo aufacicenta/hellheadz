@@ -306,6 +306,10 @@ $HALF_LOADER_SIZE: 15px;
     padding: 0;
     transition: opacity $duration-medium;
 
+    &.button--large {
+      font-size: $font-size-text-lead;
+    }
+
     &.button--primary,
     &.button--secondary,
     &.button--success,
