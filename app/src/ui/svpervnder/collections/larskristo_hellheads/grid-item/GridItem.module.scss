@@ -1,4 +1,5 @@
 @import "src/theme/base";
+@import "src/ui/typography/variables";
 
 .grid-item {
   display: block;
@@ -27,6 +28,10 @@
   &__name-row {
     display: flex;
     justify-content: space-between;
+
+    &--name {
+      color: var(--color-typography-text);
+    }
   }
 
   &__price-row {
@@ -39,13 +44,22 @@
       justify-content: center;
       align-items: center;
     }
-  }
 
-  &__price {
-    color: var(--color-typography-text);
-
-    span {
+    &--button,
+    &--amount {
+      @include atLargeTablet {
+        font-size: $font-size-text-lead !important;
+      }
+      font-size: $font-size-description !important;
       color: var(--color-typography-description);
+    }
+
+    &--amount {
+      color: var(--color-typography-text);
+
+      span {
+        color: var(--color-typography-description);
+      }
     }
   }
 

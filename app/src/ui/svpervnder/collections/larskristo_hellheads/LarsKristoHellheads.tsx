@@ -18,8 +18,8 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
 
   const routes = useRoutes();
 
-  const handleExpand = (item: ItemMetadata, tokenId: number) => {
-    setCurrentItem({ ...item, id: tokenId });
+  const handleExpand = (item: ItemMetadata) => {
+    setCurrentItem(item);
     displayDetailsModals(true);
   };
 
@@ -60,8 +60,8 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
 
           <section className={styles["latest-collection__grid"]}>
             <Grid.Row>
-              {metadata.map((item: ItemMetadata, index) => (
-                <GridItem key={item.thumbnail} item={item} index={index} handleExpand={handleExpand} />
+              {metadata.map((item: ItemMetadata) => (
+                <GridItem key={item.id} item={item} handleExpand={handleExpand} />
               ))}
             </Grid.Row>
           </section>

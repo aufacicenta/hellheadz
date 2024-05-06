@@ -6,6 +6,5 @@ export type GridItemProps = {
   children?: ReactNode;
   className?: string;
   item: ItemMetadata;
-  index: number;
-  handleExpand: (item: ItemMetadata, index: number) => void;
+  handleExpand: (item: ItemMetadata) => void;
 };

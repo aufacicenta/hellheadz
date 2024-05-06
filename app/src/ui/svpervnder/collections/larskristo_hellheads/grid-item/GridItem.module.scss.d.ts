@@ -3,8 +3,10 @@ export type Styles = {
   "grid-item__expand": string;
   "grid-item__img": string;
   "grid-item__name-row": string;
-  "grid-item__price": string;
+  "grid-item__name-row--name": string;
   "grid-item__price-row": string;
+  "grid-item__price-row--amount": string;
+  "grid-item__price-row--button": string;
   "z-depth-0": string;
   "z-depth-1": string;
   "z-depth-1-half": string;

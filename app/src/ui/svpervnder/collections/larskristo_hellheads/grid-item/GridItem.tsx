@@ -12,7 +12,7 @@ import { Button } from "ui/button/Button";
 import styles from "./GridItem.module.scss";
 import { GridItemProps } from "./GridItem.types";
 
-export const GridItem: React.FC<GridItemProps> = ({ item, index, handleExpand, className }) => {
+export const GridItem: React.FC<GridItemProps> = ({ item, handleExpand, className }) => {
   const [tokenPrice, setTokenPrice] = useState<TokenPrice | undefined>();
   const [isFetchingTokenPrice, setIsFetchingTokenPrice] = useState(false);
 
@@ -25,7 +25,7 @@ export const GridItem: React.FC<GridItemProps> = ({ item, index, handleExpand, c
 
     setIsFetchingTokenPrice(true);
 
-    const result = await ERC721.getTokenPrice(index, { excludeExchangeRate: true });
+    const result = await ERC721.getTokenPrice(item.id, { excludeExchangeRate: true });
 
     setTokenPrice(result);
 
@@ -49,35 +49,36 @@ export const GridItem: React.FC<GridItemProps> = ({ item, index, handleExpand, c
   };
 
   return (
-    <Grid.Col lg={3} xs={12} key={item.thumbnail} className={clsx(styles["grid-item"], className)}>
+    <Grid.Col lg={2} xs={6} key={item.thumbnail} className={clsx(styles["grid-item"], className)}>
       <Card className={styles["grid-item"]} withSpotlightEffect>
         <div className={styles["grid-item__img"]}>
           <img src={item.thumbnail} alt={item.name} />
         </div>
         <Card.Content>
           <div className={styles["grid-item__name-row"]}>
-            <div>
-              <Typography.Description>{item.name}</Typography.Description>
-            </div>
+            <Typography.Description className={styles["grid-item__name-row--name"]}>{item.name}</Typography.Description>
+            <Typography.Description>#{item.id}</Typography.Description>
           </div>
           <div className={styles["grid-item__price-row"]}>
             <div>
               {!tokenPrice?.formattedValue ? (
-                <Button variant="text" color="secondary" size="l" onClick={handleOnRevealPriceClick}>
+                <Button
+                  variant="text"
+                  color="secondary"
+                  size="l"
+                  onClick={handleOnRevealPriceClick}
+                  className={styles["grid-item__price-row--button"]}
+                >
                   Reveal Price
                 </Button>
               ) : (
-                <Typography.TextLead flat className={styles["grid-item__price"]}>
+                <Typography.TextLead flat className={styles["grid-item__price-row--amount"]}>
                   {renderTokenPrice()}
                 </Typography.TextLead>
               )}
             </div>
             <div>
-              <Icon
-                name="icon-expand"
-                className={styles["grid-item__expand"]}
-                onClick={() => handleExpand(item, index)}
-              />
+              <Icon name="icon-expand" className={styles["grid-item__expand"]} onClick={() => handleExpand(item)} />
             </div>
           </div>
         </Card.Content>
