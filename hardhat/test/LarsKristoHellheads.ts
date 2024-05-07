@@ -88,6 +88,13 @@ describe("Lease", function () {
 
     const totalSupply = await ERC721.totalSupply();
     expect(totalSupply).to.equal(5);
+
+    await expect(ERC721.tokenURI(0)).to.be.revertedWithCustomError(ERC721, `ERC721NonexistentToken`);
+
+    const tokenUri1 = await ERC721.tokenURI(1);
+    expect(tokenUri1).to.equal(
+      "https://blockchainassetregistry.infura-ipfs.io/ipfs/QmbbdDACM5nkGqRG3cSmk8hYL46XWFkT8zvkbnrbcbSqa1",
+    );
   });
 
   it("getTokenPrice", async function () {

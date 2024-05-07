@@ -34,7 +34,7 @@ contract LarsKristoHellheads is ERC721Enumerable, ERC721Royalty {
     "QmcYmjn38SgzALqpPbF9CZW8cYAsXfJ1mhtwbgLzduyhg8",
     "QmcbENcreBLSTcAAvLCjPBo49pVJNJtkbyzpb3ynhqJGBS",
     "QmY5QA3UpM2SRLUnSsaW9QdhJWjUkYEMRTuSCHsEYnuEsp",
-    "QmSV5d7ZMFh4YwbSeu5z3dQEfmDpRypYDs38PxPfAA5t2F"
+    // "QmSV5d7ZMFh4YwbSeu5z3dQEfmDpRypYDs38PxPfAA5t2F",
     // "QmSvgLvyJGhGTV6poQqDF7jzpPPwfTnud9zHifYTxBBacC",
     // "QmYaro69wvY7roAFWDFyCC5dh5kn17HN8qgWUZAuciA6h6",
     // "QmaDsufnz36gbmPYA6eYu1G5XpNwV8cwnx75oRhqaRYFqV",
@@ -246,7 +246,7 @@ contract LarsKristoHellheads is ERC721Enumerable, ERC721Royalty {
     // "QmWvJsae9bUBdcQpCbrcX3hTTh3TMqTRMHy1qiZsevynP4",
     // "QmUK8NWeCrEHzDAZzhRv9UtN3S93PHktAtLQEgPKJcXYAk",
     // "QmQutJnFVacdvgaoZYriSKy8FGqc7CPtYCvgnNnqXFkMgM",
-    // "QmbdpFqJY5NhihXwFQkDZAJd4jvgUP8YZkAeqyaJkjNuPn"
+    "QmbdpFqJY5NhihXwFQkDZAJd4jvgUP8YZkAeqyaJkjNuPn"
   ];
 
   constructor(
@@ -370,7 +370,7 @@ contract LarsKristoHellheads is ERC721Enumerable, ERC721Royalty {
     _requireOwned(tokenId);
 
     string memory baseURI = _baseURI();
-    string memory tokenURIhash = tokenURIs[tokenId];
+    string memory tokenURIhash = tokenURIs[tokenId - 1];
 
     return bytes(baseURI).length > 0 ? string.concat(baseURI, tokenURIhash) : "";
   }
