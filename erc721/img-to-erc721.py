@@ -9,7 +9,7 @@ from PIL import ImageFont
 from PIL import ImageDraw
 import re
 
-PY_ENV = "test"
+PY_ENV = "prod"
 
 # Load the environment variables from the .env file
 load_dotenv()
@@ -18,16 +18,43 @@ open_ai_client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
 )
 
-src_dir_path = "./files/hellheads/watermarks_copy"
-watermarks_dir_path = "./files/hellheads/watermarks_copy"
+src_dir_path = "./files/svpervnder"
+watermarks_dir_path = "./files/svpervnder"
 thumbnail_extension = "_thumbnail"
-metadata_file_name = "metadata-final.json"
+metadata_file_name = "metadata-svpervnder.json"
+watermark_text = "@svpervnder"
+generic_description_text = "The svpervnder trademark logo NFT"
 
 ipfs_gateway_url = "https://blockchainassetregistry.infura-ipfs.io/ipfs/"
 
 # Get the values of projectId and projectSecret from the environment variables
 infura_project_id = os.getenv("INFURA_PROJECT_ID")
 infura_project_secret = os.getenv("INFURA_PROJECT_SECRET")
+
+
+def create_token_uri_from_metadata_object():
+    # Read the metadata from the JSON file
+    with open(metadata_file_name, "r") as f:
+        metadata_list = json.load(f)
+
+    # Loop through each metadata object
+    for metadata in metadata_list:
+        # Create a temporary JSON file for the metadata object
+        temp_file_path = "./temp_metadata.json"
+        with open(temp_file_path, "w") as temp_file:
+            json.dump(metadata, temp_file)
+
+        # Upload the temporary JSON file to IPFS
+        token_uri = upload_file_to_ipfs(temp_file_path)
+        print(f"create_token_uri_from_metadata_object.token_uri: {token_uri}")
+
+        with open("tokenURIs.txt", "a") as f:
+            # Write the token URI to a text file
+            f.write(f"\n{token_uri}")
+            f.close()
+
+        # Remove the temporary JSON file
+        os.remove(temp_file_path)
 
 
 def encode_image(image_path):
@@ -71,7 +98,7 @@ def add_image_watermark():
                 x, y = w - font_size * 4, h - font_size * 4
                 font = ImageFont.truetype("PPNeueMachina-InktrapRegular.otf", font_size)
                 draw.text(
-                    (x, y), "@larskristo", fill=(64, 64, 74), font=font, anchor="ms"
+                    (x, y), watermark_text, fill=(64, 64, 74), font=font, anchor="ms"
                 )
                 img.save(os.path.join(watermarks_dir_path, filename))
 
@@ -285,7 +312,7 @@ def create_metadata_from_image_files():
             metadata = {
                 "id": token_id,
                 "name": name,
-                "description": "Experience the captivating world of dark art through the mesmerizing creations of Larskristo. Delve into the depths of the human psyche as each piece unveils a haunting narrative, blending beauty and darkness in a unique and thought-provoking way. With intricate details and a mastery of technique, this artist pushes the boundaries of conventional art, inviting you to explore the shadows and embrace the enigmatic allure of the unknown.",
+                "description": generic_description_text,
                 "image": f"{ipfs_gateway_url}{image_ipfs_hash}",
                 "thumbnail": f"{ipfs_gateway_url}{thumbnail_ipfs_hash}",
             }
@@ -305,9 +332,9 @@ def main():
     # complete_image_filenames()
     # create_metadata_from_image_files()
     # append_real_image_urls_to_metadata_file()
-    remove_digits_from_name()
+    # remove_digits_from_name()
     # create_metadata()
-    # create_token_uri_from_metadata_object()
+    create_token_uri_from_metadata_object()
     # create_img_thumbnails()
     # add_image_watermark()
 
