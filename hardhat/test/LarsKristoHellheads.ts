@@ -8,13 +8,12 @@ import { ethers, network } from "hardhat";
 import { DummyERC721, Lease as Lease721 } from "../typechain-types";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
-const DAO_ACCOUNT_ID = "dao_account.eth";
-const MARKET_CREATOR_ACCOUNT_ID = "creator.eth";
-const ASSET_ACCOUNT_ID = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-const TENANT_ACCOUNT_ID = "0x41231dadda96380c114e75e0da8a2b207d9232c2";
+const AUTHOR_ACCOUNT_ID = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+const OPERATOR_ACCOUNT_ID = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC";
 
 const TOKEN_NAME = "larskristo: hellheads";
 const TOKEN_SYMBOL = "LKHH";
+const TOKEN_LIMIT = 7;
 
 async function getBlockTimestamp() {
   const blockNumBefore = await ethers.provider.getBlockNumber();
@@ -25,11 +24,19 @@ async function getBlockTimestamp() {
 }
 
 async function createERC721Contract() {
-  const [, , signer] = await ethers.getSigners();
+  const [fund, , signer] = await ethers.getSigners();
+
+  await fund.sendTransaction({ to: signer.address, value: ethers.parseEther("2") });
 
   const ERC721 = await ethers.getContractFactory("LarsKristoHellheads");
 
-  const contract = await ERC721.connect(signer).deploy(TOKEN_NAME, TOKEN_SYMBOL);
+  const contract = await ERC721.connect(signer).deploy(
+    TOKEN_NAME,
+    TOKEN_SYMBOL,
+    AUTHOR_ACCOUNT_ID,
+    OPERATOR_ACCOUNT_ID,
+    TOKEN_LIMIT,
+  );
 
   return contract;
 }
@@ -45,10 +52,10 @@ describe("Lease", function () {
     const name = await ERC721.name();
     const symbol = await ERC721.symbol();
 
-    const ownerOf0 = await ERC721.ownerOf(0);
-    const ownerOf1 = await ERC721.ownerOf(1);
-    const ownerOf2 = await ERC721.ownerOf(2);
-    const ownerOf3 = await ERC721.ownerOf(3);
+    const ownerOf0 = await ERC721.ownerOf(1);
+    const ownerOf1 = await ERC721.ownerOf(2);
+    const ownerOf2 = await ERC721.ownerOf(3);
+    const ownerOf3 = await ERC721.ownerOf(4);
 
     expect(name).to.equal(TOKEN_NAME);
     expect(symbol).to.equal(TOKEN_SYMBOL);
@@ -68,7 +75,7 @@ describe("Lease", function () {
     // console.log({ token0, token1, token2, token3 });
 
     // check for token price
-    const price = await ERC721.getTokenPrice(0);
+    const price = await ERC721.getTokenPrice(1);
     expect(ethers.formatEther(price)).to.equal("0.5");
 
     // check approval for all
@@ -78,12 +85,15 @@ describe("Lease", function () {
 
     const isApprovedForAll = await ERC721.isApprovedForAll(author.address, operator.address);
     expect(isApprovedForAll).to.be.true;
+
+    const totalSupply = await ERC721.totalSupply();
+    expect(totalSupply).to.equal(5);
   });
 
   it("getTokenPrice", async function () {
     const ERC721 = await createERC721Contract();
 
-    const price = await ERC721.getTokenPrice(0);
+    const price = await ERC721.getTokenPrice(1);
 
     // console.log({ price: ethers.formatEther(price) });
 
@@ -95,9 +105,9 @@ describe("Lease", function () {
 
     const ERC721 = await createERC721Contract();
 
-    const price = await ERC721.getTokenPrice(0);
+    const price = await ERC721.getTokenPrice(1);
 
-    const royaltyInfo = await ERC721.royaltyInfo(0, price);
+    const royaltyInfo = await ERC721.royaltyInfo(1, price);
 
     // console.log({ price: ethers.formatEther(price), royaltyInfo });
 
@@ -114,17 +124,17 @@ describe("Lease", function () {
 
     await ERC721.connect(author).setApprovalForAll(operator.address, true);
 
-    await ERC721.connect(operator).setTokenForSale(0, BigInt(ethers.parseEther("0.6")));
+    await ERC721.connect(operator).setTokenForSale(1, BigInt(ethers.parseEther("0.6")));
 
-    const price1 = await ERC721.getTokenPrice(0);
+    const price1 = await ERC721.getTokenPrice(1);
 
     // console.log({ price1: ethers.formatEther(price1) });
 
     expect(ethers.formatEther(price1)).to.equal("0.6");
 
-    await ERC721.connect(author).setTokenForSale(1, BigInt(ethers.parseEther("0.6")));
+    await ERC721.connect(author).setTokenForSale(2, BigInt(ethers.parseEther("0.6")));
 
-    const price2 = await ERC721.getTokenPrice(0);
+    const price2 = await ERC721.getTokenPrice(2);
 
     // console.log({ price2: ethers.formatEther(price2) });
 
@@ -150,7 +160,9 @@ describe("Lease", function () {
 
     await ERC721.connect(author).setApprovalForAll(operator.address, true);
 
-    await ERC721.connect(operator).setTokenForSale(0, BigInt(ethers.parseEther("1")));
+    const price = ethers.parseEther("1");
+
+    await ERC721.connect(operator).setTokenForSale(1, price);
 
     // authorBalance = await ethers.provider.getBalance(author.address);
     // operatorBalance = await ethers.provider.getBalance(operator.address);
@@ -166,22 +178,23 @@ describe("Lease", function () {
       // console.log({ from, to, tokenId });
       expect(from).to.equal(author.address);
       expect(to).to.equal(buyer.address);
-      expect(tokenId).to.equal(0);
+      expect(tokenId).to.equal(1);
     });
 
-    await expect(ERC721.connect(buyer).buyToken(0, { value: ethers.parseEther("1") }))
-      .to.emit(ERC721, "Purchase")
-      .withArgs(
-        author.address,
-        buyer.address,
-        BigInt(0),
-        ethers.parseEther("1"),
-        ethers.parseEther("0.1"),
-        ethers.parseEther("0.03"),
-        ethers.parseEther("0.87"),
-      );
+    const authorFee = ethers.parseEther("0.1");
+    const operatorFee = ethers.parseEther("0.03");
+    const sellerProfit = ethers.parseEther("0.87");
 
-    const ownerOf0 = await ERC721.ownerOf(0);
+    await expect(ERC721.connect(buyer).buyToken(1, { value: price }))
+      .to.emit(ERC721, "Purchase")
+      .withArgs(author.address, buyer.address, 1, price, authorFee, operatorFee, sellerProfit);
+
+    // console.log({ authorFee, price, percentage: (authorFee * 100n) / price });
+    expect((authorFee * 100n) / price).to.equal(10n);
+    expect((operatorFee * 100n) / price).to.equal(3n);
+    expect(price - authorFee - operatorFee).to.equal(sellerProfit);
+
+    const ownerOf0 = await ERC721.ownerOf(1);
 
     // console.log({ ownerOf0 });
 
@@ -198,17 +211,43 @@ describe("Lease", function () {
     // });
 
     // only the buyer should set prices now
-    await expect(ERC721.connect(author).setTokenForSale(0, BigInt(ethers.parseEther("2")))).to.be.reverted;
-    await expect(ERC721.connect(operator).setTokenForSale(0, BigInt(ethers.parseEther("2")))).to.be.reverted;
+    await expect(ERC721.connect(author).setTokenForSale(1, BigInt(ethers.parseEther("2")))).to.be.reverted;
+    await expect(ERC721.connect(operator).setTokenForSale(1, BigInt(ethers.parseEther("2")))).to.be.reverted;
 
-    await expect(ERC721.connect(buyer).setTokenForSale(0, BigInt(ethers.parseEther("2"))))
+    await expect(ERC721.connect(buyer).setTokenForSale(1, BigInt(ethers.parseEther("2"))))
       .to.emit(ERC721, "SetTokenForSale")
-      .withArgs(buyer.address, 0, BigInt(ethers.parseEther("2")));
+      .withArgs(buyer.address, 1, BigInt(ethers.parseEther("2")));
 
-    const newPrice = await ERC721.getTokenPrice(0);
+    const newPrice = await ERC721.getTokenPrice(1);
     expect(ethers.formatEther(newPrice)).to.equal("2.0");
 
     // too poor to buy
-    await expect(ERC721.connect(someoneElse).buyToken(0, { value: BigInt(ethers.parseEther("1")) })).to.be.reverted;
+    await expect(ERC721.connect(someoneElse).buyToken(1, { value: BigInt(ethers.parseEther("1")) })).to.be.reverted;
+  });
+
+  it("mintUntilDoomsday", async function () {
+    const [author, , , someoneElse] = await ethers.getSigners();
+
+    const ERC721 = await createERC721Contract();
+
+    await ERC721.connect(author).mintUntilDoomsday();
+
+    let totalSupply = await ERC721.totalSupply();
+    expect(totalSupply).to.equal(6);
+
+    await expect(ERC721.connect(someoneElse).mintUntilDoomsday()).to.be.revertedWithCustomError(
+      ERC721,
+      `ERC721InvalidOwner`,
+    );
+
+    await ERC721.connect(author).mintUntilDoomsday();
+
+    totalSupply = await ERC721.totalSupply();
+    expect(totalSupply).to.equal(7);
+
+    await expect(ERC721.connect(author).mintUntilDoomsday()).to.be.revertedWithCustomError(
+      ERC721,
+      `ERC721ForbiddenMint`,
+    );
   });
 });
