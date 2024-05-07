@@ -28,7 +28,7 @@ async function createERC721Contract() {
 
   await fund.sendTransaction({ to: signer.address, value: ethers.parseEther("2") });
 
-  const ERC721 = await ethers.getContractFactory("LarsKristoHellheads");
+  const ERC721 = await ethers.getContractFactory("LarsKristoHellheadz");
 
   const contract = await ERC721.connect(signer).deploy(
     TOKEN_NAME,
@@ -41,7 +41,7 @@ async function createERC721Contract() {
   return contract;
 }
 
-describe("Lease", function () {
+describe("LarskristoHellheadz", function () {
   it("Initialize: call constructor", async function () {
     const [author, , operator] = await ethers.getSigners();
 

@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Royalty.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract LarsKristoHellheads is ERC721Enumerable, ERC721Royalty {
+contract LarsKristoHellheadz is ERC721Enumerable, ERC721Royalty {
   error ERC721InvalidPrice(uint256 price);
   error ERC721InvalidPurchaseAmount(uint256 tokenId, uint256 price, uint256 balance);
   error ERC721ForbiddenMint(uint256 tokenId);
