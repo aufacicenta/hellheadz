@@ -268,7 +268,7 @@ contract LarsKristoHellheadz is ERC721Enumerable, ERC721Royalty {
     _setDefaultRoyalty(_author, 1000); // 10% royalty
   }
 
-  function mintUntilDoomsday() public {
+  function mintUntilDoomsday(string memory tokenURI_) public {
     if (_msgSender() != _author) {
       revert ERC721InvalidOwner(_msgSender());
     }
@@ -280,6 +280,7 @@ contract LarsKristoHellheadz is ERC721Enumerable, ERC721Royalty {
     }
 
     _safeMint(_author, tokenId);
+    tokenURIs.push(tokenURI_);
   }
 
   function buyToken(uint256 tokenId) public payable returns (uint256, uint256, uint256) {
