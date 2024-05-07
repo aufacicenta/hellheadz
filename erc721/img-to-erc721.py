@@ -8,6 +8,7 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 import re
+import anthropic
 
 PY_ENV = "prod"
 
@@ -18,10 +19,13 @@ open_ai_client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
 )
 
-src_dir_path = "./files/svpervnder"
-watermarks_dir_path = "./files/svpervnder"
+claude_anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPICAI_API_KEY"))
+
+src_dir_path = "./files/hellheads/watermarks_copy"
+watermarks_dir_path = "./files/hellheads/watermarks_copy"
 thumbnail_extension = "_thumbnail"
-metadata_file_name = "metadata-svpervnder.json"
+metadata_file_name = "metadata-final.json"
+metadata_ai_descriptions_file_name = "metadata-final-free-descriptions.json"
 watermark_text = "@svpervnder"
 generic_description_text = "The svpervnder trademark logo NFT"
 
@@ -138,7 +142,55 @@ def upload_file_to_ipfs(file_path):
         return None
 
 
-def get_image_description(image_url):
+def get_claude_image_description(image_url, name, id):
+    print(f"get_claude_image_description.image_url: {image_url} for {name}, {id}")
+
+    res = [
+        filename
+        for filename in sorted(os.listdir(watermarks_dir_path))
+        if re.search(rf"{name}*_thumbnail\.(PNG|jpg|png|jpeg|JPG)$", filename)
+    ]
+    for file in res:
+        filename = file
+        image_data = base64.b64encode(
+            open(f"{src_dir_path}/{file}", "rb").read()
+        ).decode("utf-8")
+
+    file_extension = filename.split(".")[-1].lower()
+    file_extension = "jpeg" if file_extension == "jpg" else file_extension
+    image_media_type = f"image/{file_extension}"
+    message = claude_anthropic_client.messages.create(
+        model="claude-3-opus-20240229",
+        max_tokens=140,
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": image_media_type,
+                            "data": image_data,
+                        },
+                    },
+                    {
+                        "type": "text",
+                        "text": f"Describe what you see in no more than 140 characters. The language should be inspired in the author's common style but you are not limited to use his same words. Examples of the author's style are: 'In a field of poppies, crimson shadows loom, Death's silent whispers, a dark, haunting tomb.' OR 'Veiled in the midnight realm, a clandestine assembly of elderly spirits murmur incantations. Enigmatic shadows embrace the ritual, weaving a tapestry of arcane whispers. A spectral convergence, a dance of the ages obscured in the shroud of shrieking voices.' OR 'In the desolate skeletal graveyard, shadows cling to the weathered bones, and a spectral gloom pervades the air as forgotten souls languish in eternal decay. A haunting silence reigns, broken only by the mournful whispers of the departed, their essence dissolving into the abyss of an endless, somber night.' OR 'Steel shadows dance, humanity's hush, Silent echoes in circuits' cold rush. Whispers of life, now swallowed by automation, In the kingdom of machines, we fade from sight.'",
+                    },
+                ],
+            }
+        ],
+    )
+
+    content = message.content[0].text
+
+    print(f"get_claud_image_description.content: {content}")
+
+    return content
+
+
+def get_openai_image_description(image_url):
     print(f"get_image_description: {image_url}")
 
     response = open_ai_client.chat.completions.create(
@@ -162,6 +214,44 @@ def get_image_description(image_url):
     print(f"get_image_description: {description}")
 
     return response.choices[0].message[1].content[0].text
+
+
+def extend_image_description_of_metadata_items():
+    with open(metadata_ai_descriptions_file_name, "r") as final_descriptions_json_file:
+        existing_json_metadata = json.load(final_descriptions_json_file)
+
+    with open(metadata_file_name, "r") as descriptions_json_file:
+        json_metadata = json.load(descriptions_json_file)
+
+    existing_names = [metadata["name"] for metadata in existing_json_metadata]
+
+    # Loop through each metadata object
+    for metadata in json_metadata:
+        if metadata["name"] in existing_names:
+            continue
+
+        description = get_claude_image_description(
+            metadata["thumbnail"], metadata["name"], metadata["id"]
+        )
+
+        new_metadata = {
+            "id": metadata["id"],
+            "author": "@larskristo",
+            "name": metadata["name"],
+            "description": description,
+            "image": metadata["image"],
+            "thumbnail": metadata["thumbnail"],
+        }
+
+        existing_json_metadata.append(new_metadata)
+
+        with open(metadata_ai_descriptions_file_name, "w") as descriptions_json_file:
+            json.dump(
+                existing_json_metadata,
+                descriptions_json_file,
+                indent=2,
+                separators=(",", ": "),
+            )
 
 
 def remove_digits_from_name():
@@ -334,7 +424,8 @@ def main():
     # append_real_image_urls_to_metadata_file()
     # remove_digits_from_name()
     # create_metadata()
-    create_token_uri_from_metadata_object()
+    # create_token_uri_from_metadata_object()
+    extend_image_description_of_metadata_items()
     # create_img_thumbnails()
     # add_image_watermark()
 

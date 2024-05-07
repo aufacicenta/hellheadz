@@ -3,9 +3,10 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Royalty.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
-contract LarsKristoHellheadz is ERC721Enumerable, ERC721Royalty {
-  error ERC721InvalidPrice(uint256 price);
+contract LarsKristoHellheadz is ERC721Enumerable, ERC721Royalty, ReentrancyGuard {
+  error ERC721InvalidPrice(uint256 tokenId, uint256 price);
   error ERC721InvalidPurchaseAmount(uint256 tokenId, uint256 price, uint256 balance);
   error ERC721ForbiddenMint(uint256 tokenId);
 
@@ -261,8 +262,9 @@ contract LarsKristoHellheadz is ERC721Enumerable, ERC721Royalty {
     _tokenLimit = tokenLimit;
 
     for (uint i = 0; i < tokenURIs.length; i++) {
-      _safeMint(_author, i + 1);
-      _tokenPrices[i] = 0.5 ether; // initial token price
+      uint256 tokenId = i + 1;
+      _safeMint(_author, tokenId);
+      _tokenPrices[tokenId] = 0.5 ether; // initial token price
     }
 
     _setDefaultRoyalty(_author, 1000); // 10% royalty
@@ -283,7 +285,7 @@ contract LarsKristoHellheadz is ERC721Enumerable, ERC721Royalty {
     tokenURIs.push(tokenURI_);
   }
 
-  function buyToken(uint256 tokenId) public payable returns (uint256, uint256, uint256) {
+  function buyToken(uint256 tokenId) public payable nonReentrant returns (uint256, uint256, uint256) {
     uint256 price = _requireTokenPriceSet(tokenId);
     uint256 balance = msg.value;
 
@@ -291,26 +293,29 @@ contract LarsKristoHellheadz is ERC721Enumerable, ERC721Royalty {
       revert ERC721InvalidPurchaseAmount(tokenId, price, balance);
     }
 
-    // pay royalties to author
-    (address royaltyReceiver, uint256 royaltyAmount) = royaltyInfo(tokenId, price);
-    payable(royaltyReceiver).transfer(royaltyAmount);
+    address previousOwner = ownerOf(tokenId);
+    if (previousOwner == address(0)) {
+      revert ERC721InvalidOwner(previousOwner);
+    }
 
-    // charge the transaction fee
+    (address royaltyReceiver, uint256 royaltyAmount) = royaltyInfo(tokenId, price);
     uint256 transactionFee = getTransactionFee(tokenId);
+    uint256 priceMinusFees = price - royaltyAmount - transactionFee;
+
+    // pay royalties to author
+    payable(royaltyReceiver).transfer(royaltyAmount);
+    // charge the transaction fee
     payable(_operator).transfer(transactionFee);
+    // transfer the payment to the previous owner
+    payable(previousOwner).transfer(priceMinusFees);
 
     // transfer the token to the new owner
-    address previousOwner = ownerOf(tokenId);
     _safeTransfer(previousOwner, _msgSender(), tokenId);
-
-    // transfer the payment to the previous owner
-    uint256 priceMinusRoyalty = balance - royaltyAmount - transactionFee;
-    payable(previousOwner).transfer(priceMinusRoyalty);
-
-    emit Purchase(previousOwner, _msgSender(), tokenId, price, royaltyAmount, transactionFee, priceMinusRoyalty);
 
     // reset the token price
     _tokenPrices[tokenId] = 0;
+
+    emit Purchase(previousOwner, _msgSender(), tokenId, price, royaltyAmount, transactionFee, priceMinusFees);
 
     return (tokenId, price, balance);
   }
@@ -410,7 +415,7 @@ contract LarsKristoHellheadz is ERC721Enumerable, ERC721Royalty {
     uint256 _price = _tokenPrices[tokenId];
 
     if (_price <= 0) {
-      revert ERC721InvalidPrice(_price);
+      revert ERC721InvalidPrice(tokenId, _price);
     }
 
     return _price;
