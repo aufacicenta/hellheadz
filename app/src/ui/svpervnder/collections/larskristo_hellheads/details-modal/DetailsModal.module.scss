@@ -181,4 +181,14 @@
       }
     }
   }
+
+  &__actions {
+    &--buy-now-buttons {
+      justify-content: start;
+
+      a {
+        margin-right: $space-default;
+      }
+    }
+  }
 }

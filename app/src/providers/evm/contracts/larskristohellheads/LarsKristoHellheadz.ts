@@ -23,46 +23,46 @@ import type {
   TypedContractMethod,
 } from "../common";
 
-export interface LarsKristoHellheadsInterface extends Interface {
+export interface LarsKristoHellheadzInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "approve"
       | "author"
       | "balanceOf"
-      | "buyToken"
+      | "batchMint"
       | "getApproved"
-      | "getTokenPrice"
-      | "getTransactionFee"
       | "isApprovedForAll"
       | "name"
-      | "operator"
+      | "owner"
       | "ownerOf"
+      | "renounceOwnership"
       | "royaltyInfo"
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
-      | "setTokenForSale"
       | "supportsInterface"
       | "symbol"
+      | "tokenByIndex"
+      | "tokenLimit"
+      | "tokenOfOwnerByIndex"
       | "tokenURI"
-      | "transferFrom",
+      | "totalSupply"
+      | "transferFrom"
+      | "transferOwnership",
   ): FunctionFragment;
 
-  getEvent(
-    nameOrSignatureOrTopic: "Approval" | "ApprovalForAll" | "Purchase" | "SetTokenForSale" | "Transfer",
-  ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Approval" | "ApprovalForAll" | "OwnershipTransferred" | "Transfer"): EventFragment;
 
   encodeFunctionData(functionFragment: "approve", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "author", values?: undefined): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "buyToken", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "batchMint", values: [string[]]): string;
   encodeFunctionData(functionFragment: "getApproved", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "getTokenPrice", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "getTransactionFee", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "isApprovedForAll", values: [AddressLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
-  encodeFunctionData(functionFragment: "operator", values?: undefined): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(functionFragment: "ownerOf", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "renounceOwnership", values?: undefined): string;
   encodeFunctionData(functionFragment: "royaltyInfo", values: [BigNumberish, BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom(address,address,uint256)",
@@ -73,32 +73,39 @@ export interface LarsKristoHellheadsInterface extends Interface {
     values: [AddressLike, AddressLike, BigNumberish, BytesLike],
   ): string;
   encodeFunctionData(functionFragment: "setApprovalForAll", values: [AddressLike, boolean]): string;
-  encodeFunctionData(functionFragment: "setTokenForSale", values: [BigNumberish, BigNumberish]): string;
   encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(functionFragment: "tokenByIndex", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "tokenLimit", values?: undefined): string;
+  encodeFunctionData(functionFragment: "tokenOfOwnerByIndex", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "tokenURI", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "totalSupply", values?: undefined): string;
   encodeFunctionData(functionFragment: "transferFrom", values: [AddressLike, AddressLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "transferOwnership", values: [AddressLike]): string;
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "author", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "buyToken", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "batchMint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getApproved", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getTokenPrice", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getTransactionFee", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "isApprovedForAll", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "operator", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "renounceOwnership", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "royaltyInfo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "safeTransferFrom(address,address,uint256)", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "safeTransferFrom(address,address,uint256,bytes)", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setApprovalForAll", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setTokenForSale", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "tokenByIndex", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "tokenLimit", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "tokenOfOwnerByIndex", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "totalSupply", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "transferFrom", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "transferOwnership", data: BytesLike): Result;
 }
 
 export namespace ApprovalEvent {
@@ -129,47 +136,12 @@ export namespace ApprovalForAllEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace PurchaseEvent {
-  export type InputTuple = [
-    from: AddressLike,
-    to: AddressLike,
-    tokenId: BigNumberish,
-    price: BigNumberish,
-    royaltyAmount: BigNumberish,
-    transactionFee: BigNumberish,
-    amount: BigNumberish,
-  ];
-  export type OutputTuple = [
-    from: string,
-    to: string,
-    tokenId: bigint,
-    price: bigint,
-    royaltyAmount: bigint,
-    transactionFee: bigint,
-    amount: bigint,
-  ];
+export namespace OwnershipTransferredEvent {
+  export type InputTuple = [previousOwner: AddressLike, newOwner: AddressLike];
+  export type OutputTuple = [previousOwner: string, newOwner: string];
   export interface OutputObject {
-    from: string;
-    to: string;
-    tokenId: bigint;
-    price: bigint;
-    royaltyAmount: bigint;
-    transactionFee: bigint;
-    amount: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace SetTokenForSaleEvent {
-  export type InputTuple = [owner: AddressLike, tokenId: BigNumberish, price: BigNumberish];
-  export type OutputTuple = [owner: string, tokenId: bigint, price: bigint];
-  export interface OutputObject {
-    owner: string;
-    tokenId: bigint;
-    price: bigint;
+    previousOwner: string;
+    newOwner: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -191,11 +163,11 @@ export namespace TransferEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export interface LarsKristoHellheads extends BaseContract {
-  connect(runner?: ContractRunner | null): LarsKristoHellheads;
+export interface LarsKristoHellheadz extends BaseContract {
+  connect(runner?: ContractRunner | null): LarsKristoHellheadz;
   waitForDeployment(): Promise<this>;
 
-  interface: LarsKristoHellheadsInterface;
+  interface: LarsKristoHellheadzInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -230,21 +202,19 @@ export interface LarsKristoHellheads extends BaseContract {
 
   balanceOf: TypedContractMethod<[owner: AddressLike], [bigint], "view">;
 
-  buyToken: TypedContractMethod<[tokenId: BigNumberish], [[bigint, bigint, bigint]], "payable">;
+  batchMint: TypedContractMethod<[tokenURIs_: string[]], [void], "nonpayable">;
 
   getApproved: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
-
-  getTokenPrice: TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
-
-  getTransactionFee: TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
 
   isApprovedForAll: TypedContractMethod<[owner: AddressLike, operator: AddressLike], [boolean], "view">;
 
   name: TypedContractMethod<[], [string], "view">;
 
-  operator: TypedContractMethod<[], [string], "view">;
+  owner: TypedContractMethod<[], [string], "view">;
 
   ownerOf: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+
+  renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
 
   royaltyInfo: TypedContractMethod<[tokenId: BigNumberish, salePrice: BigNumberish], [[string, bigint]], "view">;
 
@@ -262,15 +232,23 @@ export interface LarsKristoHellheads extends BaseContract {
 
   setApprovalForAll: TypedContractMethod<[operator: AddressLike, approved: boolean], [void], "nonpayable">;
 
-  setTokenForSale: TypedContractMethod<[tokenId: BigNumberish, price: BigNumberish], [void], "nonpayable">;
-
   supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
 
   symbol: TypedContractMethod<[], [string], "view">;
 
+  tokenByIndex: TypedContractMethod<[index: BigNumberish], [bigint], "view">;
+
+  tokenLimit: TypedContractMethod<[], [bigint], "view">;
+
+  tokenOfOwnerByIndex: TypedContractMethod<[owner: AddressLike, index: BigNumberish], [bigint], "view">;
+
   tokenURI: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
 
+  totalSupply: TypedContractMethod<[], [bigint], "view">;
+
   transferFrom: TypedContractMethod<[from: AddressLike, to: AddressLike, tokenId: BigNumberish], [void], "nonpayable">;
+
+  transferOwnership: TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
@@ -279,18 +257,15 @@ export interface LarsKristoHellheads extends BaseContract {
   ): TypedContractMethod<[to: AddressLike, tokenId: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "author"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "balanceOf"): TypedContractMethod<[owner: AddressLike], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "buyToken",
-  ): TypedContractMethod<[tokenId: BigNumberish], [[bigint, bigint, bigint]], "payable">;
+  getFunction(nameOrSignature: "batchMint"): TypedContractMethod<[tokenURIs_: string[]], [void], "nonpayable">;
   getFunction(nameOrSignature: "getApproved"): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
-  getFunction(nameOrSignature: "getTokenPrice"): TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
-  getFunction(nameOrSignature: "getTransactionFee"): TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
   getFunction(
     nameOrSignature: "isApprovedForAll",
   ): TypedContractMethod<[owner: AddressLike, operator: AddressLike], [boolean], "view">;
   getFunction(nameOrSignature: "name"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "operator"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "owner"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ownerOf"): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+  getFunction(nameOrSignature: "renounceOwnership"): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "royaltyInfo",
   ): TypedContractMethod<[tokenId: BigNumberish, salePrice: BigNumberish], [[string, bigint]], "view">;
@@ -307,15 +282,19 @@ export interface LarsKristoHellheads extends BaseContract {
   getFunction(
     nameOrSignature: "setApprovalForAll",
   ): TypedContractMethod<[operator: AddressLike, approved: boolean], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "setTokenForSale",
-  ): TypedContractMethod<[tokenId: BigNumberish, price: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "symbol"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "tokenByIndex"): TypedContractMethod<[index: BigNumberish], [bigint], "view">;
+  getFunction(nameOrSignature: "tokenLimit"): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "tokenOfOwnerByIndex",
+  ): TypedContractMethod<[owner: AddressLike, index: BigNumberish], [bigint], "view">;
   getFunction(nameOrSignature: "tokenURI"): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+  getFunction(nameOrSignature: "totalSupply"): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "transferFrom",
   ): TypedContractMethod<[from: AddressLike, to: AddressLike, tokenId: BigNumberish], [void], "nonpayable">;
+  getFunction(nameOrSignature: "transferOwnership"): TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
 
   getEvent(
     key: "Approval",
@@ -328,14 +307,11 @@ export interface LarsKristoHellheads extends BaseContract {
     ApprovalForAllEvent.OutputObject
   >;
   getEvent(
-    key: "Purchase",
-  ): TypedContractEvent<PurchaseEvent.InputTuple, PurchaseEvent.OutputTuple, PurchaseEvent.OutputObject>;
-  getEvent(
-    key: "SetTokenForSale",
+    key: "OwnershipTransferred",
   ): TypedContractEvent<
-    SetTokenForSaleEvent.InputTuple,
-    SetTokenForSaleEvent.OutputTuple,
-    SetTokenForSaleEvent.OutputObject
+    OwnershipTransferredEvent.InputTuple,
+    OwnershipTransferredEvent.OutputTuple,
+    OwnershipTransferredEvent.OutputObject
   >;
   getEvent(
     key: "Transfer",
@@ -360,22 +336,15 @@ export interface LarsKristoHellheads extends BaseContract {
       ApprovalForAllEvent.OutputObject
     >;
 
-    "Purchase(address,address,uint256,uint256,uint256,uint256,uint256)": TypedContractEvent<
-      PurchaseEvent.InputTuple,
-      PurchaseEvent.OutputTuple,
-      PurchaseEvent.OutputObject
+    "OwnershipTransferred(address,address)": TypedContractEvent<
+      OwnershipTransferredEvent.InputTuple,
+      OwnershipTransferredEvent.OutputTuple,
+      OwnershipTransferredEvent.OutputObject
     >;
-    Purchase: TypedContractEvent<PurchaseEvent.InputTuple, PurchaseEvent.OutputTuple, PurchaseEvent.OutputObject>;
-
-    "SetTokenForSale(address,uint256,uint256)": TypedContractEvent<
-      SetTokenForSaleEvent.InputTuple,
-      SetTokenForSaleEvent.OutputTuple,
-      SetTokenForSaleEvent.OutputObject
-    >;
-    SetTokenForSale: TypedContractEvent<
-      SetTokenForSaleEvent.InputTuple,
-      SetTokenForSaleEvent.OutputTuple,
-      SetTokenForSaleEvent.OutputObject
+    OwnershipTransferred: TypedContractEvent<
+      OwnershipTransferredEvent.InputTuple,
+      OwnershipTransferredEvent.OutputTuple,
+      OwnershipTransferredEvent.OutputObject
     >;
 
     "Transfer(address,address,uint256)": TypedContractEvent<

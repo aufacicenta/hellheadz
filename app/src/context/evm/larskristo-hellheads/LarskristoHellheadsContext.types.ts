@@ -40,9 +40,5 @@ export type LarskristoHellheadsContextType = {
   royalty?: Royalty;
   fetchContractValues: (address: string) => Promise<void>;
   ownerOf: (tokenId: number) => Promise<void>;
-  getTokenPrice: (tokenId: number, options?: { excludeExchangeRate?: boolean }) => Promise<TokenPrice | undefined>;
-  royaltyInfo: (tokenId: number) => Promise<void>;
-  buyToken: (tokenId: number) => Promise<void>;
-  setTokenForSale: (tokenId: number, price: string) => Promise<void>;
   connectedAccountIsOwner: () => boolean;
 };

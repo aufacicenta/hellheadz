@@ -2,13 +2,17 @@
 @import "src/ui/typography/variables";
 
 .grid-item {
+  position: relative;
   display: block;
   margin-bottom: $space-default;
 
   &:hover {
+    cursor: pointer;
+
     [class*="icon-"] {
       color: var(--color-primary);
       transform: scale(1.5);
+      opacity: 1;
       transition: transform 0.1s ease-in-out;
     }
   }
@@ -35,8 +39,14 @@
   }
 
   &__price-row {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
     display: flex;
     justify-content: space-between;
+    width: 100%;
+    padding: $space-default;
 
     > div {
       display: flex;
@@ -66,6 +76,7 @@
   &__expand {
     font-size: $font-size-text;
     color: var(--color-typography-description);
+    opacity: 0.1;
 
     &:hover {
       cursor: pointer;
