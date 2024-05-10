@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { useEffect } from "react";
-import { useAccount, useEnsName } from "wagmi";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useEnsName } from "wagmi";
 
 import { Modal } from "ui/modal/Modal";
 import { Typography } from "ui/typography/Typography";
@@ -18,16 +17,6 @@ import styles from "./DetailsModal.module.scss";
 export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, item }) => {
   const ERC721 = useLarskristoHellheadsContext();
   const { data: ensName } = useEnsName({ address: ERC721.owner });
-  const { open } = useWeb3Modal();
-  const { isConnected } = useAccount();
-
-  const handleOnDisplayWidgetClick = () => {
-    if (isConnected) {
-      open({ view: "Account" });
-    } else {
-      open();
-    }
-  };
 
   useEffect(() => {
     (async () => {
