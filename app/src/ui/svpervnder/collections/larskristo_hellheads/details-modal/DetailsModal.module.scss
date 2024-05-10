@@ -184,10 +184,23 @@
 
   &__actions {
     &--buy-now-buttons {
+      @include atLargeTablet {
+        flex-direction: row;
+      }
+      flex-direction: column;
       justify-content: start;
 
       a {
+        @include atLargeTablet {
+          width: auto;
+          margin-bottom: 0 !important;
+        }
+        width: 100%;
         margin-right: $space-default;
+
+        &:not(:last-child) {
+          margin-bottom: $space-default;
+        }
       }
     }
   }

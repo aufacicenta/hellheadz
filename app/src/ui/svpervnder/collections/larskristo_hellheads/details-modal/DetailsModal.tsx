@@ -66,8 +66,6 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
               <div className={styles["details-modal__img-container"]}>
                 <img src={item.image} alt={item.name} />
               </div>
-              {/* <Typography.Headline5>Description</Typography.Headline5>
-            <Typography.Text>{item.description}</Typography.Text> */}
             </Grid.Col>
             <Grid.Col lg={6}>
               <Card className={styles["details-modal__price-card"]}>
@@ -90,14 +88,6 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                   </div>
 
                   <Typography.Text flat>{item.description}</Typography.Text>
-
-                  {!isConnected && (
-                    <div className={styles["details-modal__price-block--connect-wallet"]}>
-                      <Button fullWidth variant="outlined" onClick={handleOnDisplayWidgetClick}>
-                        Connect Wallet
-                      </Button>
-                    </div>
-                  )}
 
                   {ERC721.connectedAccountIsOwner() && (
                     <div className={styles["details-modal__set-for-sale"]}>
@@ -130,75 +120,6 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                     </Button>
                   </Card.Actions>
                 )}
-              </Card>
-              <Card className={styles["details-modal__forge-card"]}>
-                <Card.Content>
-                  <Typography.Headline5 flat={!ERC721.connectedAccountIsOwner()}>Forge This Item</Typography.Headline5>
-                  {!ERC721.connectedAccountIsOwner() && (
-                    <Typography.TextLead>(Only the current owner can forge this item)</Typography.TextLead>
-                  )}
-                  <Typography.Text flat>Extend this item's story, exclusively for you by Lars Kristo.</Typography.Text>
-                  <Typography.Description>
-                    * Each forge is also registered in the Ethereum blockchain tied to the original NFT.
-                  </Typography.Description>
-                  <Grid.Row className={styles["details-modal__forge-card--row"]}>
-                    <Grid.Col className={styles["details-modal__forge-card--row-img"]} lg={2}>
-                      <img src={item.thumbnail} alt={item.id?.toString()} />
-                    </Grid.Col>
-                    <Grid.Col className={styles["details-modal__forge-card--row-price"]} lg={6}>
-                      <Typography.Text flat>3D Animated Character</Typography.Text>
-                      <div className={styles["details-modal__forge-card--row-details"]}>
-                        <Typography.Description flat>1.5 ETH</Typography.Description>
-                        <Button size="s" variant="text" color="secondary">
-                          Learn More
-                        </Button>
-                      </div>
-                    </Grid.Col>
-                    <Grid.Col className={styles["details-modal__forge-card--row-button"]} lg={4}>
-                      <Button variant="outlined" color="secondary" disabled={!ERC721.connectedAccountIsOwner()}>
-                        Forge
-                      </Button>
-                    </Grid.Col>
-                  </Grid.Row>
-                  <Grid.Row className={styles["details-modal__forge-card--row"]}>
-                    <Grid.Col className={styles["details-modal__forge-card--row-img"]} lg={2}>
-                      <img src={item.thumbnail} alt={item.id?.toString()} />
-                    </Grid.Col>
-                    <Grid.Col className={styles["details-modal__forge-card--row-price"]} lg={6}>
-                      <Typography.Text flat>Physical Hellhead Toy</Typography.Text>
-                      <div className={styles["details-modal__forge-card--row-details"]}>
-                        <Typography.Description flat>1.5 ETH</Typography.Description>
-                        <Button size="s" variant="text" color="secondary">
-                          Learn More
-                        </Button>
-                      </div>
-                    </Grid.Col>
-                    <Grid.Col className={styles["details-modal__forge-card--row-button"]} lg={4}>
-                      <Button variant="outlined" color="secondary" disabled={!ERC721.connectedAccountIsOwner()}>
-                        Forge
-                      </Button>
-                    </Grid.Col>
-                  </Grid.Row>
-                  <Grid.Row className={styles["details-modal__forge-card--row"]}>
-                    <Grid.Col className={styles["details-modal__forge-card--row-img"]} lg={2}>
-                      <img src={item.thumbnail} alt={item.id?.toString()} />
-                    </Grid.Col>
-                    <Grid.Col className={styles["details-modal__forge-card--row-price"]} lg={6}>
-                      <Typography.Text flat>Physical Hellhead Oil On Canvas</Typography.Text>
-                      <div className={styles["details-modal__forge-card--row-details"]}>
-                        <Typography.Description flat>1.5 ETH</Typography.Description>
-                        <Button size="s" variant="text" color="secondary">
-                          Learn More
-                        </Button>
-                      </div>
-                    </Grid.Col>
-                    <Grid.Col className={styles["details-modal__forge-card--row-button"]} lg={4}>
-                      <Button variant="outlined" color="secondary" disabled={!ERC721.connectedAccountIsOwner()}>
-                        Forge
-                      </Button>
-                    </Grid.Col>
-                  </Grid.Row>
-                </Card.Content>
               </Card>
               <Card className={styles["details-modal__author-card"]}>
                 <Card.Content>
