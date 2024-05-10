@@ -137,12 +137,12 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                   <Grid.Container>
                     <Grid.Row justify="end">
                       <Grid.Col lg={1} xs={1}>
-                        <Typography.Anchor>
+                        <Typography.Anchor href="https://instagram.com/larskristo" target="_blank">
                           <Icon name="icon-instagram" />
                         </Typography.Anchor>
                       </Grid.Col>
                       <Grid.Col lg={1} xs={1}>
-                        <Typography.Anchor>
+                        <Typography.Anchor href="https://www.tiktok.com/@larskristo" target="_blank">
                           <Icon name="icon-tiktok" />
                         </Typography.Anchor>
                       </Grid.Col>
