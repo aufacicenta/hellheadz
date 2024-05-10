@@ -5,7 +5,6 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 
 const AUTHOR_ACCOUNT_ID = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-const OPERATOR_ACCOUNT_ID = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC";
 
 const TOKEN_NAME = "larskristo: hellheads";
 const TOKEN_SYMBOL = "LKHH";
@@ -18,14 +17,6 @@ const TOKEN_URIS = [
   "QmYYzRdL6WtAiBZfrQrSQXPzRsXhZj6beZZ2X7WbV2RuyM",
   "QmUpJLggdspPKZgturP7fWB455nTjk3gzuPkTB3Vde6BVJ",
 ];
-
-async function getBlockTimestamp() {
-  const blockNumBefore = await ethers.provider.getBlockNumber();
-  const blockBefore = await ethers.provider.getBlock(blockNumBefore);
-  const blockTimestamp = blockBefore.timestamp;
-
-  return blockTimestamp;
-}
 
 async function createERC721Contract() {
   const [fund, , signer] = await ethers.getSigners();
@@ -43,8 +34,6 @@ describe("LarskristoHellheadz", function () {
   it("Initialize: call constructor", async function () {
     const [author, , operator] = await ethers.getSigners();
 
-    // console.log({ owner: owner.address, signer: signer.address });
-
     const ERC721 = await createERC721Contract();
 
     await ERC721.connect(author).batchMint(TOKEN_URIS);
@@ -60,19 +49,10 @@ describe("LarskristoHellheadz", function () {
     expect(name).to.equal(TOKEN_NAME);
     expect(symbol).to.equal(TOKEN_SYMBOL);
 
-    // console.log({ ownerOf0, ownerOf1, ownerOf2, ownerOf3 });
-
     expect(ownerOf0).to.equal(author.address);
     expect(ownerOf1).to.equal(author.address);
     expect(ownerOf2).to.equal(author.address);
     expect(ownerOf3).to.equal(author.address);
-
-    // const token0 = await ERC721.tokenURI(0);
-    // const token1 = await ERC721.tokenURI(1);
-    // const token2 = await ERC721.tokenURI(2);
-    // const token3 = await ERC721.tokenURI(3);
-
-    // console.log({ token0, token1, token2, token3 });
 
     // check approval for all
     await expect(ERC721.connect(author).setApprovalForAll(operator.address, true))
