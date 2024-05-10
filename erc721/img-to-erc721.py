@@ -23,11 +23,17 @@ claude_anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPICAI_API
 
 src_dir_path = "./files/hellheads/watermarks_copy"
 watermarks_dir_path = "./files/hellheads/watermarks_copy"
+token_uris_dir_path = "./files/hellheads/token-URIs"
+
 thumbnail_extension = "_thumbnail"
-metadata_file_name = "metadata-final.json"
+
+metadata_file_name = "metadata-final-free-descriptions.json"
 metadata_ai_descriptions_file_name = "metadata-final-free-descriptions.json"
+
 watermark_text = "@svpervnder"
 generic_description_text = "The svpervnder trademark logo NFT"
+
+token_uris_filename = f"{token_uris_dir_path}/token-uris.json"
 
 ipfs_gateway_url = "https://blockchainassetregistry.infura-ipfs.io/ipfs/"
 
@@ -36,10 +42,51 @@ infura_project_id = os.getenv("INFURA_PROJECT_ID")
 infura_project_secret = os.getenv("INFURA_PROJECT_SECRET")
 
 
-def create_token_uri_from_metadata_object():
+def set_metadata_token_id_from_0_index():
+    metadata_list = []
+
     # Read the metadata from the JSON file
-    with open(metadata_file_name, "r") as f:
-        metadata_list = json.load(f)
+    with open(metadata_file_name, "r") as file:
+        existing_json_metadata = json.load(file)
+
+    # Loop through each metadata object
+    for metadata in existing_json_metadata:
+        id = int(metadata["id"])
+
+        new_metadata = {**metadata, "id": id - 1}
+
+        metadata_list.append(new_metadata)
+
+    temp_file_path = "./temp_metadata.json"
+    with open(temp_file_path, "w") as temp_json_file:
+        json.dump(
+            metadata_list,
+            temp_json_file,
+            indent=2,
+            separators=(",", ": "),
+        )
+
+
+def create_token_uri_batches():
+    with open(token_uris_filename, "r") as file:
+        token_uris = json.load(file)
+
+    batch_size = 25
+
+    for i in range(0, len(token_uris), batch_size):
+        batch = token_uris[i : i + batch_size]
+
+        with open(f"{token_uris_dir_path}/token-uris-batch-{i}.json", "w") as file:
+            json.dump(batch, file, indent=2, separators=(",", ": "))
+            print(f"create_token_uri_batches: {i}")
+
+
+def create_token_uri_from_metadata_object():
+    token_uris = []
+
+    # Read the metadata from the JSON file
+    with open(metadata_file_name, "r") as file:
+        metadata_list = json.load(file)
 
     # Loop through each metadata object
     for metadata in metadata_list:
@@ -50,15 +97,17 @@ def create_token_uri_from_metadata_object():
 
         # Upload the temporary JSON file to IPFS
         token_uri = upload_file_to_ipfs(temp_file_path)
-        print(f"create_token_uri_from_metadata_object.token_uri: {token_uri}")
+        print(
+            f"create_token_uri_from_metadata_object.token_uri: {token_uri} for {metadata['id']}"
+        )
 
-        with open("tokenURIs.txt", "a") as f:
-            # Write the token URI to a text file
-            f.write(f"\n{token_uri}")
-            f.close()
+        token_uris.append(token_uri)
 
         # Remove the temporary JSON file
         os.remove(temp_file_path)
+
+    with open(token_uris_filename, "a") as file:
+        json.dump(token_uris, file, indent=2, separators=(",", ": "))
 
 
 def encode_image(image_path):
@@ -425,7 +474,9 @@ def main():
     # remove_digits_from_name()
     # create_metadata()
     # create_token_uri_from_metadata_object()
-    extend_image_description_of_metadata_items()
+    create_token_uri_batches()
+    # set_metadata_token_id_from_0_index()
+    # extend_image_description_of_metadata_items()
     # create_img_thumbnails()
     # add_image_watermark()
 

@@ -15,6 +15,14 @@ const TOKEN_NAME = "larskristo: hellheads";
 const TOKEN_SYMBOL = "LKHH";
 const TOKEN_LIMIT = 7;
 
+const TOKEN_URIS = [
+  "QmSwQ4b6avrDtvG2pu95p7cdFm63y7mnhKKsYnE7qnkj7M",
+  "QmZfd4u2MmvZSv8mJaDmuj4HRBJKDYvphc6n9twEd6A9ez",
+  "QmXsbH9rS6isD2ZDQpfQCbVfmLNuuc7WRaVXKGJLShop98",
+  "QmYYzRdL6WtAiBZfrQrSQXPzRsXhZj6beZZ2X7WbV2RuyM",
+  "QmUpJLggdspPKZgturP7fWB455nTjk3gzuPkTB3Vde6BVJ",
+];
+
 async function getBlockTimestamp() {
   const blockNumBefore = await ethers.provider.getBlockNumber();
   const blockBefore = await ethers.provider.getBlock(blockNumBefore);
@@ -48,6 +56,8 @@ describe("LarskristoHellheadz", function () {
     // console.log({ owner: owner.address, signer: signer.address });
 
     const ERC721 = await createERC721Contract();
+
+    await ERC721.connect(author).mintUntilDoomsday(TOKEN_URIS);
 
     const name = await ERC721.name();
     const symbol = await ERC721.symbol();
@@ -89,16 +99,17 @@ describe("LarskristoHellheadz", function () {
     const totalSupply = await ERC721.totalSupply();
     expect(totalSupply).to.equal(5);
 
-    await expect(ERC721.tokenURI(0)).to.be.revertedWithCustomError(ERC721, `ERC721NonexistentToken`);
-
     const tokenUri1 = await ERC721.tokenURI(1);
     expect(tokenUri1).to.equal(
-      "https://blockchainassetregistry.infura-ipfs.io/ipfs/QmbbdDACM5nkGqRG3cSmk8hYL46XWFkT8zvkbnrbcbSqa1",
+      "https://blockchainassetregistry.infura-ipfs.io/ipfs/QmZfd4u2MmvZSv8mJaDmuj4HRBJKDYvphc6n9twEd6A9ez",
     );
   });
 
   it("getTokenPrice", async function () {
+    const [author] = await ethers.getSigners();
+
     const ERC721 = await createERC721Contract();
+    await ERC721.connect(author).mintUntilDoomsday(TOKEN_URIS);
 
     const price = await ERC721.getTokenPrice(1);
 
@@ -111,6 +122,7 @@ describe("LarskristoHellheadz", function () {
     const [author] = await ethers.getSigners();
 
     const ERC721 = await createERC721Contract();
+    await ERC721.connect(author).mintUntilDoomsday(TOKEN_URIS);
 
     const price = await ERC721.getTokenPrice(1);
 
@@ -128,6 +140,7 @@ describe("LarskristoHellheadz", function () {
     const [author, , operator, someoneElse] = await ethers.getSigners();
 
     const ERC721 = await createERC721Contract();
+    await ERC721.connect(author).mintUntilDoomsday(TOKEN_URIS);
 
     await ERC721.connect(author).setApprovalForAll(operator.address, true);
 
@@ -164,6 +177,7 @@ describe("LarskristoHellheadz", function () {
     // });
 
     const ERC721 = await createERC721Contract();
+    await ERC721.connect(author).mintUntilDoomsday(TOKEN_URIS);
 
     await ERC721.connect(author).setApprovalForAll(operator.address, true);
 
@@ -236,33 +250,34 @@ describe("LarskristoHellheadz", function () {
     const [author, , , someoneElse] = await ethers.getSigners();
 
     const ERC721 = await createERC721Contract();
+    await ERC721.connect(author).mintUntilDoomsday(TOKEN_URIS);
 
     let newTokenURI = "new-token-uri";
 
-    await ERC721.connect(author).mintUntilDoomsday(newTokenURI);
+    await ERC721.connect(author).mintUntilDoomsday([newTokenURI]);
 
-    let tokenUri = await ERC721.tokenURI(6);
+    let tokenUri = await ERC721.tokenURI(5);
     expect(tokenUri).to.equal(`https://blockchainassetregistry.infura-ipfs.io/ipfs/${newTokenURI}`);
 
     let totalSupply = await ERC721.totalSupply();
     expect(totalSupply).to.equal(6);
 
-    await expect(ERC721.connect(someoneElse).mintUntilDoomsday(newTokenURI)).to.be.revertedWithCustomError(
+    await expect(ERC721.connect(someoneElse).mintUntilDoomsday([newTokenURI])).to.be.revertedWithCustomError(
       ERC721,
       `ERC721InvalidOwner`,
     );
 
     newTokenURI = "new-token-uri-2";
 
-    await ERC721.connect(author).mintUntilDoomsday(newTokenURI);
+    await ERC721.connect(author).mintUntilDoomsday([newTokenURI]);
 
-    tokenUri = await ERC721.tokenURI(7);
+    tokenUri = await ERC721.tokenURI(6);
     expect(tokenUri).to.equal(`https://blockchainassetregistry.infura-ipfs.io/ipfs/${newTokenURI}`);
 
     totalSupply = await ERC721.totalSupply();
     expect(totalSupply).to.equal(7);
 
-    await expect(ERC721.connect(author).mintUntilDoomsday(newTokenURI)).to.be.revertedWithCustomError(
+    await expect(ERC721.connect(author).mintUntilDoomsday([newTokenURI])).to.be.revertedWithCustomError(
       ERC721,
       `ERC721ForbiddenMint`,
     );
