@@ -40,6 +40,8 @@ describe("LarskristoHellheadz", function () {
 
     const name = await ERC721.name();
     const symbol = await ERC721.symbol();
+    const tokenLimit = await ERC721.tokenLimit();
+    const authorAddres = await ERC721.author();
 
     const ownerOf0 = await ERC721.ownerOf(1);
     const ownerOf1 = await ERC721.ownerOf(2);
@@ -48,6 +50,8 @@ describe("LarskristoHellheadz", function () {
 
     expect(name).to.equal(TOKEN_NAME);
     expect(symbol).to.equal(TOKEN_SYMBOL);
+    expect(tokenLimit).to.equal(TOKEN_LIMIT);
+    expect(authorAddres).to.equal(AUTHOR_ACCOUNT_ID);
 
     expect(ownerOf0).to.equal(author.address);
     expect(ownerOf1).to.equal(author.address);

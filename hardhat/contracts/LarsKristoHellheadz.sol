@@ -17,11 +17,11 @@ contract LarsKristoHellheadz is ERC721Enumerable, ERC721Royalty, Ownable {
   constructor(
     string memory name_,
     string memory symbol_,
-    address author,
-    uint256 tokenLimit
-  ) ERC721(name_, symbol_) Ownable(author) {
-    _author = author;
-    _tokenLimit = tokenLimit;
+    address author_,
+    uint256 tokenLimit_
+  ) ERC721(name_, symbol_) Ownable(author_) {
+    _author = author_;
+    _tokenLimit = tokenLimit_;
 
     _setDefaultRoyalty(_author, 1000); // 10% royalty
   }
@@ -40,6 +40,22 @@ contract LarsKristoHellheadz is ERC721Enumerable, ERC721Royalty, Ownable {
       string memory tokenURI_ = tokenURIs_[i];
       _tokenURIs.push(tokenURI_);
     }
+  }
+
+  /**
+   * @dev Returns the address of the author.
+   * @return The address of the author.
+   */
+  function author() public view returns (address) {
+    return _author;
+  }
+
+  /**
+   * @dev Returns the token limit.
+   * @return The maximum number of tokens allowed.
+   */
+  function tokenLimit() public view returns (uint256) {
+    return _tokenLimit;
   }
 
   /**
