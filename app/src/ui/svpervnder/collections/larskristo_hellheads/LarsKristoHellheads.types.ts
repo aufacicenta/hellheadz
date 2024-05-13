@@ -6,7 +6,7 @@ export type LatestCollectionProps = {
 };
 
 export type ItemMetadata = {
-  id?: number;
+  id: number;
   name: string;
   description: string;
   image: string;

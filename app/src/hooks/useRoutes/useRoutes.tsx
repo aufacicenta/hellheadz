@@ -3,6 +3,10 @@ type RouteMap = {
   market: {
     price: (args: { marketId: string }) => string;
   };
+  artists: {
+    index: () => string;
+    larskristo: () => string;
+  };
   api: {
     promptWars: {
       createGuestAccount: () => string;
@@ -36,6 +40,10 @@ export const routes: RouteMap = {
   home: () => `/`,
   market: {
     price: ({ marketId }) => `/market/price/${marketId}`,
+  },
+  artists: {
+    index: () => `/artists`,
+    larskristo: () => `/artists/larskristo`,
   },
   api: {
     promptWars: {

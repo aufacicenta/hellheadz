@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Grid } from "ui/grid/Grid";
 import { Typography } from "ui/typography/Typography";
 import { Button } from "ui/button/Button";
+import { useRoutes } from "hooks/useRoutes/useRoutes";
 
 import styles from "./LarsKristoHellheads.module.scss";
 import { ItemMetadata, LatestCollectionProps } from "./LarsKristoHellheads.types";
@@ -15,8 +16,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
   const [isDetailsModalVisible, displayDetailsModals] = useState(false);
   const [currentItem, setCurrentItem] = useState<ItemMetadata | undefined>();
 
-  const handleExpand = (item: ItemMetadata, tokenId: number) => {
-    setCurrentItem({ ...item, id: tokenId });
+  const routes = useRoutes();
+
+  const handleExpand = (item: ItemMetadata) => {
+    setCurrentItem(item);
     displayDetailsModals(true);
   };
 
@@ -46,7 +49,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 </Typography.Text>
                 <Grid.Row>
                   <Grid.Col>
-                    <Button color="secondary" size="s" variant="outlined">
+                    <Button color="secondary" size="s" variant="outlined" as="link" href={routes.artists.larskristo()}>
                       See Artist
                     </Button>
                   </Grid.Col>
@@ -57,8 +60,8 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
 
           <section className={styles["latest-collection__grid"]}>
             <Grid.Row>
-              {metadata.map((item: ItemMetadata, index) => (
-                <GridItem key={item.thumbnail} item={item} index={index} handleExpand={handleExpand} />
+              {metadata.map((item: ItemMetadata) => (
+                <GridItem key={item.id} item={item} handleExpand={handleExpand} />
               ))}
             </Grid.Row>
           </section>

@@ -67,25 +67,30 @@ body[data-theme="svpervnder"] {
 
   // Button outlined
   --color-button-outlined-primary-text: var(--color-primary);
-  --color-button-outlined-primary-hover: var(--color-primary);
+  --color-button-outlined-primary-hover: transparent;
   --color-button-outlined-primary-hover-text: var(--color-dark-4);
   --color-button-outlined-primary-border: var(--color-primary);
   --color-button-outlined-primary-border-hover: var(--color-dark-4);
+  --color-button-outlined-secondary-text: var(--color-secondary);
+  --color-button-outlined-secondary-hover: transparent;
+  --color-button-outlined-secondary-hover-text: var(--color-dark-4);
+  --color-button-outlined-secondary-border: var(--color-secondary);
+  --color-button-outlined-secondary-border-hover: var(--color-dark-4);
   --color-button-outlined-info: #ffd74b;
   --color-button-outlined-info-text: #ffd74b;
   --color-button-outlined-disabled: #5b5b65;
   --color-button-outlined-disabled-text: #8a8a98;
 
   // Button text
-  --color-button-outlined-primary-text: var(--color-primary);
-  --color-button-outlined-primary-hover: var(--color-primary);
-  --color-button-outlined-primary-hover-text: var(--color-dark-4);
-  --color-button-outlined-primary-border: var(--color-primary);
-  --color-button-outlined-primary-border-hover: var(--color-dark-4);
-  --color-button-outlined-info: #ffd74b;
-  --color-button-outlined-info-text: #ffd74b;
-  --color-button-outlined-disabled: #5b5b65;
-  --color-button-outlined-disabled-text: #8a8a98;
+  --color-button-text-primary-text: var(--color-primary);
+  --color-button-text-primary-hover: transparent;
+  --color-button-text-primary-hover-text: var(--color-primary-shade-low);
+  --color-button-text-primary-border: var(--color-primary);
+  --color-button-text-primary-border-hover: var(--color-primary-shade-low);
+  --color-button-text-info: #ffd74b;
+  --color-button-text-info-text: #ffd74b;
+  --color-button-text-disabled: #5b5b65;
+  --color-button-text-disabled-text: #8a8a98;
 
   // Theme Selector
   --color-theme-button-light: #ffffff00;

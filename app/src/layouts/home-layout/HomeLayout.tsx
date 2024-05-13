@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Script from "next/script";
 
 import { Navbar } from "ui/fileagent/navbar/Navbar";
 import { MainPanel } from "ui/mainpanel/MainPanel";
@@ -17,12 +18,10 @@ export const HomeLayout: React.FC<ChatLayoutProps> = ({ children }) => {
 
   return (
     <>
+      {process.env.NEXT_PUBLIC_NODE_ENV === "production" && (
+        <Script defer src="https://api.pirsch.io/pa.js" id="pianjs" data-code="QUOVXtsuf3gMNfQ5MEqIlHGPmw5aeAt9" />
+      )}
       <Head>
-        <link rel="icon" href="/favicon.ico" as="image" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <meta property="og:image" content="/shared/pulse.png" />
-        <meta property="og:type" content="website" />
         <meta property="og:locale" content={locale} />
       </Head>
       <ThemeContextController>

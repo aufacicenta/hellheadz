@@ -44,7 +44,6 @@
       pointer-events: none;
     }
   }
-  // Left for legacy
 
   &__icon {
     vertical-align: middle;
@@ -67,9 +66,6 @@
     }
   }
 
-  // # Modifiers
-  // Size
-
   &_medium,
   &_large {
     font-size: $font-size-5;
@@ -84,7 +80,6 @@
     padding: 20px $space-l;
     line-height: 1.5;
   }
-  // Color
 
   &_invert {
     color: var(--color-primary);

@@ -1,6 +1,6 @@
-import { ButtonCommonProps, DefaultButtonProps, LinkButtonProps } from "../button/Button.types";
+import { ButtonCommonProps, DefaultButtonProps, AnchorButtonProps } from "../button/Button.types";
 
 export type IconButtonProps = Omit<ButtonCommonProps, "size"> &
-  (LinkButtonProps | DefaultButtonProps) & {
+  (AnchorButtonProps | DefaultButtonProps) & {
     size?: "xxs" | "xs" | "s" | "m" | "l";
   };

@@ -2,8 +2,10 @@
 import clsx from "clsx";
 import React, { ForwardedRef, forwardRef } from "react";
 
+import { Typography } from "ui/typography/Typography";
+
 import styles from "./Button.module.scss";
-import { ButtonProps, DefaultButtonProps, LinkButtonProps } from "./Button.types";
+import { ButtonProps, DefaultButtonProps, AnchorButtonProps, LinkButtonProps } from "./Button.types";
 
 export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   (
@@ -22,6 +24,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
       "aria-label": ariaLabel,
       fullWidth = false,
       animate,
+      respectCase,
       ...restProps
     },
     ref,
@@ -57,6 +60,8 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
         [styles["button--link"]]: TagName === "a",
         // animations
         [styles["button__animate--pulse"]]: animate === "pulse",
+        // case
+        [styles["button__respect-case"]]: respectCase,
       },
       className,
     );
@@ -88,10 +93,22 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
           className={classNames}
           ref={ref as ForwardedRef<HTMLAnchorElement>}
           aria-label={isLoading && !ariaLabel ? "loading" : ariaLabel}
-          {...(restProps as LinkButtonProps)}
+          {...(restProps as AnchorButtonProps)}
         >
           {content}
         </a>
+      );
+    }
+
+    if (TagName === "link") {
+      return (
+        <Typography.Anchor
+          className={classNames}
+          aria-label={isLoading && !ariaLabel ? "loading" : ariaLabel}
+          {...(restProps as Omit<LinkButtonProps, "as">)}
+        >
+          {content}
+        </Typography.Anchor>
       );
     }
 
