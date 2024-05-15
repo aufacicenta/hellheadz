@@ -1,6 +1,7 @@
 export type Styles = {
   larskristo: string;
   larskristo__hero: string;
+  larskristo__pfp: string;
   "larskristo__socials-row": string;
   "z-depth-0": string;
   "z-depth-1": string;

@@ -1,4 +1,6 @@
 import clsx from "clsx";
+import Image from "next/image";
+import pfp from "public/svpervnder/larskristo-pfp.jpeg";
 
 import { Grid } from "ui/grid/Grid";
 import { Typography } from "ui/typography/Typography";
@@ -39,7 +41,7 @@ export const Larskristo: React.FC<LarskristoProps> = ({ className }) => (
                 variant="outlined"
                 color="secondary"
                 target="_blank"
-                href="https://www.instagram.com/larskristo"
+                href="https://www.tiktok.com/@larskristo"
               >
                 larskristo
               </Button>
@@ -47,7 +49,9 @@ export const Larskristo: React.FC<LarskristoProps> = ({ className }) => (
           </section>
         </Grid.Col>
         <Grid.Col lg={6} sm={12} xs={12}>
-          <div />
+          <div className={styles.larskristo__pfp}>
+            <Image src={pfp} alt="Larskristo PFP" />
+          </div>
         </Grid.Col>
       </Grid.Row>
     </Grid.Container>
