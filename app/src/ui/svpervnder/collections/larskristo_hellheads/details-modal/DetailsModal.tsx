@@ -148,6 +148,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                       truncate
                       href={`${evm.getBlockExplorerUrl()}/token/${ERC721.contractAddress}`}
                       target="_blank"
+                      className={styles["details-modal__details-card--row-right"]}
                     >
                       {ERC721.contractAddress}
                     </Typography.Anchor>
@@ -157,13 +158,16 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                     <Typography.Anchor
                       href={`${evm.getBlockExplorerUrl()}/nft/${ERC721.contractAddress}/${item.id!}`}
                       target="_blank"
+                      className={styles["details-modal__details-card--row-right"]}
                     >
                       #{item.id!}
                     </Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Token Standard</Typography.Text>
-                    <Typography.Anchor>ERC721</Typography.Anchor>
+                    <Typography.Anchor className={styles["details-modal__details-card--row-right"]}>
+                      ERC721
+                    </Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Owner</Typography.Text>
@@ -171,13 +175,16 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                       truncate
                       href={`${evm.getBlockExplorerUrl()}/address/${ensName || ERC721.owner}`}
                       target="_blank"
+                      className={styles["details-modal__details-card--row-right"]}
                     >
                       {ensName || ERC721.owner}
                     </Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Chain</Typography.Text>
-                    <Typography.Text flat>Ethereum</Typography.Text>
+                    <Typography.Text flat className={styles["details-modal__details-card--row-right"]}>
+                      Ethereum
+                    </Typography.Text>
                   </div>
                 </Card.Content>
               </Card>
