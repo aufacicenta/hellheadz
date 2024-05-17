@@ -21,17 +21,18 @@ open_ai_client = OpenAI(
 
 claude_anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPICAI_API_KEY"))
 
-src_dir_path = "./files/hellheads/watermarks_copy"
-watermarks_dir_path = "./files/hellheads/watermarks_copy"
-token_uris_dir_path = "./files/hellheads/token-URIs"
+src_dir_path = "./files/hellheads/217-to-222-watermarks"
+watermarks_dir_path = "./files/hellheads/217-to-222-watermarks"
+token_uris_dir_path = "./files/hellheads/token-URIs-217-to-222"
 
 thumbnail_extension = "_thumbnail"
 
-metadata_file_name = "metadata-final-free-descriptions.json"
-metadata_ai_descriptions_file_name = "metadata-final-free-descriptions.json"
+metadata_file_name = "metadata-217-to-222.json"
+metadata_ai_descriptions_file_name = "metadata-217-to-222.json"
 
-watermark_text = "@svpervnder"
-generic_description_text = "The svpervnder trademark logo NFT"
+watermark_text = "@larskristo"
+author_text = "@larskristo"
+generic_description_text = "Larskristo Hellheadz"
 
 token_uris_filename = f"{token_uris_dir_path}/token-uris.json"
 
@@ -58,13 +59,8 @@ def set_metadata_token_id_from_0_index():
         metadata_list.append(new_metadata)
 
     temp_file_path = "./temp_metadata.json"
-    with open(temp_file_path, "w") as temp_json_file:
-        json.dump(
-            metadata_list,
-            temp_json_file,
-            indent=2,
-            separators=(",", ": "),
-        )
+
+    update_json_document(metadata_list, temp_file_path)
 
 
 def create_token_uri_batches():
@@ -75,10 +71,8 @@ def create_token_uri_batches():
 
     for i in range(0, len(token_uris), batch_size):
         batch = token_uris[i : i + batch_size]
-
-        with open(f"{token_uris_dir_path}/token-uris-batch-{i}.json", "w") as file:
-            json.dump(batch, file, indent=2, separators=(",", ": "))
-            print(f"create_token_uri_batches: {i}")
+        update_json_document(batch, f"{token_uris_dir_path}/token-uris-batch-{i}.json")
+        print(f"create_token_uri_batches: {i}")
 
 
 def create_token_uri_from_metadata_object():
@@ -106,8 +100,7 @@ def create_token_uri_from_metadata_object():
         # Remove the temporary JSON file
         os.remove(temp_file_path)
 
-    with open(token_uris_filename, "a") as file:
-        json.dump(token_uris, file, indent=2, separators=(",", ": "))
+    update_json_document(token_uris, token_uris_filename)
 
 
 def encode_image(image_path):
@@ -126,12 +119,15 @@ def create_img_thumbnails():
                 # Specify the size of the thumbnail
                 size = (187, 187)
                 img.thumbnail(size)
+
                 # get the file extension
                 file_extension = filename.split(".")[-1]
+
                 # change the file name to include _thumbnail
                 filename = (
                     filename.split(".")[0] + thumbnail_extension + "." + file_extension
                 )
+
                 # Save the thumbnail
                 img.save(os.path.join(src_dir_path, filename))
 
@@ -150,9 +146,11 @@ def add_image_watermark():
                 font_size = int(w * 0.02)
                 x, y = w - font_size * 4, h - font_size * 4
                 font = ImageFont.truetype("PPNeueMachina-InktrapRegular.otf", font_size)
+
                 draw.text(
                     (x, y), watermark_text, fill=(64, 64, 74), font=font, anchor="ms"
                 )
+
                 img.save(os.path.join(watermarks_dir_path, filename))
 
 
@@ -199,6 +197,7 @@ def get_claude_image_description(image_url, name, id):
         for filename in sorted(os.listdir(watermarks_dir_path))
         if re.search(rf"{name}*_thumbnail\.(PNG|jpg|png|jpeg|JPG)$", filename)
     ]
+
     for file in res:
         filename = file
         image_data = base64.b64encode(
@@ -284,50 +283,18 @@ def extend_image_description_of_metadata_items():
         )
 
         new_metadata = {
-            "id": metadata["id"],
-            "author": "@larskristo",
-            "name": metadata["name"],
+            **metadata,
             "description": description,
-            "image": metadata["image"],
-            "thumbnail": metadata["thumbnail"],
         }
 
         existing_json_metadata.append(new_metadata)
 
-        with open(metadata_ai_descriptions_file_name, "w") as descriptions_json_file:
-            json.dump(
-                existing_json_metadata,
-                descriptions_json_file,
-                indent=2,
-                separators=(",", ": "),
-            )
+        update_json_document(existing_json_metadata, metadata_ai_descriptions_file_name)
 
 
-def remove_digits_from_name():
-    metadata_list = []
-
-    # Read the metadata from the JSON file
-    with open(metadata_file_name, "r") as f:
-        json_metadata = json.load(f)
-
-    # Loop through each metadata object
-    for metadata in json_metadata:
-        name = metadata["name"]
-        just_name = re.sub(r"\d+", "", name)
-        # just_name = re.match(r"\w+", name)
-
-        new_metadata = {
-            "id": metadata["id"],
-            "name": just_name.strip(),
-            "description": metadata["description"],
-            "image": metadata["image"],
-            "thumbnail": metadata["thumbnail"],
-        }
-
-        metadata_list.append(new_metadata)
-
-    with open(metadata_file_name, "w") as f:
-        json.dump(metadata_list, f)
+def remove_digits_from_name(name):
+    just_name = re.sub(r"\d+", "", name)
+    return just_name
 
 
 def append_real_image_urls_to_metadata_file():
@@ -348,16 +315,14 @@ def append_real_image_urls_to_metadata_file():
 
             if (xname in name) or (name in xname):
                 new_metadata = {
-                    "id": metadata["id"],
-                    "name": metadata["name"],
-                    "description": metadata["description"],
+                    **metadata,
                     "image": unsorted_metadata["image"],
                     "thumbnail": unsorted_metadata["thumbnail"],
                 }
+
                 metadata_list.append(new_metadata)
 
-    with open(metadata_file_name, "w") as f:
-        json.dump(metadata_list, f)
+    update_json_document(metadata_list, metadata_file_name)
 
 
 def sort_metadata_file():
@@ -380,8 +345,7 @@ def sort_metadata_file():
     # Sort the metadata list by the "name" property ascending
     sorted_metadata = sorted(metadata_list, key=lambda x: x["id"])
 
-    with open(metadata_file_name, "w") as f:
-        json.dump(metadata_list, f)
+    update_json_document(metadata_list, metadata_file_name)
 
     return sorted_metadata
 
@@ -412,9 +376,11 @@ def complete_image_filenames():
 
 
 def create_metadata_from_image_files():
-    metadata_list = []
     counter = 0
     total_items = len([filename for filename in os.listdir(watermarks_dir_path)])
+
+    with open(metadata_file_name, "r") as metadata_file:
+        existing_json_metadata = json.load(metadata_file)
 
     for filename in sorted(os.listdir(watermarks_dir_path)):
         if thumbnail_extension not in filename and (
@@ -431,39 +397,49 @@ def create_metadata_from_image_files():
             # change the file name to include _thumbnail
             file_extension = filename.split(".")[-1]
             name = filename.split(".")[0]
+            name = remove_digits_from_name(name)
 
             # Extract numbers from the beginning of the name
             token_id = re.match(r"\d+", name)
             if token_id:
-                token_id = int(token_id.group())
+                token_id = int(token_id.group()) - 1
             else:
                 token_id = ""
 
-            # Rest of the code...
             thumbnail_filename = name + thumbnail_extension + "." + file_extension
             thumbnail_path = os.path.join(watermarks_dir_path, thumbnail_filename)
             thumbnail_ipfs_hash = upload_file_to_ipfs(thumbnail_path)
             print(f"create_metadata.thumbnail_ipfs_hash: {thumbnail_ipfs_hash}")
 
-            # description = get_image_description(f"{ipfs_gateway_url}{image_ipfs_hash}")
+            description = get_claude_image_description(
+                thumbnail_filename, name, token_id
+            )
 
-            # Create a metadata object
             metadata = {
                 "id": token_id,
                 "name": name,
-                "description": generic_description_text,
+                "author": author_text,
+                "description": description,
                 "image": f"{ipfs_gateway_url}{image_ipfs_hash}",
                 "thumbnail": f"{ipfs_gateway_url}{thumbnail_ipfs_hash}",
             }
 
             # Append the metadata object to the list
-            metadata_list.append(metadata)
+            existing_json_metadata.append(metadata)
             counter += 1
             print(f"create_metadata: {counter} of {total_items} items")
 
-    # Write the list of metadata objects to a JSON file
-    with open(metadata_file_name, "w") as f:
-        json.dump(metadata_list, f)
+            update_json_document(existing_json_metadata, metadata_file_name)
+
+
+def update_json_document(data, filename):
+    with open(filename, "w") as file:
+        json.dump(
+            data,
+            file,
+            indent=2,
+            separators=(",", ": "),
+        )
 
 
 def main():
@@ -473,8 +449,8 @@ def main():
     # append_real_image_urls_to_metadata_file()
     # remove_digits_from_name()
     # create_metadata()
-    # create_token_uri_from_metadata_object()
-    create_token_uri_batches()
+    create_token_uri_from_metadata_object()
+    # create_token_uri_batches()
     # set_metadata_token_id_from_0_index()
     # extend_image_description_of_metadata_items()
     # create_img_thumbnails()
