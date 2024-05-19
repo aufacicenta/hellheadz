@@ -1,77 +1,23 @@
-type RouteMap = {
-  home: () => string;
-  market: {
-    price: (args: { marketId: string }) => string;
-  };
-  artists: {
-    index: () => string;
-    larskristo: () => string;
-  };
-  api: {
-    promptWars: {
-      createGuestAccount: () => string;
-      create: () => string;
-      reveal: () => string;
-      resolve: () => string;
-    };
-    chat: {
-      dropboxESign: () => string;
-      openai: {
-        completionsAPI: () => string;
-        assistantsAPI: () => string;
-      };
-      googleai: {
-        completionsAPI: () => string;
-      };
-    };
-  };
-  dashboard: {
-    latestTrends: () => string;
-    promptWars: {
-      home: () => string;
-      previousMarkets: () => string;
-      market: (args: { marketId: string }) => string;
-    };
-    market: (args: { marketId: string }) => string;
-  };
-};
-
-export const routes: RouteMap = {
+export const routes = {
   home: () => `/`,
-  market: {
-    price: ({ marketId }) => `/market/price/${marketId}`,
+  oauth: {
+    discord: () => `${process.env.NEXT_PUBLIC_ORIGIN}/oauth/discord`,
   },
   artists: {
     index: () => `/artists`,
     larskristo: () => `/artists/larskristo`,
   },
   api: {
-    promptWars: {
-      createGuestAccount: () => `/api/prompt-wars/create-guest-account`,
-      create: () => `/api/prompt-wars/create`,
-      reveal: () => `/api/prompt-wars/reveal`,
-      resolve: () => `/api/prompt-wars/resolve`,
+    discord: {
+      verifyOwnership: () => `/api/discord/verify-ownership`,
     },
-    chat: {
-      dropboxESign: () => `/api/chat/dropbox-e-sign`,
-      openai: {
-        completionsAPI: () => `/api/chat/openai/completions`,
-        assistantsAPI: () => `/api/chat/openai/assistant`,
-      },
-      googleai: {
-        completionsAPI: () => `/api/chat/googleai/completions`,
+    oauth: {
+      discord: {
+        authorize: () => `/api/oauth/discord/authorize`,
+        callback: () => `${process.env.NEXT_PUBLIC_ORIGIN}/api/oauth/discord/callback`,
       },
     },
-  },
-  dashboard: {
-    latestTrends: () => `/`,
-    promptWars: {
-      home: () => `/`,
-      previousMarkets: () => `/previous-rounds`,
-      market: ({ marketId }) => `/${marketId}`,
-    },
-    market: ({ marketId }) => `/market/${marketId}`,
   },
 };
 
-export const useRoutes: () => RouteMap = () => routes;
+export const useRoutes = () => routes;

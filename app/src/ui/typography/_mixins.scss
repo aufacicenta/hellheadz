@@ -100,4 +100,12 @@
   &--button {
     text-decoration: none;
   }
+
+  [class*="button"] {
+    color: var(--color-button-primary-text);
+
+    &:hover {
+      color: var(--color-button-primary-hover-text);
+    }
+  }
 }

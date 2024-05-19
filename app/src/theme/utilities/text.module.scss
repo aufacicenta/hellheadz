@@ -1,0 +1,19 @@
+@import "src/theme/base";
+
+.text {
+  &__align {
+    &--center {
+      text-align: center;
+    }
+  }
+
+  &__color {
+    &--primary {
+      color: var(--color-primary);
+    }
+
+    &--info {
+      color: var(--color-status-info);
+    }
+  }
+}

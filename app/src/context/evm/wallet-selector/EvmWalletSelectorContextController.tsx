@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 import { createWeb3Modal } from "@web3modal/wagmi/react";
-import { WagmiProvider, cookieStorage, createStorage, http } from "wagmi";
+import { WagmiProvider, cookieStorage, createStorage } from "wagmi";
 import { mainnet, sepolia } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createConfig } from "@wagmi/core";
+
+import wagmi from "providers/wagmi";
 
 import { EvmWalletSelectorContext } from "./EvmWalletSelectorContext";
 import {
@@ -45,13 +46,7 @@ export const EvmWalletSelectorContextController = ({ children }: EvmWalletSelect
   const [queryClient] = useState(() => new QueryClient());
 
   const props: EvmWalletSelectorContextType = {
-    wagmiConfig: createConfig({
-      chains,
-      transports: {
-        [mainnet.id]: http(),
-        [sepolia.id]: http(),
-      },
-    }),
+    wagmiConfig: wagmi.defaultConfig,
   };
 
   return (
