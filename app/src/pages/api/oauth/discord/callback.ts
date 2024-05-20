@@ -9,7 +9,7 @@ export default async function Fn(request: NextApiRequest, response: NextApiRespo
   try {
     logger.info(`api.oauth.discord.callback`);
 
-    const { code, state } = request.query;
+    const { code } = request.query;
 
     const data = {
       grant_type: "authorization_code",

@@ -18,7 +18,7 @@ import styles from "./DiscordAuthWithWallet.module.scss";
 
 export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ className }) => {
   const [isVerifyingSignature, setIsVerifyingSignature] = useState(false);
-  const [message, setMessage] = useState<Record<string, any>>({});
+  const [message, setMessage] = useState<string>("");
 
   const routes = useRoutes();
   const walletContext = useAccount();
@@ -28,12 +28,9 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
   const { data: signMessageData, error: signMessageError, signMessage } = useSignMessage();
 
   useEffect(() => {
-    setMessage((prev) => ({
-      ...prev,
-      discordId: discordContext.oauth?.user.id,
-      discordUsername: discordContext.oauth?.user.username,
-      address: walletContext.address,
-    }));
+    setMessage(
+      `My Discord username is ${discordContext.oauth?.user.username} and my Ethereum address is ${walletContext.address}`,
+    );
   }, [walletContext.address, discordContext.oauth?.user.id, discordContext.oauth?.user.username]);
 
   useEffect(() => {
@@ -67,7 +64,7 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
   const handleOnSignMessage = async () => {
     if (walletContext.isConnected) {
       signMessage({
-        message: JSON.stringify(message),
+        message,
       });
     }
   };
