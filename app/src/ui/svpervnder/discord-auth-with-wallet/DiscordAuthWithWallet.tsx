@@ -12,12 +12,15 @@ import { Button } from "ui/button/Button";
 import { useRoutes } from "hooks/useRoutes/useRoutes";
 import { Card } from "ui/card/Card";
 import { useDiscordContext } from "context/discord/useDiscordContext";
+import { ERC721Instance } from "providers/evm/ERC721Instance";
+import evm from "providers/evm";
 
 import { DiscordAuthWithWalletProps } from "./DiscordAuthWithWallet.types";
 import styles from "./DiscordAuthWithWallet.module.scss";
 
 export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ className }) => {
   const [isVerifyingSignature, setIsVerifyingSignature] = useState(false);
+  const [isSignatureVerified, setIsSignatureVerified] = useState(false);
   const [message, setMessage] = useState<string>("");
 
   const routes = useRoutes();
@@ -29,21 +32,22 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
 
   useEffect(() => {
     setMessage(
-      `My Discord username is ${discordContext.oauth?.user.username} and my Ethereum address is ${walletContext.address}`,
+      `My Discord username is ${discordContext.oauth?.user.username}, my Ethereum address is ${walletContext.address} and I own one or more Larskristo Hellheadz Collection NFTs from ${ERC721Instance.defaultContractAddress}`,
     );
   }, [walletContext.address, discordContext.oauth?.user.id, discordContext.oauth?.user.username]);
 
   useEffect(() => {
-    console.log({ signMessageError });
-    console.log({ signMessageData });
+    if (signMessageError) {
+      console.error(signMessageError);
+    }
 
-    if (!signMessageData) return;
+    if (!signMessageData || isSignatureVerified || isVerifyingSignature) return;
 
     (async () => {
       setIsVerifyingSignature(true);
 
       try {
-        await axios.post(routes.api.discord.verifyOwnership(), {
+        const response = await axios.post(routes.api.discord.verifyOwnership(), {
           data: {
             discordId: discordContext.oauth?.user.id,
             discordUsername: discordContext.oauth?.user.username,
@@ -53,6 +57,8 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
             message,
           },
         });
+
+        setIsSignatureVerified(response.data.isVerified);
       } catch (error) {
         console.error(error);
       }
@@ -78,23 +84,58 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
   };
 
   const getLoginActions = () => {
+    const commonBlocks = (
+      <>
+        <Card className={clsx(spacing["spacing__margin--bottom-default"])}>
+          <Card.Content>
+            <Typography.TextLead flat className={clsx(text["text__align--center"])}>
+              You are connected to Discord as{" "}
+              <strong className={clsx(text["text__color--typography-text"])}>
+                {discordContext.oauth?.user.username}
+              </strong>
+            </Typography.TextLead>
+          </Card.Content>
+        </Card>
+        <Card className={clsx(spacing["spacing__margin--bottom-default"])}>
+          <Card.Content>
+            <Typography.TextLead flat className={clsx(text["text__align--center"])}>
+              You are connected to Ethereum with{" "}
+              <strong className={clsx(text["text__color--typography-text"])}>
+                {evm.format.truncate(walletContext.address!)}
+              </strong>
+            </Typography.TextLead>
+          </Card.Content>
+        </Card>
+      </>
+    );
+
+    if (isSignatureVerified) {
+      return (
+        <>
+          {commonBlocks}
+
+          <Card className={clsx(spacing["spacing__margin--bottom-default"])}>
+            <Card.Content>
+              <Typography.TextLead flat className={clsx(text["text__align--center"])}>
+                You are now verified. Welcome to{" "}
+                <Typography.Anchor
+                  href="https://discord.com/channels/1239987861818839143/1239988024142725201"
+                  target="_blank"
+                >
+                  Discord's LKHH private channel
+                </Typography.Anchor>
+                . Enjoy the conversation!
+              </Typography.TextLead>
+            </Card.Content>
+          </Card>
+        </>
+      );
+    }
+
     if (discordContext.isLoggedIn && walletContext.isConnected) {
       return (
         <>
-          <Card className={clsx(spacing["spacing__margin--bottom-default"])}>
-            <Card.Content>
-              <Typography.TextLead flat className={clsx(text["text__align--center"])}>
-                You are connected to Discord as <strong>{discordContext.oauth?.user.username}</strong>
-              </Typography.TextLead>
-            </Card.Content>
-          </Card>
-          <Card className={clsx(spacing["spacing__margin--bottom-default"])}>
-            <Card.Content>
-              <Typography.TextLead flat className={clsx(text["text__align--center"])}>
-                You are connected to Ethereum with <strong>{walletContext.address}</strong>
-              </Typography.TextLead>
-            </Card.Content>
-          </Card>
+          {commonBlocks}
 
           <Button onClick={handleOnSignMessage} disabled={isVerifyingSignature} isLoading={isVerifyingSignature}>
             Good. Now verify your ownership

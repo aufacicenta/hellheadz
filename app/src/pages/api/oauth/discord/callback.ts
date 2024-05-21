@@ -36,7 +36,7 @@ export default async function Fn(request: NextApiRequest, response: NextApiRespo
 
     response.setHeader("Set-Cookie", [`${OAuthTokenStoreKey.discord_oauth}=${JSON.stringify(result.data)}; Path=/`]);
 
-    response.redirect(301, routes.oauth.discord());
+    response.redirect(routes.oauth.discord.lkhh());
   } catch (error) {
     logger.error(error);
 

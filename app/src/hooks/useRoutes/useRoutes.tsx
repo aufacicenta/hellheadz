@@ -1,7 +1,9 @@
 export const routes = {
   home: () => `/`,
   oauth: {
-    discord: () => `${process.env.NEXT_PUBLIC_ORIGIN}/oauth/discord`,
+    discord: {
+      lkhh: () => `${process.env.NEXT_PUBLIC_HTTP_PROTOCOL}://${process.env.NEXT_PUBLIC_VERCEL_URL}/oauth/discord/lkhh`,
+    },
   },
   artists: {
     index: () => `/artists`,
@@ -14,7 +16,8 @@ export const routes = {
     oauth: {
       discord: {
         authorize: () => `/api/oauth/discord/authorize`,
-        callback: () => `${process.env.NEXT_PUBLIC_ORIGIN}/api/oauth/discord/callback`,
+        callback: () =>
+          `${process.env.NEXT_PUBLIC_HTTP_PROTOCOL}://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/oauth/discord/callback`,
       },
     },
   },

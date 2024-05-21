@@ -1,6 +1,9 @@
 @import "src/theme/base";
+@import "src/ui/typography/mixins";
 
 .text {
+  @include truncate;
+
   &__align {
     &--center {
       text-align: center;
@@ -14,6 +17,10 @@
 
     &--info {
       color: var(--color-status-info);
+    }
+
+    &--typography-text {
+      color: var(--color-typography-text);
     }
   }
 }

@@ -4,7 +4,7 @@ import { useAccount } from "wagmi";
 
 import { LarsKristoHellheadz__factory } from "providers/evm/contracts/larskristohellheads/LarsKristoHellheadz__factory";
 import { ZeroXAddress } from "../wallet-selector/EvmWalletSelectorContext.types";
-import evm from "providers/evm";
+import { publicClient } from "providers/evm/client";
 
 import { LarskristoHellheadsContext } from "./LarskristoHellheadsContext";
 import {
@@ -41,7 +41,6 @@ export const LarskristoHellheadsContextController = ({ children }: LarskristoHel
   });
 
   const { address: connectedAccountAddress } = useAccount();
-  const { publicClient } = evm;
 
   const getContractInstance = () =>
     getContract({

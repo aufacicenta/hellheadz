@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import axios, { Axios, AxiosInstance } from "axios";
 
-export class DiscordClient {
+export class DiscordBotClient {
   baseUrl: string = "https://discord.com/api";
 
   request: AxiosInstance;

@@ -76,7 +76,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                     </div>
                   </div>
 
-                  <Typography.Text flat>{item.description}</Typography.Text>
+                  <Typography.Text>{item.description}</Typography.Text>
 
                   {ERC721.connectedAccountIsOwner() && (
                     <div className={styles["details-modal__set-for-sale"]}>

@@ -61,6 +61,10 @@
   @include normalizeTypography;
   margin-bottom: $space-m;
   color: var(--color-typography-text-lead);
+
+  a {
+    @include link;
+  }
 }
 @mixin textBold {
   @include font-properties($typography-text-bold);
@@ -101,11 +105,39 @@
     text-decoration: none;
   }
 
-  [class*="button"] {
+  [class*="button--primary button--outlined"] {
+    color: var(--color-button-outlined-primary-text);
+
+    &:hover {
+      color: var(--color-button-outlined-primary-hover-text);
+    }
+  }
+
+  [class*="button--primary"] {
     color: var(--color-button-primary-text);
 
     &:hover {
       color: var(--color-button-primary-hover-text);
     }
+  }
+
+  [class*="button--secondary button--outlined"] {
+    color: var(--color-button-outlined-secondary-text);
+
+    &:hover {
+      color: var(--color-button-outlined-secondary-hover-text);
+    }
+  }
+}
+@mixin truncate {
+  &__truncate {
+    @include atLargeTablet {
+      width: $truncate-width-desktop;
+    }
+    display: inline-block;
+    width: $truncate-width-mobile;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }

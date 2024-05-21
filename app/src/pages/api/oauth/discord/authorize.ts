@@ -20,7 +20,7 @@ export default async function Fn(_request: NextApiRequest, response: NextApiResp
 
     const redirectURL = makeDiscordOAuthURL();
 
-    response.redirect(301, redirectURL);
+    response.redirect(redirectURL);
   } catch (error) {
     logger.error(error);
 
