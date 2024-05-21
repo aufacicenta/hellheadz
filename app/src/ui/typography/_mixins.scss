@@ -105,7 +105,7 @@
     text-decoration: none;
   }
 
-  [class*="button--primary button--outlined"] {
+  &[class*="button--primary button--outlined"] {
     color: var(--color-button-outlined-primary-text);
 
     &:hover {
@@ -113,7 +113,7 @@
     }
   }
 
-  [class*="button--primary"] {
+  &[class*="button--primary"]:not([class*="button--outlined"]) {
     color: var(--color-button-primary-text);
 
     &:hover {
@@ -121,7 +121,7 @@
     }
   }
 
-  [class*="button--secondary button--outlined"] {
+  &[class*="button--secondary button--outlined"] {
     color: var(--color-button-outlined-secondary-text);
 
     &:hover {
