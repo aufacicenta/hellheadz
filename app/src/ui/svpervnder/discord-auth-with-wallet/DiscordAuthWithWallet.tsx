@@ -14,13 +14,17 @@ import { Card } from "ui/card/Card";
 import { useDiscordContext } from "context/discord/useDiscordContext";
 import { ERC721Instance } from "providers/evm/ERC721Instance";
 import evm from "providers/evm";
+import { Icon } from "ui/icon/Icon";
 
 import { DiscordAuthWithWalletProps } from "./DiscordAuthWithWallet.types";
 import styles from "./DiscordAuthWithWallet.module.scss";
 
 export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ className }) => {
-  const [isVerifyingSignature, setIsVerifyingSignature] = useState(false);
-  const [isSignatureVerified, setIsSignatureVerified] = useState(false);
+  const [ownershipVerification, setOwnershipVerification] = useState({
+    isVerifyingSignature: false,
+    isSignatureVerified: false,
+    isSignatureSent: false,
+  });
   const [message, setMessage] = useState<string>("");
 
   const routes = useRoutes();
@@ -41,10 +45,11 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
       console.error(signMessageError);
     }
 
-    if (!signMessageData || isSignatureVerified || isVerifyingSignature) return;
+    if (!signMessageData || ownershipVerification.isSignatureVerified || ownershipVerification.isVerifyingSignature)
+      return;
 
     (async () => {
-      setIsVerifyingSignature(true);
+      setOwnershipVerification((prev) => ({ ...prev, isVerifyingSignature: true }));
 
       try {
         const response = await axios.post(routes.api.discord.verifyOwnership(), {
@@ -58,12 +63,16 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
           },
         });
 
-        setIsSignatureVerified(response.data.isVerified);
+        setOwnershipVerification((prev) => ({
+          ...prev,
+          isSignatureVerified: response.data.isVerified,
+          isSignatureSent: true,
+        }));
       } catch (error) {
         console.error(error);
       }
 
-      setIsVerifyingSignature(false);
+      setOwnershipVerification((prev) => ({ ...prev, isVerifyingSignature: false }));
     })();
   }, [signMessageData]);
 
@@ -109,7 +118,7 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
       </>
     );
 
-    if (isSignatureVerified) {
+    if (ownershipVerification.isSignatureSent && !ownershipVerification.isSignatureVerified) {
       return (
         <>
           {commonBlocks}
@@ -117,14 +126,41 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
           <Card className={clsx(spacing["spacing__margin--bottom-default"])}>
             <Card.Content>
               <Typography.TextLead flat className={clsx(text["text__align--center"])}>
-                You are now verified. Welcome to{" "}
+                You do not own any Larskristo Hellheadz Collection NFTs
+              </Typography.TextLead>
+            </Card.Content>
+            <Card.Actions>
+              <Button as="link" href="#" target="_blank" variant="outlined" rightIcon={<Icon name="icon-launch" />}>
+                Buy now in OpenSea
+              </Button>
+              <Button as="link" href="#" target="_blank" variant="outlined" rightIcon={<Icon name="icon-launch" />}>
+                Buy now in MagicEden
+              </Button>
+            </Card.Actions>
+          </Card>
+        </>
+      );
+    }
+
+    if (ownershipVerification.isSignatureVerified) {
+      return (
+        <>
+          {commonBlocks}
+
+          <Card className={clsx(spacing["spacing__margin--bottom-default"])}>
+            <Card.Content>
+              <Typography.TextLead flat className={clsx(text["text__align--center"])}>
+                You are now verified.
+                <br />
+                Welcome to{" "}
                 <Typography.Anchor
                   href="https://discord.com/channels/1239987861818839143/1239988024142725201"
                   target="_blank"
                 >
                   Discord's LKHH private channel
                 </Typography.Anchor>
-                . Enjoy the conversation!
+                .<br />
+                Enjoy the conversation!
               </Typography.TextLead>
             </Card.Content>
           </Card>
@@ -137,7 +173,11 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
         <>
           {commonBlocks}
 
-          <Button onClick={handleOnSignMessage} disabled={isVerifyingSignature} isLoading={isVerifyingSignature}>
+          <Button
+            onClick={handleOnSignMessage}
+            disabled={ownershipVerification.isVerifyingSignature}
+            isLoading={ownershipVerification.isVerifyingSignature}
+          >
             Good. Now verify your ownership
           </Button>
         </>

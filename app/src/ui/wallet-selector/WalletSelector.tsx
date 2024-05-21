@@ -6,6 +6,7 @@ import { useAccount } from "wagmi";
 import { Button } from "../button/Button";
 import { Typography } from "ui/typography/Typography";
 import { Icon } from "ui/icon/Icon";
+import evm from "providers/evm";
 
 import { WalletSelectorProps } from "./WalletSelector.types";
 import styles from "./WalletSelector.module.scss";
@@ -35,8 +36,8 @@ export const WalletSelector: React.FC<WalletSelectorProps> = ({ className }) => 
         size="s"
       >
         {isConnected ? (
-          <Typography.Text inline truncate flat>
-            {address}
+          <Typography.Text inline flat>
+            {evm.format.truncate(address!)}
           </Typography.Text>
         ) : (
           <>{t("promptWars.connectWallet")}</>
