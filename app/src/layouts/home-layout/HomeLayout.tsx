@@ -20,7 +20,7 @@ export const HomeLayout: React.FC<ChatLayoutProps> = ({ children }) => {
 
   return (
     <>
-      {process.env.NEXT_PUBLIC_NODE_ENV === "production" && (
+      {process.env.NEXT_PUBLIC_VERCEL_ENV === "production" && (
         <Script defer src="https://api.pirsch.io/pa.js" id="pianjs" data-code="QUOVXtsuf3gMNfQ5MEqIlHGPmw5aeAt9" />
       )}
       <Head>
