@@ -3,6 +3,7 @@ export type Styles = {
   "latest-collection__grid": string;
   "latest-collection__grid--info-card": string;
   "latest-collection__grid--info-card-col": string;
+  "latest-collection__hero": string;
   "latest-collection__intro": string;
   "latest-collection__intro--artist-name": string;
   "latest-collection__stats--sub": string;

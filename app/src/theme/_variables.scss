@@ -1,18 +1,15 @@
-// Variables
-//
-// Variables should follow the `$component-state-property-size` formula for
-// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
-
 $navbar-height: 98px !default;
 $navbar-height-mobile: 80px !default;
 $navbar-logo-width: 124px !default;
 $navbar-logo-width-mobile: 70px !default;
 
+$footer-height: 77px !default;
+$footer-height-mobile: 48px !default;
+
 $sidebar-width: 82px;
 $sidebar-width-open: 210px;
 $sidebar-width-mobile-open: 280px;
 
-// Z-index
 $z-index-content: 2;
 $z-index-navigation: 3;
 $z-index-modal: 4;
@@ -71,12 +68,10 @@ $grid-gutters: map-merge(
   $grid-gutters
 );
 
-// Grid Columns
 $grid-columns: (1, 2, 3, 4, 5, 6, 7, 8, 12) !default;
 $container-mw: 1440px !default;
 $container-mw-xl: 1600px !default;
 
-// Border radius sizes
 $border-radius: 3px !default;
 $border-radius-medium: 5px !default;
 $border-radius-large: 8px !default;
@@ -87,7 +82,6 @@ $border-radius-button: 28px !default;
 $border-radius-input: 7px !default;
 $border-radius-modal: 7px !default;
 
-// Spacing
 $space-default: rem-calc(16) !default;
 $gutter-width: $space-default * 2;
 $space-xxs: $space-default / 8 !default;
@@ -117,7 +111,6 @@ $space-stack-ml: 0 0 $space-ml 0 !default;
 $space-stack-l: 0 0 $space-l 0 !default;
 $space-stack-xl: 0 0 $space-xl 0 !default;
 
-// Shadows
 $shadow-radius: $border-radius-medium !default;
 $shadow-dropdown: 0 5px 10px 0 var(--color-dark-5) !default;
 $shadow-overlay: 0 5px 15px 0 var(--color-black) !default;
@@ -128,7 +121,6 @@ $shadow-select: 0 2px 2px var(--color-dark-5) !default;
 $shadow-sm: 0 1px 1px 0 rgba(var(--color-dark-1), 0.05) !default;
 $shadow-md: 0 2px 2px 0 rgba(var(--color-dark-1), 0.05) !default;
 
-// Borders
 $border: 1px solid var(--color-dark-5) !default;
 $border-disabled: 1px solid var(--color-dark-1) !default;
 $border-brand: 1px solid var(--color-primary) !default;
@@ -137,10 +129,8 @@ $border-dark: 1px solid var(--color-dark-1) !default;
 $border-divider: 1px solid var(--color-dark-3) !default;
 $border-divider-inverse: 1px solid #3b3e42 !default;
 
-// legacy
 $border-light: 1px solid var(--color-dark-3) !default;
 
-// Box Shadows
 $box-shadow-default-width: 2px !default;
 $box-shadow-border: 0 1px 1px rgba(9, 10, 11, 0.05) !default;
 $box-shadow-border-large: 0 0 0 $box-shadow-default-width var(--color-primary)-bright !default;
@@ -150,7 +140,6 @@ $box-shadow-error: 0 0 0 3px var(--color-status-critical)-lighter !default;
 $box-shadow-ok: 0 0 0 3px var(--color-status-ok-lighter) !default;
 $box-shadow-warning: 0 0 0 3px var(--color-status-warning-lighter) !default;
 
-// Animations
 $animation-rotate: rotate;
 $animation-moveDownIn: moveDownIn;
 $animation-moveDownOut: moveDownOut;
@@ -183,7 +172,6 @@ $animation-zoomRightOut: zoomRightOut;
 $animation-zoomDownIn: zoomDownIn;
 $animation-zoomDownOut: zoomDownOut;
 
-// Animation Easing
 $ease-linear: linear;
 $ease-out: cubic-bezier(0.215, 0.61, 0.355, 1) !default;
 $ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19) !default;
@@ -201,7 +189,6 @@ $ease-in-expo: cubic-bezier(0.7, 0, 0.84, 0) !default;
 $ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1) !default;
 $ease-in-fast: cubic-bezier(0.25, 0.1, 0.24, 1) !default;
 
-// Animation Duration
 $duration-none: 0ms !default;
 $duration-default: 300ms !default;
 $duration-slower: 1000ms !default;
@@ -211,29 +198,20 @@ $duration-fast: 200ms !default;
 $duration-faster: 100ms !default;
 $duration-paused: 3200ms !default;
 
-// Navigation
 $mobile-menu-width: 360px !default;
 
-// Forms
-// Radio Buttons
 $form-radio: rem-calc(20) !default;
 
-// Checkbox
 $checkbox-size: $form-radio !default;
 
-// Switch
 $switch-height: 32px !default;
 $switch-min-width: 60px !default;
 
-// Opacity
 $opacity-high: 0.9;
 $opacity-mid: 0.5;
 $opacity-low: 0.3;
 
-// FORMS
 $dropdown-item-height: 50px !default;
-
-// Z-levels box-shadow
 
 .z-depth-0 {
   box-shadow: none !important;

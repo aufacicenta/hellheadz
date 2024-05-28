@@ -14,6 +14,7 @@ export type Styles = {
   "footer__cta-banner--icon": string;
   "footer__cta-banner--link": string;
   "footer__cta-banner--welcome": string;
+  footer__left: string;
   "footer__left--item": string;
   "footer__powered-by": string;
   footer__right: string;

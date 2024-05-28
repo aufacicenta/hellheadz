@@ -1,8 +1,14 @@
 @import "src/theme/base";
+@import "src/theme/mixins";
 @import "src/ui/typography/variables";
 
 .latest-collection {
+  @include hero;
   display: block;
+
+  &__hero {
+    min-height: 75vh;
+  }
 
   &__intro {
     text-align: right;

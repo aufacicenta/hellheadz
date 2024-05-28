@@ -34,39 +34,32 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
     <>
       <div className={clsx(styles["latest-collection"], className)}>
         <Grid.Container>
-          <Grid.Row justify="end">
-            <Grid.Col lg={8} sm={12} xs={12}>
-              <div />
-            </Grid.Col>
-            <Grid.Col lg={4} sm={12} xs={12}>
-              <div className={styles["latest-collection__intro"]}>
-                <Typography.Headline5>Latest Collection</Typography.Headline5>
-                <Typography.Headline4 className={styles["latest-collection__intro--artist-name"]}>
-                  {ERC721.contractValues?.name}, {ERC721.contractValues?.symbol}
-                </Typography.Headline4>
-                <Grid.Row justify="end">
-                  <Grid.Col lg={4} xs={3}>
-                    <Typography.Description className={styles["latest-collection__stats--sub"]}>
-                      {ERC721.contractValues?.totalSupply}/{ERC721.contractValues?.tokenLimit} <span>Minted</span>
-                    </Typography.Description>
-                  </Grid.Col>
-                </Grid.Row>
+          <section className={styles["latest-collection__hero"]}>
+            <Typography.Headline1 className={styles["latest-collection__intro--artist-name"]}>
+              {ERC721.contractValues?.name}, {ERC721.contractValues?.symbol}
+            </Typography.Headline1>
+            <Grid.Row>
+              <Grid.Col lg={6} sm={12} xs={12}>
+                <Typography.Description className={styles["latest-collection__stats--sub"]}>
+                  {ERC721.contractValues?.totalSupply}/{ERC721.contractValues?.tokenLimit} <span>Minted</span>
+                </Typography.Description>
                 <Typography.Text>
                   In 2022, Larskristo ventured deeper into the abyss, exploring the unsettling terrain of AI dark art.
                   This foray birthed Hellheadz — a chilling fusion of the ordinary and the grotesque. Here, everyday
                   objects metamorphosed into eerie spectacles, blurring the lines between reality and nightmare.
                 </Typography.Text>
-                <Grid.Row>
-                  <Grid.Col>
-                    <Button color="secondary" size="s" variant="outlined" as="link" href={routes.artists.larskristo()}>
-                      See Artist
-                    </Button>
-                  </Grid.Col>
-                </Grid.Row>
-              </div>
-            </Grid.Col>
-          </Grid.Row>
+                <Button color="secondary" size="s" variant="outlined" as="link" href={routes.artists.larskristo()}>
+                  About Larskristo
+                </Button>
+              </Grid.Col>
+              <Grid.Col lg={6} sm={12} xs={12}>
+                <div />
+              </Grid.Col>
+            </Grid.Row>
+          </section>
+        </Grid.Container>
 
+        <Grid.Container>
           <section className={styles["latest-collection__grid"]}>
             <Grid.Row>
               {metadataBatch0_22.map((item: ItemMetadata, index) => (
