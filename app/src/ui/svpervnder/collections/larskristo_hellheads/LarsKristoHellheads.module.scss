@@ -12,7 +12,35 @@
     }
   }
 
+  &__stats {
+    &--sub {
+      color: var(--color-typography-text);
+
+      span {
+        @include font-properties($typography-mini-description);
+        color: var(--color-typography-mini-description);
+      }
+    }
+  }
+
   &__grid {
     margin-top: $space-l;
+
+    &--info-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 290px;
+      padding-right: $space-xl;
+      padding-left: $space-xl;
+
+      &-col {
+        margin-bottom: $space-default;
+      }
+
+      h3 {
+        color: var(--color-typography-text);
+      }
+    }
   }
 }

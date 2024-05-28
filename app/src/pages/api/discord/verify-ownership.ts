@@ -29,7 +29,7 @@ export default async function Fn(request: NextApiRequest, response: NextApiRespo
     logger.info(`api.discord.verify-ownership: isVerified: ${isVerified}`);
 
     if (!isVerified) {
-      throw new Error("api.discord.verify-ownership: Invalid signature");
+      return response.json({ isVerified, isOwner: false });
     }
 
     const getWalletNFTCollections = await moralis.client.EvmApi.nft.getWalletNFTCollections({
@@ -42,7 +42,7 @@ export default async function Fn(request: NextApiRequest, response: NextApiRespo
     const ownedCollections = getWalletNFTCollections.result.map((collection) => collection.tokenAddress.toJSON());
 
     if (!ownedCollections.includes(evm.ERC721Instance.defaultContractAddress.toLowerCase())) {
-      throw new Error("User does not own the NFT");
+      return response.json({ isVerified, isOwner: false });
     }
 
     const discordClient = new discord.DiscordBotClient();
@@ -62,7 +62,7 @@ export default async function Fn(request: NextApiRequest, response: NextApiRespo
 
     logger.info(`api.discord.verify-ownership: createMessage: ${createMessage}`);
 
-    response.json({ isVerified });
+    response.json({ isVerified, isOwner: true });
   } catch (error) {
     logger.error(error);
 

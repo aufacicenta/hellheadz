@@ -24,6 +24,7 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
     isVerifyingSignature: false,
     isSignatureVerified: false,
     isSignatureSent: false,
+    isOwner: false,
   });
   const [message, setMessage] = useState<string>("");
 
@@ -66,6 +67,7 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
         setOwnershipVerification((prev) => ({
           ...prev,
           isSignatureVerified: response.data.isVerified,
+          isOwner: response.data.isOwner,
           isSignatureSent: true,
         }));
       } catch (error) {
@@ -118,7 +120,7 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
       </>
     );
 
-    if (ownershipVerification.isSignatureSent && !ownershipVerification.isSignatureVerified) {
+    if (ownershipVerification.isSignatureSent && !ownershipVerification.isOwner) {
       return (
         <>
           {commonBlocks}
@@ -142,7 +144,7 @@ export const DiscordAuthWithWallet: React.FC<DiscordAuthWithWalletProps> = ({ cl
       );
     }
 
-    if (ownershipVerification.isSignatureVerified) {
+    if (ownershipVerification.isSignatureVerified && ownershipVerification.isOwner) {
       return (
         <>
           {commonBlocks}

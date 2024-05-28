@@ -19,7 +19,7 @@ export const GridItem: React.FC<GridItemProps> = ({ item, handleExpand, classNam
           <Typography.Description flat className={styles["grid-item__name-row--name"]}>
             {item.name}
           </Typography.Description>
-          <Typography.Description flat>#{item.id}</Typography.Description>
+          <Typography.Description flat>#{item.id + 1}</Typography.Description>
         </div>
         <div className={styles["grid-item__price-row"]}>
           <div />

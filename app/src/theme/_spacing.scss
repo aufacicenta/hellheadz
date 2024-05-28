@@ -1,13 +1,21 @@
-$fontSize: 16px;
+@import "src/ui/typography/variables";
 
-$space-xxxxs: calc(0.125 * $fontSize);
-$space-xxxs: calc(0.25 * $fontSize);
-$space-xxs: calc(0.375 * $fontSize);
-$space-xs: calc(0.5 * $fontSize);
-$space-sm: calc(0.75 * $fontSize);
-$space-md: calc(1.25 * $fontSize);
-$space-lg: calc(2 * $fontSize);
-$space-xl: calc(3.25 * $fontSize);
-$space-xxl: calc(5.25 * $fontSize);
-$space-xxxl: calc(8.5 * $fontSize);
-$space-xxxxl: calc(13.75 * $fontSize);
+$space-xxxxs: calc(0.125 * $font-size-base);
+$space-xxxs: calc(0.25 * $font-size-base);
+$space-xxs: calc(0.375 * $font-size-base);
+$space-xs: calc(0.5 * $font-size-base);
+$space-sm: calc(0.75 * $font-size-base);
+$space-md: calc(1.25 * $font-size-base);
+$space-lg: calc(2 * $font-size-base);
+$space-xl: calc(3.25 * $font-size-base);
+$space-xxl: calc(5.25 * $font-size-base);
+$space-xxxl: calc(8.5 * $font-size-base);
+$space-xxxxl: calc(13.75 * $font-size-base);
+
+@mixin margin {
+  &__margin-bottom {
+    &--default {
+      margin-bottom: $space-default;
+    }
+  }
+}

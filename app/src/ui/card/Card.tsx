@@ -52,6 +52,8 @@ export const Card: React.FC<CardProps> & {
         [styles.card__link]: !!url || !!props.onClick,
         [styles.card__shadow]: !!shadow,
         [styles.card__spotlight]: !!withSpotlightEffect,
+
+        [styles["card__margin-bottom--default"]]: props.marginBottom === "default",
       })}
       {...props}
     >

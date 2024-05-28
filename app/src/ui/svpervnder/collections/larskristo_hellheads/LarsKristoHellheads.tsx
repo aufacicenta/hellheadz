@@ -5,10 +5,12 @@ import { Grid } from "ui/grid/Grid";
 import { Typography } from "ui/typography/Typography";
 import { Button } from "ui/button/Button";
 import { useRoutes } from "hooks/useRoutes/useRoutes";
+import { Card } from "ui/card/Card";
+import metadataBatch0_22 from "providers/svpervnder/hellheadz/metadata-batch-0-22.json";
+import { useLarskristoHellheadsContext } from "context/evm/larskristo-hellheads/useLarskristoHellheadsContext";
 
 import styles from "./LarsKristoHellheads.module.scss";
 import { ItemMetadata, LatestCollectionProps } from "./LarsKristoHellheads.types";
-import metadata from "./metadata.json";
 import { DetailsModal } from "./details-modal/DetailsModal";
 import { GridItem } from "./grid-item/GridItem";
 
@@ -17,6 +19,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
   const [currentItem, setCurrentItem] = useState<ItemMetadata | undefined>();
 
   const routes = useRoutes();
+  const ERC721 = useLarskristoHellheadsContext();
 
   const handleExpand = (item: ItemMetadata) => {
     setCurrentItem(item);
@@ -39,9 +42,20 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
               <div className={styles["latest-collection__intro"]}>
                 <Typography.Headline5>Latest Collection</Typography.Headline5>
                 <Typography.Headline4 className={styles["latest-collection__intro--artist-name"]}>
-                  Lars Kristo: Hellheadz
+                  {ERC721.contractValues?.name}, {ERC721.contractValues?.symbol}
                 </Typography.Headline4>
-                <Typography.Description>31/222 Sold</Typography.Description>
+                <Grid.Row justify="end">
+                  <Grid.Col lg={3} xs={3}>
+                    <Typography.Description className={styles["latest-collection__stats--sub"]}>
+                      31/{ERC721.contractValues?.tokenLimit} <span>Sold</span>
+                    </Typography.Description>
+                  </Grid.Col>
+                  <Grid.Col lg={4} xs={3}>
+                    <Typography.Description className={styles["latest-collection__stats--sub"]}>
+                      22/{ERC721.contractValues?.tokenLimit} <span>Minted</span>
+                    </Typography.Description>
+                  </Grid.Col>
+                </Grid.Row>
                 <Typography.Text>
                   In 2022, Larskristo ventured deeper into the abyss, exploring the unsettling terrain of AI dark art.
                   This foray birthed Hellheadz — a chilling fusion of the ordinary and the grotesque. Here, everyday
@@ -60,8 +74,37 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
 
           <section className={styles["latest-collection__grid"]}>
             <Grid.Row>
-              {metadata.map((item: ItemMetadata) => (
-                <GridItem key={item.id} item={item} handleExpand={handleExpand} />
+              {metadataBatch0_22.map((item: ItemMetadata, index) => (
+                <>
+                  {index === 6 && (
+                    <Grid.Col lg={8} className={styles["latest-collection__grid--info-card-col"]} key="order-matters">
+                      <Card>
+                        <Card.Content className={styles["latest-collection__grid--info-card"]}>
+                          <Typography.TextLead>Order matters.</Typography.TextLead>
+                          <Typography.Headline3 flat>
+                            Dark Clown is the first HH, made in early 2022's.
+                          </Typography.Headline3>
+                        </Card.Content>
+                      </Card>
+                    </Grid.Col>
+                  )}
+
+                  {index + 2 === 22 && (
+                    <Grid.Col lg={6} className={styles["latest-collection__grid--info-card-col"]} key="token-limit">
+                      <Card>
+                        <Card.Content className={styles["latest-collection__grid--info-card"]}>
+                          <Typography.TextLead>There are 666 HH to be minted</Typography.TextLead>
+                          <Typography.Headline3>22 more next month.</Typography.Headline3>
+                          <Button as="link" href="https://discord.gg/uEngc5U5" target="_blank">
+                            Join Discord
+                          </Button>
+                        </Card.Content>
+                      </Card>
+                    </Grid.Col>
+                  )}
+
+                  <GridItem key={item.id} item={item} handleExpand={handleExpand} />
+                </>
               ))}
             </Grid.Row>
           </section>

@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { useEffect } from "react";
 import { useEnsName } from "wagmi";
+import { mainnet } from "viem/chains";
 
 import text from "../../../../../theme/utilities/text.module.scss";
 import { Modal } from "ui/modal/Modal";
@@ -11,19 +12,26 @@ import { Button } from "ui/button/Button";
 import { useLarskristoHellheadsContext } from "context/evm/larskristo-hellheads/useLarskristoHellheadsContext";
 import { Icon } from "ui/icon/Icon";
 import evm from "providers/evm";
+import { ZeroXAddress } from "context/evm/wallet-selector/EvmWalletSelectorContext.types";
 
 import { DetailsModalProps } from "./DetailsModal.types";
 import styles from "./DetailsModal.module.scss";
 
 export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, item }) => {
   const ERC721 = useLarskristoHellheadsContext();
-  const { data: ensName } = useEnsName({ address: ERC721.owner });
+
+  const { data: ownerEnsName } = useEnsName({ address: ERC721.owner, chainId: mainnet.id });
+
+  const { data: authorEnsName } = useEnsName({
+    address: ERC721.contractValues?.author as ZeroXAddress,
+    chainId: mainnet.id,
+  });
 
   useEffect(() => {
     (async () => {
       await ERC721.ownerOf(item.id!);
     })();
-  }, [item.id]);
+  }, [item.id, ERC721.contract]);
 
   return (
     <Modal
@@ -70,10 +78,10 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                       <Typography.Text flat className={styles["details-modal__price-block--owner-pill"]}>
                         <span>Owned by:</span>{" "}
                         <Typography.Anchor
-                          href={`${evm.getBlockExplorerUrl()}/address/${ensName || ERC721.owner}`}
+                          href={`${evm.getBlockExplorerUrl()}/address/${ownerEnsName || ERC721.owner}`}
                           target="_blank"
                         >
-                          {ensName || evm.format.truncate(ERC721.owner!)}
+                          {ownerEnsName || evm.format.truncate(ERC721.owner!)}
                         </Typography.Anchor>
                       </Typography.Text>
                     </div>
@@ -148,17 +156,27 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Contract Address</Typography.Text>
                     <Typography.Anchor
-                      href={`${evm.getBlockExplorerUrl()}/token/${ERC721.contractAddress}`}
+                      href={`${evm.getBlockExplorerUrl()}/token/${ERC721.contract?.address}`}
                       target="_blank"
                       className={styles["details-modal__details-card--row-right"]}
                     >
-                      {evm.format.truncate(ERC721.contractAddress!)}
+                      {evm.format.truncate(ERC721.contract?.address)}
+                    </Typography.Anchor>
+                  </div>
+                  <div className={styles["details-modal__details-card--row"]}>
+                    <Typography.Text flat>Author</Typography.Text>
+                    <Typography.Anchor
+                      href={`${evm.getBlockExplorerUrl()}/address/${ERC721.contractValues?.author}`}
+                      target="_blank"
+                      className={styles["details-modal__details-card--row-right"]}
+                    >
+                      {authorEnsName || evm.format.truncate(ERC721.contractValues?.author!)}
                     </Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Token ID</Typography.Text>
                     <Typography.Anchor
-                      href={`${evm.getBlockExplorerUrl()}/nft/${ERC721.contractAddress}/${item.id!}`}
+                      href={`${evm.getBlockExplorerUrl()}/nft/${ERC721.contract?.address}/${item.id!}`}
                       target="_blank"
                       className={styles["details-modal__details-card--row-right"]}
                     >
@@ -174,11 +192,11 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Owner</Typography.Text>
                     <Typography.Anchor
-                      href={`${evm.getBlockExplorerUrl()}/address/${ensName || ERC721.owner}`}
+                      href={`${evm.getBlockExplorerUrl()}/address/${ownerEnsName || ERC721.owner}`}
                       target="_blank"
                       className={styles["details-modal__details-card--row-right"]}
                     >
-                      {ensName || evm.format.truncate(ERC721.owner!)}
+                      {ownerEnsName || evm.format.truncate(ERC721.owner!)}
                     </Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
