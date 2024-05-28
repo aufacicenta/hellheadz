@@ -53,6 +53,20 @@ export const LarskristoHellheadsContextController = ({ children }: LarskristoHel
     }
   };
 
+  const tokenURI = async (tokenId: number) => {
+    if (!contract) return undefined;
+
+    try {
+      const result = await contract.tokenURI(tokenId);
+
+      return result;
+    } catch (error) {
+      console.error(error);
+    }
+
+    return undefined;
+  };
+
   const fetchContractValues = async () => {
     if (!contract) return;
 
@@ -76,11 +90,11 @@ export const LarskristoHellheadsContextController = ({ children }: LarskristoHel
         name,
         symbol,
         author,
-        totalSupply,
-        tokenLimit,
+        totalSupply: totalSupply.toString(),
+        tokenLimit: tokenLimit.toString(),
       };
 
-      setContractValues({ ...values });
+      setContractValues(values);
     } catch (error) {
       console.error(error);
     }
@@ -117,6 +131,7 @@ export const LarskristoHellheadsContextController = ({ children }: LarskristoHel
     actions,
     contract,
     ownerOf,
+    tokenURI,
     owner,
     royalty,
     connectedAccountIsOwner,

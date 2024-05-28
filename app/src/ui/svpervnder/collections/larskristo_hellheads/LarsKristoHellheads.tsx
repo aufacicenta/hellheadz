@@ -45,14 +45,9 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   {ERC721.contractValues?.name}, {ERC721.contractValues?.symbol}
                 </Typography.Headline4>
                 <Grid.Row justify="end">
-                  <Grid.Col lg={3} xs={3}>
-                    <Typography.Description className={styles["latest-collection__stats--sub"]}>
-                      31/{ERC721.contractValues?.tokenLimit} <span>Sold</span>
-                    </Typography.Description>
-                  </Grid.Col>
                   <Grid.Col lg={4} xs={3}>
                     <Typography.Description className={styles["latest-collection__stats--sub"]}>
-                      22/{ERC721.contractValues?.tokenLimit} <span>Minted</span>
+                      {ERC721.contractValues?.totalSupply}/{ERC721.contractValues?.tokenLimit} <span>Minted</span>
                     </Typography.Description>
                   </Grid.Col>
                 </Grid.Row>
@@ -89,7 +84,9 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                     </Grid.Col>
                   )}
 
-                  {index + 2 === 22 && (
+                  <GridItem key={item.id} item={item} handleExpand={handleExpand} />
+
+                  {item.id === 21 && (
                     <Grid.Col lg={6} className={styles["latest-collection__grid--info-card-col"]} key="token-limit">
                       <Card>
                         <Card.Content className={styles["latest-collection__grid--info-card"]}>
@@ -102,8 +99,6 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                       </Card>
                     </Grid.Col>
                   )}
-
-                  <GridItem key={item.id} item={item} handleExpand={handleExpand} />
                 </>
               ))}
             </Grid.Row>

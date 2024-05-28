@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Client, getContract } from "viem";
+import axios from "axios";
 
 import { ZeroXAddress } from "context/evm/wallet-selector/EvmWalletSelectorContext.types";
 
@@ -25,6 +26,10 @@ export class ERC721Instance {
     return await this.contract.read.ownerOf([BigInt(tokenId)]);
   }
 
+  async tokenURI(tokenId: number) {
+    return await this.contract.read.tokenURI([BigInt(tokenId)]);
+  }
+
   async name() {
     return await this.contract.read.name();
   }
@@ -42,12 +47,34 @@ export class ERC721Instance {
   }
 
   async tokenLimit() {
-    return await this.contract.read.tokenLimit();
+    const tokenLimit = await this.contract.read.tokenLimit();
+
+    console.log(`ERC721Instance.getTokenMetadata`, tokenLimit);
+
+    return tokenLimit;
   }
 
   static get defaultContractAddress() {
     return process.env.NEXT_PUBLIC_DEFAULT_NETWORK_ENV === "testnet"
       ? SEPOLIA_TESTNET_ADDRESS
       : ETHEREUM_MAINNET_ADDRESS;
+  }
+
+  static async getTokenMetadata(tokenURI: string) {
+    try {
+      const result = await axios.get(tokenURI, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log(`ERC721Instance.getTokenMetadata`, result.data);
+
+      return result;
+    } catch (error) {
+      console.error(error);
+    }
+
+    return undefined;
   }
 }

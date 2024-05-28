@@ -44,5 +44,6 @@ export type LarskristoHellheadsContextType = {
   royalty?: Royalty;
   fetchContractValues: (address: string) => Promise<void>;
   ownerOf: (tokenId: number) => Promise<void>;
+  tokenURI: (tokenId: number) => Promise<string>;
   connectedAccountIsOwner: () => boolean;
 };

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useEnsName } from "wagmi";
 import { mainnet } from "viem/chains";
 
@@ -13,11 +13,15 @@ import { useLarskristoHellheadsContext } from "context/evm/larskristo-hellheads/
 import { Icon } from "ui/icon/Icon";
 import evm from "providers/evm";
 import { ZeroXAddress } from "context/evm/wallet-selector/EvmWalletSelectorContext.types";
+import { ERC721Instance } from "providers/evm/ERC721Instance";
+import { TokenMetadata } from "providers/evm/ERC721Instance.types";
 
 import { DetailsModalProps } from "./DetailsModal.types";
 import styles from "./DetailsModal.module.scss";
 
 export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, item }) => {
+  const [metadata, setMetadata] = useState<TokenMetadata | undefined>();
+
   const ERC721 = useLarskristoHellheadsContext();
 
   const { data: ownerEnsName } = useEnsName({ address: ERC721.owner, chainId: mainnet.id });
@@ -26,6 +30,17 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
     address: ERC721.contractValues?.author as ZeroXAddress,
     chainId: mainnet.id,
   });
+
+  useEffect(() => {
+    if (!ERC721.contract) return;
+
+    (async () => {
+      const tokenURI = await ERC721.tokenURI(item.id);
+      const result = await ERC721Instance.getTokenMetadata(tokenURI);
+
+      setMetadata(result?.data);
+    })();
+  }, [item.id, ERC721.contract]);
 
   useEffect(() => {
     (async () => {
@@ -46,13 +61,17 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
         <div className={styles["details-modal__header--row"]}>
           <div>
             <Typography.Headline4 flat className={clsx(text["text__color--typography-text"])}>
-              {item.name}{" "}
+              {metadata?.name}{" "}
             </Typography.Headline4>
           </div>
           <div className={styles["details-modal__header--token-id"]}>
-            <Button variant="outlined" color="secondary" size="xs">
-              Token ID: {item.id!}
-            </Button>
+            <Typography.Link
+              href={`${evm.getBlockExplorerUrl()}/nft/${ERC721.contract?.address}/${metadata?.id}`}
+              target="_blank"
+              flat
+            >
+              Token ID: {metadata?.id!}
+            </Typography.Link>
           </div>
         </div>
         <Typography.TextLead flat>
@@ -64,7 +83,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
           <Grid.Row>
             <Grid.Col lg={6}>
               <div className={styles["details-modal__img-container"]}>
-                <img src={item.image} alt={item.name} />
+                <img src={metadata?.image} alt={metadata?.name} />
               </div>
             </Grid.Col>
             <Grid.Col lg={6}>
@@ -87,7 +106,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                     </div>
                   </div>
 
-                  <Typography.Text>{item.description}</Typography.Text>
+                  <Typography.Text>{metadata?.description}</Typography.Text>
 
                   {ERC721.connectedAccountIsOwner() && (
                     <div className={styles["details-modal__set-for-sale"]}>
