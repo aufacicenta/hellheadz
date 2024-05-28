@@ -18,13 +18,50 @@
     }
   }
 
+  &__socials {
+    display: flex;
+
+    [class*="icon"] {
+      font-size: $font-size-headline-4;
+    }
+
+    &--etherscan-icon {
+      @include atLargeTablet {
+        width: 21px;
+      }
+      width: 16px;
+    }
+
+    &--links {
+      margin-left: auto;
+    }
+
+    &--link {
+      margin-right: $space-default;
+    }
+  }
+
+  &__description {
+    text-align: justify;
+  }
+
   &__stats {
+    @include atLargeTablet {
+      justify-content: flex-end;
+    }
+    display: flex;
+    margin-bottom: $space-m;
+
     &--sub {
       color: var(--color-typography-text);
 
       span {
         @include font-properties($typography-mini-description);
         color: var(--color-typography-mini-description);
+      }
+
+      &-minted {
+        text-align: right;
       }
     }
   }

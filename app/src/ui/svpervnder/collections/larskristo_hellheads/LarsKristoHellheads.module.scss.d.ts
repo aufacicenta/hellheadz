@@ -1,12 +1,19 @@
 export type Styles = {
   "latest-collection": string;
+  "latest-collection__description": string;
   "latest-collection__grid": string;
   "latest-collection__grid--info-card": string;
   "latest-collection__grid--info-card-col": string;
   "latest-collection__hero": string;
   "latest-collection__intro": string;
   "latest-collection__intro--artist-name": string;
+  "latest-collection__socials": string;
+  "latest-collection__socials--etherscan-icon": string;
+  "latest-collection__socials--link": string;
+  "latest-collection__socials--links": string;
+  "latest-collection__stats": string;
   "latest-collection__stats--sub": string;
+  "latest-collection__stats--sub-minted": string;
   "z-depth-0": string;
   "z-depth-1": string;
   "z-depth-1-half": string;
