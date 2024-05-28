@@ -4,6 +4,7 @@ export type Styles = {
   "card__background-image": string;
   card__content: string;
   card__link: string;
+  "card__margin-bottom--default": string;
   card__shadow: string;
   card__spotlight: string;
   "card__spotlight--child": string;

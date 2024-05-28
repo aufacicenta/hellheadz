@@ -1,7 +1,9 @@
 import clsx from "clsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useEnsName } from "wagmi";
+import { mainnet } from "viem/chains";
 
+import text from "../../../../../theme/utilities/text.module.scss";
 import { Modal } from "ui/modal/Modal";
 import { Typography } from "ui/typography/Typography";
 import { Grid } from "ui/grid/Grid";
@@ -10,19 +12,41 @@ import { Button } from "ui/button/Button";
 import { useLarskristoHellheadsContext } from "context/evm/larskristo-hellheads/useLarskristoHellheadsContext";
 import { Icon } from "ui/icon/Icon";
 import evm from "providers/evm";
+import { ZeroXAddress } from "context/evm/wallet-selector/EvmWalletSelectorContext.types";
+import { ERC721Instance } from "providers/evm/ERC721Instance";
+import { TokenMetadata } from "providers/evm/ERC721Instance.types";
 
 import { DetailsModalProps } from "./DetailsModal.types";
 import styles from "./DetailsModal.module.scss";
 
 export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, item }) => {
+  const [metadata, setMetadata] = useState<TokenMetadata | undefined>();
+
   const ERC721 = useLarskristoHellheadsContext();
-  const { data: ensName } = useEnsName({ address: ERC721.owner });
+
+  const { data: ownerEnsName } = useEnsName({ address: ERC721.owner, chainId: mainnet.id });
+
+  const { data: authorEnsName } = useEnsName({
+    address: ERC721.contractValues?.author as ZeroXAddress,
+    chainId: mainnet.id,
+  });
+
+  useEffect(() => {
+    if (!ERC721.contract) return;
+
+    (async () => {
+      const tokenURI = await ERC721.tokenURI(item.id);
+      const result = await ERC721Instance.getTokenMetadata(tokenURI);
+
+      setMetadata(result?.data);
+    })();
+  }, [item.id, ERC721.contract]);
 
   useEffect(() => {
     (async () => {
       await ERC721.ownerOf(item.id!);
     })();
-  }, [item.id]);
+  }, [item.id, ERC721.contract]);
 
   return (
     <Modal
@@ -36,12 +60,18 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
       <Modal.Header onClose={onClose}>
         <div className={styles["details-modal__header--row"]}>
           <div>
-            <Typography.Headline4 flat>{item.name} </Typography.Headline4>
+            <Typography.Headline4 flat className={clsx(text["text__color--typography-text"])}>
+              {metadata?.name}{" "}
+            </Typography.Headline4>
           </div>
           <div className={styles["details-modal__header--token-id"]}>
-            <Button variant="outlined" color="secondary" size="xs">
-              Token ID: {item.id!}
-            </Button>
+            <Typography.Link
+              href={`${evm.getBlockExplorerUrl()}/nft/${ERC721.contract?.address}/${metadata?.id}`}
+              target="_blank"
+              flat
+            >
+              Token ID: {metadata?.id!}
+            </Typography.Link>
           </div>
         </div>
         <Typography.TextLead flat>
@@ -53,7 +83,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
           <Grid.Row>
             <Grid.Col lg={6}>
               <div className={styles["details-modal__img-container"]}>
-                <img src={item.image} alt={item.name} />
+                <img src={metadata?.image} alt={metadata?.name} />
               </div>
             </Grid.Col>
             <Grid.Col lg={6}>
@@ -64,19 +94,19 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                       <Typography.Headline5>About This Item</Typography.Headline5>
                     </div>
                     <div>
-                      <Typography.Text flat truncate className={styles["details-modal__price-block--owner-pill"]}>
+                      <Typography.Text flat className={styles["details-modal__price-block--owner-pill"]}>
                         <span>Owned by:</span>{" "}
                         <Typography.Anchor
-                          href={`${evm.getBlockExplorerUrl()}/address/${ensName || ERC721.owner}`}
+                          href={`${evm.getBlockExplorerUrl()}/address/${ownerEnsName || ERC721.owner}`}
                           target="_blank"
                         >
-                          {ensName || ERC721.owner}
+                          {ownerEnsName || evm.format.truncate(ERC721.owner!)}
                         </Typography.Anchor>
                       </Typography.Text>
                     </div>
                   </div>
 
-                  <Typography.Text flat>{item.description}</Typography.Text>
+                  <Typography.Text>{metadata?.description}</Typography.Text>
 
                   {ERC721.connectedAccountIsOwner() && (
                     <div className={styles["details-modal__set-for-sale"]}>
@@ -145,39 +175,54 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Contract Address</Typography.Text>
                     <Typography.Anchor
-                      truncate
-                      href={`${evm.getBlockExplorerUrl()}/token/${ERC721.contractAddress}`}
+                      href={`${evm.getBlockExplorerUrl()}/token/${ERC721.contract?.address}`}
                       target="_blank"
+                      className={styles["details-modal__details-card--row-right"]}
                     >
-                      {ERC721.contractAddress}
+                      {evm.format.truncate(ERC721.contract?.address)}
+                    </Typography.Anchor>
+                  </div>
+                  <div className={styles["details-modal__details-card--row"]}>
+                    <Typography.Text flat>Author</Typography.Text>
+                    <Typography.Anchor
+                      href={`${evm.getBlockExplorerUrl()}/address/${ERC721.contractValues?.author}`}
+                      target="_blank"
+                      className={styles["details-modal__details-card--row-right"]}
+                    >
+                      {authorEnsName || evm.format.truncate(ERC721.contractValues?.author!)}
                     </Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Token ID</Typography.Text>
                     <Typography.Anchor
-                      href={`${evm.getBlockExplorerUrl()}/nft/${ERC721.contractAddress}/${item.id!}`}
+                      href={`${evm.getBlockExplorerUrl()}/nft/${ERC721.contract?.address}/${item.id!}`}
                       target="_blank"
+                      className={styles["details-modal__details-card--row-right"]}
                     >
                       #{item.id!}
                     </Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Token Standard</Typography.Text>
-                    <Typography.Anchor>ERC721</Typography.Anchor>
+                    <Typography.Anchor className={styles["details-modal__details-card--row-right"]}>
+                      ERC721
+                    </Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Owner</Typography.Text>
                     <Typography.Anchor
-                      truncate
-                      href={`${evm.getBlockExplorerUrl()}/address/${ensName || ERC721.owner}`}
+                      href={`${evm.getBlockExplorerUrl()}/address/${ownerEnsName || ERC721.owner}`}
                       target="_blank"
+                      className={styles["details-modal__details-card--row-right"]}
                     >
-                      {ensName || ERC721.owner}
+                      {ownerEnsName || evm.format.truncate(ERC721.owner!)}
                     </Typography.Anchor>
                   </div>
                   <div className={styles["details-modal__details-card--row"]}>
                     <Typography.Text flat>Chain</Typography.Text>
-                    <Typography.Text flat>Ethereum</Typography.Text>
+                    <Typography.Text flat className={styles["details-modal__details-card--row-right"]}>
+                      Ethereum
+                    </Typography.Text>
                   </div>
                 </Card.Content>
               </Card>

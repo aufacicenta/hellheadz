@@ -6,23 +6,19 @@
 
   &__header {
     &--row {
-      @include atLargeTablet {
-        display: flex;
+      display: flex;
 
-        > div {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          margin-right: $space-default;
-        }
+      > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-right: $space-default;
       }
     }
 
     &--token-id {
-      @include atLargeTablet {
-        margin-bottom: 0;
-      }
-      margin-bottom: $space-default;
+      justify-content: flex-end;
+      margin-bottom: 0;
     }
   }
 
@@ -50,6 +46,10 @@
     &--row {
       display: flex;
       justify-content: space-between;
+
+      &-right {
+        text-align: right;
+      }
     }
   }
 

@@ -8,6 +8,7 @@ type GeneralProps = {
   flat?: boolean;
   truncate?: boolean;
   align?: "center" | "right";
+  color?: string;
 };
 
 export type TypographyProps = HTMLAttributes<HTMLParagraphElement> & {

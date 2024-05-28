@@ -163,6 +163,10 @@
       flex-direction: column;
       justify-content: center;
       height: $navbar-height-mobile;
+
+      a {
+        color: var(--color-secondary-shade-mid);
+      }
     }
   }
 

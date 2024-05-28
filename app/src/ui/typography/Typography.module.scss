@@ -22,6 +22,7 @@
 }
 
 .typography {
+  @include truncate;
   position: relative;
 
   &__align {
@@ -40,18 +41,6 @@
 
   &__flat {
     margin-bottom: 0 !important;
-  }
-
-  &__truncate {
-    @extend .typography__inline;
-
-    @include atLargeTablet {
-      width: 210px;
-    }
-    width: 98px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
 
   &__headline1 {

@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 
 import { ZeroXAddress } from "../wallet-selector/EvmWalletSelectorContext.types";
+import { ERC721Instance } from "providers/evm/ERC721Instance";
 
 export type LarskristoHellheadsContextControllerProps = {
   children: ReactNode;
@@ -16,6 +17,9 @@ export type LarskristoHellheadsContextActions = {
 export type LarskristoHellheadsContractValues = {
   name: string;
   symbol: string;
+  author: string;
+  totalSupply: number;
+  tokenLimit: number;
 };
 
 export type TokenPrice = {
@@ -33,12 +37,13 @@ export type Royalty = {
 
 export type LarskristoHellheadsContextType = {
   contractValues?: LarskristoHellheadsContractValues;
-  contractAddress?: string;
+  contract?: ERC721Instance;
   actions: LarskristoHellheadsContextActions;
   owner?: ZeroXAddress;
   tokenPrice?: TokenPrice;
   royalty?: Royalty;
   fetchContractValues: (address: string) => Promise<void>;
   ownerOf: (tokenId: number) => Promise<void>;
+  tokenURI: (tokenId: number) => Promise<string>;
   connectedAccountIsOwner: () => boolean;
 };

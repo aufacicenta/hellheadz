@@ -4,6 +4,7 @@ export type Styles = {
   "details-modal__author-card": string;
   "details-modal__details-card": string;
   "details-modal__details-card--row": string;
+  "details-modal__details-card--row-right": string;
   "details-modal__forge-card": string;
   "details-modal__forge-card--row": string;
   "details-modal__forge-card--row-button": string;
