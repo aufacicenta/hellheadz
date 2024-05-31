@@ -1,9 +1,13 @@
 @mixin hero {
   &__hero {
+    @include atLargeTablet {
+      padding-top: $navbar-height;
+    }
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: 50vh;
+    padding-top: $navbar-height-mobile;
     text-align: left;
     background-color: var(--color-background);
   }

@@ -7,7 +7,17 @@ import { CardActionsProps, CardContentProps, CardProps } from "./Card.types";
 export const Card: React.FC<CardProps> & {
   Content: React.FC<CardContentProps>;
   Actions: React.FC<CardActionsProps>;
-} = ({ children, className, backgroundImageUrl, url, shadow, withSpotlightEffect, ...props }) => {
+} = ({
+  children,
+  className,
+  backgroundImageUrl,
+  url,
+  shadow,
+  withSpotlightEffect,
+  withInnerBorder,
+  withBackgroundGrain,
+  ...props
+}) => {
   const divRef = useRef<HTMLDivElement>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -52,6 +62,8 @@ export const Card: React.FC<CardProps> & {
         [styles.card__link]: !!url || !!props.onClick,
         [styles.card__shadow]: !!shadow,
         [styles.card__spotlight]: !!withSpotlightEffect,
+        [styles["card__inner-border"]]: !!withInnerBorder,
+        [styles["card__background-grain"]]: !!withBackgroundGrain,
 
         [styles["card__margin-bottom--default"]]: props.marginBottom === "default",
       })}

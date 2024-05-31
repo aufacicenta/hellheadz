@@ -1,8 +1,10 @@
 export type Styles = {
   card: string;
   card__actions: string;
+  "card__background-grain": string;
   "card__background-image": string;
   card__content: string;
+  "card__inner-border": string;
   card__link: string;
   "card__margin-bottom--default": string;
   card__shadow: string;

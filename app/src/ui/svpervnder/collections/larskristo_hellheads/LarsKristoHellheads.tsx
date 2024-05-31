@@ -38,9 +38,16 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
     <>
       <div className={clsx(styles["latest-collection"], className)}>
         <Grid.Container>
+          {/* <section className={clsx(styles["latest-collection__hero--logo"], styles["latest-collection__hero"])}>
+            <Grid.Row>
+              <Grid.Col lg={6} sm={12} xs={12}>
+                <HellheadzLogo className={styles["latest-collection__hellheadz-logo"]} />
+              </Grid.Col>
+            </Grid.Row>
+          </section> */}
           <section className={styles["latest-collection__hero"]}>
             <Typography.Headline1 className={styles["latest-collection__intro--artist-name"]}>
-              {ERC721.contractValues?.name}, {ERC721.contractValues?.symbol}
+              Larskristo Hellheadz, LK💀💀
             </Typography.Headline1>
             <Grid.Row>
               <Grid.Col lg={6} sm={12} xs={12}>
@@ -94,12 +101,24 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 <>
                   {index === 6 && (
                     <Grid.Col lg={8} className={styles["latest-collection__grid--info-card-col"]} key="order-matters">
-                      <Card>
+                      <Card withInnerBorder>
                         <Card.Content className={styles["latest-collection__grid--info-card"]}>
-                          <Typography.TextLead>Order matters.</Typography.TextLead>
+                          <Typography.TextLead>Order Matters</Typography.TextLead>
                           <Typography.Headline3 flat>
-                            Dark Clown is the first HH, made in early 2022's.
+                            Dark Clown is the first 💀💀, made in early 2022's.
                           </Typography.Headline3>
+                        </Card.Content>
+                      </Card>
+                    </Grid.Col>
+                  )}
+
+                  {index === 14 && (
+                    <Grid.Col lg={4} className={styles["latest-collection__grid--info-card-col"]} key="order-matters">
+                      <Card withInnerBorder>
+                        <Card.Content className={styles["latest-collection__grid--info-card"]}>
+                          <Typography.TextLead>Scarcity Is Hell</Typography.TextLead>
+                          <Typography.Headline3>666 LK💀💀 Topz</Typography.Headline3>
+                          <Typography.Description flat>with 22 every month.</Typography.Description>
                         </Card.Content>
                       </Card>
                     </Grid.Col>
@@ -108,14 +127,31 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   <GridItem key={item.id} item={item} handleExpand={handleExpand} />
 
                   {item.id === 21 && (
-                    <Grid.Col lg={6} className={styles["latest-collection__grid--info-card-col"]} key="token-limit">
-                      <Card>
-                        <Card.Content className={styles["latest-collection__grid--info-card"]}>
-                          <Typography.TextLead>There are 666 HH to be minted</Typography.TextLead>
-                          <Typography.Headline3>22 more next month.</Typography.Headline3>
-                          <Button as="link" href="https://discord.gg/uEngc5U5" target="_blank">
-                            Join Discord
-                          </Button>
+                    <Grid.Col
+                      lg={4}
+                      className={clsx(styles["latest-collection__grid--info-card-col"])}
+                      key="token-limit"
+                    >
+                      <Card withInnerBorder withBackgroundGrain>
+                        <Card.Content
+                          className={clsx(
+                            styles["latest-collection__grid--info-card"],
+                            styles["latest-collection__grid--info-card-light"],
+                          )}
+                        >
+                          <Typography.Description>Hellheadz Owners Only</Typography.Description>
+                          <Typography.Headline5>JOIN DISCORD'S PRIVATE CHANNEL</Typography.Headline5>
+                          <div>
+                            <Button
+                              as="link"
+                              href={routes.oauth.discord.lkhh()}
+                              rightIcon={<Icon name="icon-discord" />}
+                              color="dark"
+                              variant="outlined"
+                            >
+                              Verify Ownership
+                            </Button>
+                          </div>
                         </Card.Content>
                       </Card>
                     </Grid.Col>

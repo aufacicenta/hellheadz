@@ -61,6 +61,10 @@ $HALF_LOADER_SIZE: 15px;
     display: inline-block;
     vertical-align: middle;
 
+    [class*="icon-"] {
+      vertical-align: middle;
+    }
+
     svg {
       width: $space-default;
       height: $space-default;
@@ -80,7 +84,7 @@ $HALF_LOADER_SIZE: 15px;
 
   &__icon--right {
     @extend .button__icon;
-    margin-left: $space-s;
+    margin-left: $space-default;
   }
 
   &--large {
@@ -116,6 +120,10 @@ $HALF_LOADER_SIZE: 15px;
 
     &.button--outlined {
       padding: 11px 22px;
+    }
+
+    [class*="icon-"] {
+      font-size: $font-size-headline-5;
     }
   }
 
@@ -181,13 +189,14 @@ $HALF_LOADER_SIZE: 15px;
   }
 
   &--dark {
-    color: var(--color-white);
-    background: var(--color-dark-1);
+    color: var(--color-button-dark-text);
+    background: var(--color-button-dark);
 
     &:hover,
     &:active,
     &:focus {
-      background: rgba(var(--color-dark-1), 0.9);
+      color: var(--color-button-dark-hover);
+      background: var(--color-button-dark-hover);
     }
   }
 
@@ -334,6 +343,10 @@ $HALF_LOADER_SIZE: 15px;
     @extend .button-outline;
     background: transparent;
 
+    &__content {
+      font-weight: $font-weight-bold;
+    }
+
     &.button--primary,
     &.button--secondary,
     &.button--success,
@@ -355,6 +368,19 @@ $HALF_LOADER_SIZE: 15px;
         border-color: var(--color-button-outlined-primary-border-hover);
         color: var(--color-button-outlined-primary-hover-text);
         background: var(--color-button-outlined-primary-hover);
+      }
+    }
+
+    &.button--dark {
+      border: 2px solid var(--color-button-outlined-dark-border);
+      color: var(--color-button-outlined-dark-text);
+
+      &:active,
+      &:hover,
+      &:focus {
+        border: 2px solid var(--color-button-outlined-dark-border-hover);
+        color: var(--color-button-outlined-dark-hover-text);
+        background: var(--color-button-outlined-dark-hover);
       }
     }
 
@@ -420,17 +446,6 @@ $HALF_LOADER_SIZE: 15px;
           color: var(--color-button-status-critical-text);
           background: var(--color-button-status-critical-hover);
         }
-      }
-    }
-
-    &.button--dark {
-      border-color: var(--color-dark-1);
-      color: var(--color-dark-1);
-
-      &:active,
-      &:hover,
-      &:focus {
-        color: var(--color-white);
       }
     }
 

@@ -64,6 +64,11 @@ body[data-theme="svpervnder"] {
   --color-button-status-critical-text: var(--color-status-critical);
   --color-button-status-critical-hover: var(--color-status-critical);
   --color-button-status-critical-hover-text: var(--color-white);
+  --color-button-dark: var(--color-background);
+  --color-button-dark-text: var(--color-white);
+  --color-button-dark-hover: var(--color-background-contrast);
+  --color-button-dark-hover-text: var(--color-white);
+  --color-button-dark-disabled: var(--color-dark-5);
 
   // Button outlined
   --color-button-outlined-primary-text: var(--color-primary);
@@ -80,6 +85,11 @@ body[data-theme="svpervnder"] {
   --color-button-outlined-info-text: #ffd74b;
   --color-button-outlined-disabled: #5b5b65;
   --color-button-outlined-disabled-text: #8a8a98;
+  --color-button-outlined-dark-text: var(--color-background);
+  --color-button-outlined-dark-hover: transparent;
+  --color-button-outlined-dark-hover-text: var(--color-background);
+  --color-button-outlined-dark-border: var(--color-background);
+  --color-button-outlined-dark-border-hover: var(--color-background-contrast);
 
   // Button text
   --color-button-text-primary-text: var(--color-primary);
@@ -158,4 +168,7 @@ body[data-theme="svpervnder"] {
 
   // Table
   --color-table-background: var(--color-background-contrast);
+
+  // Border Radius
+  --border-radius-button-large: 30px;
 }

@@ -2,6 +2,7 @@ import clsx from "clsx";
 
 import { Grid } from "ui/grid/Grid";
 import { Typography } from "ui/typography/Typography";
+import { HellheadzLogo } from "ui/icons/HellheadzLogo";
 
 import styles from "./Footer.module.scss";
 import { FooterProps } from "./Footer.types";
@@ -13,7 +14,7 @@ export const Footer: React.FC<FooterProps> = ({ className }) => (
         <Grid.Col lg={6} sm={6} xs={6}>
           <div className={styles.footer__left}>
             <div className={styles["footer__left--item"]}>
-              <Typography.Text flat>hellheadz</Typography.Text>
+              <HellheadzLogo />
               <Typography.MiniDescription flat>
                 {new Date().getFullYear()}. All Rights Reserved
               </Typography.MiniDescription>
