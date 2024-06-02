@@ -1,5 +1,8 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SplitType from "split-type";
 
 import { Grid } from "ui/grid/Grid";
 import { Typography } from "ui/typography/Typography";
@@ -7,11 +10,7 @@ import { Button } from "ui/button/Button";
 import { useRoutes } from "hooks/useRoutes/useRoutes";
 import { Card } from "ui/card/Card";
 import metadataBatch0_22 from "providers/svpervnder/hellheadz/metadata-batch-0-22.json";
-import { useLarskristoHellheadsContext } from "context/evm/larskristo-hellheads/useLarskristoHellheadsContext";
 import { Icon } from "ui/icon/Icon";
-import evm from "providers/evm";
-import { ERC721Instance } from "providers/evm/ERC721Instance";
-import { EtherscanIcon } from "ui/icons/EtherscanIcon";
 
 import styles from "./LarsKristoHellheads.module.scss";
 import { ItemMetadata, LatestCollectionProps } from "./LarsKristoHellheads.types";
@@ -23,7 +22,6 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
   const [currentItem, setCurrentItem] = useState<ItemMetadata | undefined>();
 
   const routes = useRoutes();
-  const ERC721 = useLarskristoHellheadsContext();
 
   const handleExpand = (item: ItemMetadata) => {
     setCurrentItem(item);
@@ -34,64 +32,109 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
     displayDetailsModals(false);
   };
 
+  useLayoutEffect(() => {
+    gsap.config({});
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const split = new SplitType(".intro-text", { types: "lines" });
+
+    const masks: HTMLSpanElement[] = [];
+
+    function makeItHappen() {
+      split.lines!.forEach((target) => {
+        const mask = document.createElement("span");
+
+        mask.className = "mask";
+        target.append(mask);
+        masks.push(mask);
+
+        gsap.to(mask, {
+          scaleX: 0,
+          transformOrigin: "right center",
+          ease: "circ.in",
+          scrollTrigger: {
+            trigger: target,
+            markers: false,
+            scrub: 0.5,
+            start: `-=800`,
+            end: "bottom center",
+          },
+        });
+      });
+    }
+
+    function newTriggers() {
+      ScrollTrigger.getAll().forEach((trigger, i) => {
+        trigger.kill();
+        masks[i].remove();
+      });
+
+      split.split({});
+
+      makeItHappen();
+    }
+
+    window.addEventListener("resize", newTriggers);
+
+    makeItHappen();
+  }, []);
+
   return (
     <>
       <div className={clsx(styles["latest-collection"], className)}>
         <Grid.Container>
-          {/* <section className={clsx(styles["latest-collection__hero--logo"], styles["latest-collection__hero"])}>
-            <Grid.Row>
-              <Grid.Col lg={6} sm={12} xs={12}>
-                <HellheadzLogo className={styles["latest-collection__hellheadz-logo"]} />
-              </Grid.Col>
-            </Grid.Row>
-          </section> */}
-          <section className={styles["latest-collection__hero"]}>
-            <Typography.Headline1 className={styles["latest-collection__intro--artist-name"]}>
-              Larskristo Hellheadz, LK💀💀
-            </Typography.Headline1>
-            <Grid.Row>
-              <Grid.Col lg={6} sm={12} xs={12}>
-                <div className={styles["latest-collection__stats"]}>
-                  <Typography.Description
-                    className={clsx(
-                      styles["latest-collection__stats--sub"],
-                      styles["latest-collection__stats--sub-minted"],
-                    )}
-                  >
-                    {ERC721.contractValues?.totalSupply}/{ERC721.contractValues?.tokenLimit} <span>Minted</span>
-                  </Typography.Description>
-                </div>
-                <Typography.Text className={styles["latest-collection__description"]}>
+          <Grid.Row justify="center">
+            <Grid.Col lg={10}>
+              <section
+                className={clsx(styles["latest-collection__hero"], styles["latest-collection__hero--intro-text"])}
+              >
+                <Typography.Headline2 className="intro-text">
                   In 2022, Larskristo ventured deeper into the abyss, exploring the unsettling terrain of AI dark art.
-                  This foray birthed Hellheadz — a chilling fusion of the ordinary and the grotesque. Here, everyday
-                  objects metamorphosed into eerie spectacles, blurring the lines between reality and nightmare.
-                </Typography.Text>
-                <div className={styles["latest-collection__socials"]}>
-                  <div>
-                    <Button color="secondary" size="s" variant="outlined" as="link" href={routes.artists.larskristo()}>
-                      About Larskristo
-                    </Button>
-                  </div>
-                  <div className={styles["latest-collection__socials--links"]}>
-                    <Typography.Link
-                      className={clsx(styles["latest-collection__socials--link"])}
-                      href={`${evm.getBlockExplorerUrl()}/address/${ERC721Instance.defaultContractAddress}`}
-                      target="_blank"
-                    >
-                      <EtherscanIcon className={styles["latest-collection__socials--etherscan-icon"]} />
-                    </Typography.Link>
-                    <Typography.Link
-                      className={clsx(styles["latest-collection__socials--link"])}
-                      href="https://discord.gg/uEngc5U5"
-                      target="_blank"
-                    >
-                      <Icon name="icon-discord" />
-                    </Typography.Link>
-                  </div>
-                </div>
-              </Grid.Col>
-            </Grid.Row>
-          </section>
+                </Typography.Headline2>
+              </section>
+              <section
+                className={clsx(
+                  styles["latest-collection__hero"],
+                  styles["latest-collection__hero--intro-text"],
+                  styles["latest-collection__hero--intro-text-two"],
+                )}
+              >
+                <Typography.Headline2 className="intro-text">
+                  This foray birthed Hellheadz — a chilling fusion of the ordinary and the grotesque.
+                </Typography.Headline2>
+              </section>
+              <section
+                className={clsx(
+                  styles["latest-collection__hero"],
+                  styles["latest-collection__hero--intro-text"],
+                  styles["latest-collection__hero--intro-text-two"],
+                )}
+              >
+                <Typography.Headline2 className="intro-text" flat>
+                  Here, everyday objects
+                </Typography.Headline2>
+                <Typography.Headline2 className="intro-text">
+                  metamorphosed into eerie spectacles,{" "}
+                </Typography.Headline2>
+                <Typography.Headline2
+                  className={clsx(
+                    "intro-text",
+                    styles["latest-collection__hero--intro-text-highlight"],
+                    styles["latest-collection__hero--intro-text-highlight-top"],
+                  )}
+                  flat
+                >
+                  BLURRING THE LINES
+                </Typography.Headline2>
+                <Typography.Headline2
+                  className={clsx("intro-text", styles["latest-collection__hero--intro-text-highlight"])}
+                >
+                  BETWEEN REALITY AND NIGHTMARE.
+                </Typography.Headline2>
+              </section>
+            </Grid.Col>
+          </Grid.Row>
         </Grid.Container>
 
         <Grid.Container>

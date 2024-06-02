@@ -101,8 +101,13 @@
     cursor: pointer;
   }
 
-  &--button {
+  &[class*="button"] {
+    line-height: 0;
     text-decoration: none;
+  }
+
+  &[class*="button--auto-size"] {
+    font-weight: $font-weight-bold;
   }
 
   &[class*="button--primary"]:not([class*="button--outlined"]) {

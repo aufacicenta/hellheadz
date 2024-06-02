@@ -16,7 +16,6 @@ const Index: NextPage = () => {
         <meta name="description" content={t("head.og.description")} />
         <meta property="og:title" content={t("head.og.title")} />
         <meta property="og:description" content={t("head.og.description")} />
-        <meta property="og:url" content="https://svpervnder.com/" />
       </Head>
 
       <Larskristo />

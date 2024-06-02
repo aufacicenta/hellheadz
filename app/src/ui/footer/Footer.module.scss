@@ -11,6 +11,39 @@
   border-top: 1px solid var(--color-background-contrast);
   background-color: var(--color-background);
 
+  &__socials {
+    display: flex;
+
+    [class*="icon"] {
+      font-size: $font-size-headline-4;
+    }
+
+    &--etherscan-icon {
+      @include atLargeTablet {
+        width: 21px;
+      }
+      width: 16px;
+    }
+
+    &--links {
+      display: block;
+    }
+
+    &--link {
+      margin-right: $space-m;
+      vertical-align: middle;
+    }
+  }
+
+  &__logo {
+    @include atLargeTablet {
+      width: 128px;
+    }
+    width: 90px;
+    margin-right: -10px;
+    margin-bottom: -13px;
+  }
+
   &__left,
   &__right,
   &__center {
@@ -26,6 +59,14 @@
       justify-content: center;
       min-height: $footer-height-mobile;
       padding: $space-default 0;
+
+      &-flat {
+        min-height: auto;
+      }
+
+      &-flat-bottom {
+        padding-bottom: 0;
+      }
     }
   }
 
@@ -34,6 +75,16 @@
       text-align: center;
     }
     text-align: left;
+  }
+
+  &__left {
+    &--item {
+      margin-right: $space-ml;
+    }
+
+    a {
+      color: var(--color-typography-description);
+    }
   }
 
   &__right {

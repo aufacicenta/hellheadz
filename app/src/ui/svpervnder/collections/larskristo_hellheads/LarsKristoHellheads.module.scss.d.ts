@@ -6,13 +6,13 @@ export type Styles = {
   "latest-collection__grid--info-card-col": string;
   "latest-collection__grid--info-card-light": string;
   "latest-collection__hero": string;
+  "latest-collection__hero--intro-text": string;
+  "latest-collection__hero--intro-text-highlight": string;
+  "latest-collection__hero--intro-text-highlight-top": string;
+  "latest-collection__hero--intro-text-two": string;
   "latest-collection__hero--logo": string;
   "latest-collection__intro": string;
   "latest-collection__intro--artist-name": string;
-  "latest-collection__socials": string;
-  "latest-collection__socials--etherscan-icon": string;
-  "latest-collection__socials--link": string;
-  "latest-collection__socials--links": string;
   "latest-collection__stats": string;
   "latest-collection__stats--sub": string;
   "latest-collection__stats--sub-minted": string;

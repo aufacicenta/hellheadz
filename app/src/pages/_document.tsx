@@ -13,6 +13,8 @@ export default function Document() {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content="/svpervnder/og-image.png" />
 
+        <meta property="og:url" content="https://hellheadz.com/" />
+
         <style>{loader}</style>
       </Head>
       <body>
