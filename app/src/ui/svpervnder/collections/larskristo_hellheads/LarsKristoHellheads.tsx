@@ -57,7 +57,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
             trigger: target,
             markers: false,
             scrub: 0.5,
-            start: `-=800`,
+            start: `-=700`,
             end: "bottom center",
           },
         });
@@ -101,7 +101,12 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 )}
               >
                 <Typography.Headline2 className="intro-text">
-                  This foray birthed Hellheadz — a chilling fusion of the ordinary and the grotesque.
+                  This foray birthed Hellheadz — a chilling fusion of the ordinary and the grotesque:
+                </Typography.Headline2>
+                <Typography.Headline2 className="intro-text" />
+                <Typography.Headline2 className="intro-text" />
+                <Typography.Headline2 className="intro-text">
+                  666 NFT's immortalized in the Ethereum blockchain.
                 </Typography.Headline2>
               </section>
               <section
@@ -109,6 +114,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   styles["latest-collection__hero"],
                   styles["latest-collection__hero--intro-text"],
                   styles["latest-collection__hero--intro-text-two"],
+                  styles["latest-collection__hero--intro-text-last"],
                 )}
               >
                 <Typography.Headline2 className="intro-text" flat>

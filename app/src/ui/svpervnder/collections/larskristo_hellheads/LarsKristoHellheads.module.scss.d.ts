@@ -9,6 +9,7 @@ export type Styles = {
   "latest-collection__hero--intro-text": string;
   "latest-collection__hero--intro-text-highlight": string;
   "latest-collection__hero--intro-text-highlight-top": string;
+  "latest-collection__hero--intro-text-last": string;
   "latest-collection__hero--intro-text-two": string;
   "latest-collection__hero--logo": string;
   "latest-collection__intro": string;

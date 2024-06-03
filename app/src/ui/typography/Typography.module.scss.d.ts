@@ -13,11 +13,9 @@ export type Styles = {
   typography__headline6: string;
   typography__inline: string;
   typography__link: string;
-  "typography__link--button": string;
   "typography__mini-button-label": string;
   "typography__mini-description": string;
   "typography__mini-description--as-button": string;
-  "typography__mini-description--as-button--button": string;
   typography__subtitle: string;
   typography__text: string;
   "typography__text-bold": string;
