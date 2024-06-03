@@ -183,24 +183,33 @@
   }
 
   &__actions {
-    &--buy-now-buttons {
-      @include atLargeTablet {
-        flex-direction: row;
+    &--row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: $space-default;
+
+      > div {
+        align-self: center;
       }
-      flex-direction: column;
-      justify-content: start;
+
+      img,
+      svg {
+        width: 120px;
+        height: auto;
+      }
+    }
+
+    &--buy-now-buttons {
+      display: block;
+
+      img,
+      svg {
+        width: auto;
+        height: 18px;
+      }
 
       a {
-        @include atLargeTablet {
-          width: auto;
-          margin-bottom: 0 !important;
-        }
-        width: 100%;
-        margin-right: $space-default;
-
-        &:not(:last-child) {
-          margin-bottom: $space-default;
-        }
+        margin-bottom: $space-default;
       }
     }
   }

@@ -119,24 +119,74 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
 
                 {!ERC721.connectedAccountIsOwner() && (
                   <Card.Actions className={styles["details-modal__actions--buy-now-buttons"]}>
-                    <Button
-                      as="link"
-                      href="#"
-                      target="_blank"
-                      variant="outlined"
-                      rightIcon={<Icon name="icon-launch" />}
-                    >
-                      Buy now in OpenSea
-                    </Button>
-                    <Button
-                      as="link"
-                      href="#"
-                      target="_blank"
-                      variant="outlined"
-                      rightIcon={<Icon name="icon-launch" />}
-                    >
-                      Buy now in MagicEden
-                    </Button>
+                    <Typography.Headline5>Buy Now</Typography.Headline5>
+                    <Grid.Row>
+                      <Grid.Col lg={6}>
+                        <Button
+                          as="link"
+                          size="m"
+                          color="secondary"
+                          href="#"
+                          target="_blank"
+                          variant="outlined"
+                          fullWidth
+                        >
+                          <img src="/hellheadz/marketplaces/opensea-logo.png" alt="OpenSea Logo" />
+                        </Button>
+                      </Grid.Col>
+                      <Grid.Col lg={6}>
+                        <Button
+                          as="link"
+                          size="m"
+                          color="secondary"
+                          href="#"
+                          target="_blank"
+                          variant="outlined"
+                          fullWidth
+                        >
+                          <img src="/hellheadz/marketplaces/magiceden-logo.svg" alt="MagicEden Logo" />
+                        </Button>
+                      </Grid.Col>
+                      <Grid.Col lg={6}>
+                        <Button
+                          as="link"
+                          size="m"
+                          color="secondary"
+                          href="#"
+                          target="_blank"
+                          variant="outlined"
+                          fullWidth
+                        >
+                          <img src="/hellheadz/marketplaces/x2y2-logo.svg" alt="X2Y2 Logo" />
+                        </Button>
+                      </Grid.Col>
+                      <Grid.Col lg={6}>
+                        <Button
+                          as="link"
+                          size="m"
+                          color="secondary"
+                          href="#"
+                          target="_blank"
+                          variant="outlined"
+                          fullWidth
+                        >
+                          <img src="/hellheadz/marketplaces/blur-logo.png" alt="Blur Logo" />
+                        </Button>
+                      </Grid.Col>
+                      <Grid.Col lg={6}>
+                        <Button
+                          as="link"
+                          size="m"
+                          color="secondary"
+                          href="#"
+                          target="_blank"
+                          variant="outlined"
+                          fullWidth
+                        >
+                          <img src="/hellheadz/marketplaces/superrare-logo.svg" alt="Superrare Logo" />
+                        </Button>
+                      </Grid.Col>
+                    </Grid.Row>
                   </Card.Actions>
                 )}
               </Card>

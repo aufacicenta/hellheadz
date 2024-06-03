@@ -1,6 +1,7 @@
 export type Styles = {
   "details-modal": string;
   "details-modal__actions--buy-now-buttons": string;
+  "details-modal__actions--row": string;
   "details-modal__author-card": string;
   "details-modal__details-card": string;
   "details-modal__details-card--row": string;

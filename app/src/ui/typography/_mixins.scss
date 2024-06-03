@@ -101,6 +101,7 @@
     cursor: pointer;
   }
 
+  &--button,
   &[class*="button"] {
     line-height: 0;
     text-decoration: none;
