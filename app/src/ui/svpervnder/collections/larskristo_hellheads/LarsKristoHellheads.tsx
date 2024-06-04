@@ -83,6 +83,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
   return (
     <>
       <div className={clsx(styles["latest-collection"], className)}>
+        <div className={styles["latest-collection__bg-img"]} />
         <Grid.Container>
           <Grid.Row justify="center">
             <Grid.Col lg={10}>
@@ -91,15 +92,11 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
               >
                 <Typography.Headline2 className="intro-text">
                   In 2022, <span>Larskristo</span> ventured deeper into the abyss, exploring the unsettling terrain of
-                  AI dark art.
+                  digital art.
                 </Typography.Headline2>
               </section>
               <section
-                className={clsx(
-                  styles["latest-collection__hero"],
-                  styles["latest-collection__hero--intro-text"],
-                  styles["latest-collection__hero--intro-text-two"],
-                )}
+                className={clsx(styles["latest-collection__hero"], styles["latest-collection__hero--intro-text"])}
               >
                 <Typography.Headline2 className="intro-text">
                   This foray birthed <span>Hellheadz</span> —
@@ -110,11 +107,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 </Typography.Headline2>
               </section>
               <section
-                className={clsx(
-                  styles["latest-collection__hero"],
-                  styles["latest-collection__hero--intro-text"],
-                  styles["latest-collection__hero--intro-text-two"],
-                )}
+                className={clsx(styles["latest-collection__hero"], styles["latest-collection__hero--intro-text"])}
               >
                 <Typography.Headline2 className="intro-text">
                   666 NFT's <span>immortalized</span>
@@ -122,11 +115,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 <Typography.Headline2 className="intro-text">in the Ethereum blockchain.</Typography.Headline2>
               </section>
               <section
-                className={clsx(
-                  styles["latest-collection__hero"],
-                  styles["latest-collection__hero--intro-text"],
-                  styles["latest-collection__hero--intro-text-two"],
-                )}
+                className={clsx(styles["latest-collection__hero"], styles["latest-collection__hero--intro-text"])}
               >
                 <Typography.Headline2 className="intro-text" flat>
                   Here, everyday objects
@@ -139,7 +128,6 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 className={clsx(
                   styles["latest-collection__hero"],
                   styles["latest-collection__hero--intro-text"],
-                  styles["latest-collection__hero--intro-text-two"],
                   styles["latest-collection__hero--intro-text-last"],
                 )}
               >

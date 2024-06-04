@@ -6,28 +6,27 @@
   @include hero;
   display: block;
 
+  &__bg-img {
+    width: 100vw;
+    height: 100vh;
+    background-image: url(/hellheadz/bg-desktop.png);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+  }
+
   &__hero {
     @include atLargeTablet {
       min-height: 40vh;
     }
     min-height: 75vh;
-
-    &--logo {
-      @include atLargeTablet {
-        min-height: 120vh;
-      }
-      min-height: 50vh;
-      background-image: url(/hellheadz/bg-desktop-left.png);
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
-    }
+    background-color: transparent;
 
     &--intro-text {
       @include atLargeTablet {
         min-height: 85vh;
       }
-      justify-content: flex-end;
+      justify-content: center;
       min-height: 100vh;
       will-change: transform;
       text-align: center;
@@ -39,9 +38,9 @@
       &-highlight {
         @include atLargeTablet {
           font-size: $font-size-headline-1 !important;
-          font-weight: $font-weight-bold;
         }
         font-size: $font-size-headline-2 !important;
+        font-weight: $font-weight-bold;
         color: var(--color-primary);
 
         &-top {
@@ -78,7 +77,7 @@
         width: 100%;
         height: 115%;
         background: var(--color-background);
-        opacity: 0.8;
+        opacity: 0.9;
       }
     }
   }

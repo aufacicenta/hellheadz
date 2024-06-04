@@ -1,5 +1,6 @@
 export type Styles = {
   "latest-collection": string;
+  "latest-collection__bg-img": string;
   "latest-collection__description": string;
   "latest-collection__grid": string;
   "latest-collection__grid--info-card": string;
@@ -11,7 +12,6 @@ export type Styles = {
   "latest-collection__hero--intro-text-highlight-top": string;
   "latest-collection__hero--intro-text-last": string;
   "latest-collection__hero--intro-text-two": string;
-  "latest-collection__hero--logo": string;
   "latest-collection__intro": string;
   "latest-collection__intro--artist-name": string;
   "latest-collection__stats": string;
