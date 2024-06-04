@@ -24,8 +24,10 @@
 
   &__img-container {
     @include atLargeTablet {
+      min-height: 542px;
       padding-top: 0;
     }
+    min-height: 342px;
     margin-bottom: $space-default;
     padding-top: $space-default;
 

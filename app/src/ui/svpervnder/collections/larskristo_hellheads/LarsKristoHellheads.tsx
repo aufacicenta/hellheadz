@@ -90,7 +90,8 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 className={clsx(styles["latest-collection__hero"], styles["latest-collection__hero--intro-text"])}
               >
                 <Typography.Headline2 className="intro-text">
-                  In 2022, Larskristo ventured deeper into the abyss, exploring the unsettling terrain of AI dark art.
+                  In 2022, <span>Larskristo</span> ventured deeper into the abyss, exploring the unsettling terrain of
+                  AI dark art.
                 </Typography.Headline2>
               </section>
               <section
@@ -101,12 +102,37 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 )}
               >
                 <Typography.Headline2 className="intro-text">
-                  This foray birthed Hellheadz — a chilling fusion of the ordinary and the grotesque:
+                  This foray birthed <span>Hellheadz</span> —
                 </Typography.Headline2>
-                <Typography.Headline2 className="intro-text" />
-                <Typography.Headline2 className="intro-text" />
+                <Typography.Headline2 className="intro-text">a chilling fusion</Typography.Headline2>
                 <Typography.Headline2 className="intro-text">
-                  666 NFT's immortalized in the Ethereum blockchain.
+                  <span>of the ordinary and the grotesque.</span>
+                </Typography.Headline2>
+              </section>
+              <section
+                className={clsx(
+                  styles["latest-collection__hero"],
+                  styles["latest-collection__hero--intro-text"],
+                  styles["latest-collection__hero--intro-text-two"],
+                )}
+              >
+                <Typography.Headline2 className="intro-text">
+                  666 NFT's <span>immortalized</span>
+                </Typography.Headline2>
+                <Typography.Headline2 className="intro-text">in the Ethereum blockchain.</Typography.Headline2>
+              </section>
+              <section
+                className={clsx(
+                  styles["latest-collection__hero"],
+                  styles["latest-collection__hero--intro-text"],
+                  styles["latest-collection__hero--intro-text-two"],
+                )}
+              >
+                <Typography.Headline2 className="intro-text" flat>
+                  Here, everyday objects
+                </Typography.Headline2>
+                <Typography.Headline2 className="intro-text">
+                  <span>metamorphosed into eerie spectacles,</span>{" "}
                 </Typography.Headline2>
               </section>
               <section
@@ -117,12 +143,6 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   styles["latest-collection__hero--intro-text-last"],
                 )}
               >
-                <Typography.Headline2 className="intro-text" flat>
-                  Here, everyday objects
-                </Typography.Headline2>
-                <Typography.Headline2 className="intro-text">
-                  metamorphosed into eerie spectacles,{" "}
-                </Typography.Headline2>
                 <Typography.Headline2
                   className={clsx(
                     "intro-text",

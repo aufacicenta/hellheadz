@@ -30,6 +30,7 @@
       justify-content: flex-end;
       min-height: 100vh;
       will-change: transform;
+      text-align: center;
 
       &-two {
         justify-content: center;
@@ -38,6 +39,7 @@
       &-highlight {
         @include atLargeTablet {
           font-size: $font-size-headline-1 !important;
+          font-weight: $font-weight-bold;
         }
         font-size: $font-size-headline-2 !important;
         color: var(--color-primary);
@@ -51,14 +53,18 @@
         min-height: 100vh;
       }
 
-      h2 {
+      h2:not([class*="-highlight"]) {
         @include atLargeTablet {
           font-size: $font-size-headline-2;
           line-height: 1.7;
         }
         font-size: $font-size-headline-3;
         line-height: 2;
-        text-align: center;
+        color: var(--color-typography-headline-3);
+
+        span {
+          color: var(--color-typography-headline-2);
+        }
       }
 
       [class*="intro-text"] {

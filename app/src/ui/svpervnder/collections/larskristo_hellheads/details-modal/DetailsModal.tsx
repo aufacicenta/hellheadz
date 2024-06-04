@@ -198,11 +198,6 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                     lie in their rawest form. His early works were haunting glimpses into the human soul, capturing the
                     delicate balance between vulnerability and resilience.
                   </Typography.Text>
-                  <Typography.Text>
-                    In 2022, Larskristo ventured deeper into the abyss, exploring the unsettling terrain of AI dark art.
-                    This foray birthed HellheadS—a chilling fusion of the ordinary and the grotesque. Here, everyday
-                    objects metamorphosed into eerie spectacles, blurring the lines between reality and nightmare.
-                  </Typography.Text>
                   <Grid.Container>
                     <Grid.Row justify="end">
                       <Grid.Col lg={1} xs={1}>
