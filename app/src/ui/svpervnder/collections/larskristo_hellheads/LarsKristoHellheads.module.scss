@@ -115,8 +115,31 @@
     }
   }
 
+  &__faqs {
+    min-height: 100vh;
+    padding: $navbar-height 0;
+
+    &--title {
+      margin-bottom: $space-xl;
+      text-align: center;
+    }
+  }
+
   &__grid {
-    margin-top: $space-l;
+    display: block;
+
+    &--currency-intro {
+      padding: $navbar-height 0;
+      text-align: center;
+
+      img {
+        @include atLargeTablet {
+          width: 50%;
+        }
+        width: 80%;
+        height: auto;
+      }
+    }
 
     &--info-card {
       display: flex;

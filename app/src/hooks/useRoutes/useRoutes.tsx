@@ -5,6 +5,9 @@ export const origin =
 
 export const routes = {
   home: () => `/`,
+  marketplaces: {
+    opensea: () => `#`,
+  },
   oauth: {
     discord: {
       lkhh: () => `${origin}/oauth/discord/lkhh`,

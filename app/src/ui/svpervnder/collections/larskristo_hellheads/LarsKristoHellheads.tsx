@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useLayoutEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import SplitType from "split-type";
+import Image from "next/image";
 
 import { Grid } from "ui/grid/Grid";
 import { Typography } from "ui/typography/Typography";
@@ -11,11 +11,13 @@ import { useRoutes } from "hooks/useRoutes/useRoutes";
 import { Card } from "ui/card/Card";
 import metadataBatch0_22 from "providers/svpervnder/hellheadz/metadata-batch-0-22.json";
 import { Icon } from "ui/icon/Icon";
+import { Accordion } from "ui/accordion/Accordion";
 
 import styles from "./LarsKristoHellheads.module.scss";
 import { ItemMetadata, LatestCollectionProps } from "./LarsKristoHellheads.types";
 import { DetailsModal } from "./details-modal/DetailsModal";
 import { GridItem } from "./grid-item/GridItem";
+import { Marketplaces } from "./marketplaces/Marketplaces";
 
 export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className }) => {
   const [isDetailsModalVisible, displayDetailsModals] = useState(false);
@@ -37,12 +39,12 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
 
     gsap.registerPlugin(ScrollTrigger);
 
-    const split = new SplitType(".intro-text", { types: "lines" });
+    const split = document.querySelectorAll(".intro-text");
 
     const masks: HTMLSpanElement[] = [];
 
     function makeItHappen() {
-      split.lines!.forEach((target) => {
+      split.forEach((target) => {
         const mask = document.createElement("span");
 
         mask.className = "mask";
@@ -69,8 +71,6 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
         trigger.kill();
         masks[i].remove();
       });
-
-      split.split({});
 
       makeItHappen();
     }
@@ -152,7 +152,15 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
         </Grid.Container>
 
         <Grid.Container>
-          <section className={styles["latest-collection__grid"]}>
+          <section className={styles["latest-collection__grid"]} id="collection">
+            <div className={styles["latest-collection__grid--currency-intro"]}>
+              <Image
+                width={1077}
+                height={683}
+                src="/hellheadz/hellheadz-currency-logo.png"
+                alt="Hellehadz: The World's Darkest Currency"
+              />
+            </div>
             <Grid.Row>
               {metadataBatch0_22.map((item: ItemMetadata, index) => (
                 <>
@@ -215,6 +223,65 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   )}
                 </>
               ))}
+            </Grid.Row>
+          </section>
+        </Grid.Container>
+
+        <Grid.Container>
+          <section className={styles["latest-collection__faqs"]} id="faqs">
+            <Grid.Row justify="center">
+              <Grid.Col lg={8}>
+                <Typography.Headline2 className={styles["latest-collection__faqs--title"]}>
+                  Frequently Asked Questions
+                </Typography.Headline2>
+                <Accordion
+                  accordionHeader={<Typography.Headline3 flat>What in the hell is this, exactly?</Typography.Headline3>}
+                  accordionContent={
+                    <>
+                      <Typography.Text>
+                        Larskristo Hellheadz is an NFT collection. It is a series of digital artwork created by the
+                        author Lars Kristo and it is backed and secured by an ERC721 contract in the Ethereum blockchain
+                        mainnet.
+                      </Typography.Text>
+                      <Typography.Text flat>
+                        Hellheadz also gives you access to exclusive events and physical items made by the artist.
+                      </Typography.Text>
+                    </>
+                  }
+                />
+                <Accordion
+                  accordionHeader={<Typography.Headline3 flat>Where can I purchase a Hellhead?</Typography.Headline3>}
+                  accordionContent={
+                    <>
+                      <Typography.Text>Hellheadz are currently listed in these marketplaces:</Typography.Text>
+                      <Marketplaces />
+                    </>
+                  }
+                />
+                <Accordion
+                  accordionHeader={
+                    <Typography.Headline3 flat>Can I sell back a Hellhead anytime?</Typography.Headline3>
+                  }
+                  accordionContent={
+                    <>
+                      <Typography.Text>
+                        Yes. In the same marketplace you chose to buy your Hellhead originally, you can list it back and
+                        resell it a your desired price.
+                      </Typography.Text>
+                      <Typography.Text flat>In other words, Hellheadz are tradeable collectibles.</Typography.Text>
+                    </>
+                  }
+                />
+                <Accordion
+                  accordionHeader={<Typography.Headline3 flat>How many of them will there be?</Typography.Headline3>}
+                  accordionContent={
+                    <>
+                      <Typography.Text>666 only until the doom of time.</Typography.Text>
+                      <Typography.Text flat>With 22 minted each month.</Typography.Text>
+                    </>
+                  }
+                />
+              </Grid.Col>
             </Grid.Row>
           </section>
         </Grid.Container>

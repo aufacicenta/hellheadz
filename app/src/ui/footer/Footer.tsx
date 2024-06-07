@@ -23,6 +23,16 @@ export const Footer: React.FC<FooterProps> = ({ className }) => {
           <Grid.Col lg={6} sm={6} xs={6}>
             <div className={styles.footer__left}>
               <div className={styles["footer__left--item"]}>
+                <Typography.Link flat href={`${routes.home()}#collection`}>
+                  Collection
+                </Typography.Link>
+              </div>
+              <div className={styles["footer__left--item"]}>
+                <Typography.Link flat href={`${routes.home()}#faqs`}>
+                  FAQs
+                </Typography.Link>
+              </div>
+              <div className={styles["footer__left--item"]}>
                 <Typography.Link flat href="#">
                   Events
                 </Typography.Link>
@@ -50,14 +60,6 @@ export const Footer: React.FC<FooterProps> = ({ className }) => {
           <Grid.Col lg={6} sm={6} xs={6}>
             <div className={clsx(styles.footer__left, styles.footer__socials)}>
               <div className={styles["footer__socials--links"]}>
-                {/* <Typography.Link
-                  className={clsx(styles["footer__socials--link"])}
-                  href={`${evm.getBlockExplorerUrl()}/address/${ERC721Instance.defaultContractAddress}`}
-                  target="_blank"
-                >
-                  <EtherscanIcon className={styles["footer__socials--etherscan-icon"]} />
-                </Typography.Link> */}
-
                 <Typography.Link
                   className={clsx(styles["footer__socials--link"])}
                   href="https://discord.gg/uEngc5U5"

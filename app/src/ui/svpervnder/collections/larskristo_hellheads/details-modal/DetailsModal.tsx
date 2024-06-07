@@ -8,13 +8,13 @@ import { Modal } from "ui/modal/Modal";
 import { Typography } from "ui/typography/Typography";
 import { Grid } from "ui/grid/Grid";
 import { Card } from "ui/card/Card";
-import { Button } from "ui/button/Button";
 import { useLarskristoHellheadsContext } from "context/evm/larskristo-hellheads/useLarskristoHellheadsContext";
 import { Icon } from "ui/icon/Icon";
 import evm from "providers/evm";
 import { ZeroXAddress } from "context/evm/wallet-selector/EvmWalletSelectorContext.types";
 import { ERC721Instance } from "providers/evm/ERC721Instance";
 import { TokenMetadata } from "providers/evm/ERC721Instance.types";
+import { Marketplaces } from "../marketplaces/Marketplaces";
 
 import { DetailsModalProps } from "./DetailsModal.types";
 import styles from "./DetailsModal.module.scss";
@@ -120,73 +120,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                 {!ERC721.connectedAccountIsOwner() && (
                   <Card.Actions className={styles["details-modal__actions--buy-now-buttons"]}>
                     <Typography.Headline5>Buy Now</Typography.Headline5>
-                    <Grid.Row>
-                      <Grid.Col lg={6}>
-                        <Button
-                          as="link"
-                          size="m"
-                          color="secondary"
-                          href="#"
-                          target="_blank"
-                          variant="outlined"
-                          fullWidth
-                        >
-                          <img src="/hellheadz/marketplaces/opensea-logo.png" alt="OpenSea Logo" />
-                        </Button>
-                      </Grid.Col>
-                      <Grid.Col lg={6}>
-                        <Button
-                          as="link"
-                          size="m"
-                          color="secondary"
-                          href="#"
-                          target="_blank"
-                          variant="outlined"
-                          fullWidth
-                        >
-                          <img src="/hellheadz/marketplaces/magiceden-logo.svg" alt="MagicEden Logo" />
-                        </Button>
-                      </Grid.Col>
-                      <Grid.Col lg={6}>
-                        <Button
-                          as="link"
-                          size="m"
-                          color="secondary"
-                          href="#"
-                          target="_blank"
-                          variant="outlined"
-                          fullWidth
-                        >
-                          <img src="/hellheadz/marketplaces/x2y2-logo.svg" alt="X2Y2 Logo" />
-                        </Button>
-                      </Grid.Col>
-                      <Grid.Col lg={6}>
-                        <Button
-                          as="link"
-                          size="m"
-                          color="secondary"
-                          href="#"
-                          target="_blank"
-                          variant="outlined"
-                          fullWidth
-                        >
-                          <img src="/hellheadz/marketplaces/blur-logo.png" alt="Blur Logo" />
-                        </Button>
-                      </Grid.Col>
-                      <Grid.Col lg={6}>
-                        <Button
-                          as="link"
-                          size="m"
-                          color="secondary"
-                          href="#"
-                          target="_blank"
-                          variant="outlined"
-                          fullWidth
-                        >
-                          <img src="/hellheadz/marketplaces/superrare-logo.svg" alt="Superrare Logo" />
-                        </Button>
-                      </Grid.Col>
-                    </Grid.Row>
+                    <Marketplaces />
                   </Card.Actions>
                 )}
               </Card>

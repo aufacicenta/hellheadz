@@ -203,16 +203,6 @@
 
     &--buy-now-buttons {
       display: block;
-
-      img,
-      svg {
-        width: auto;
-        height: 18px;
-      }
-
-      a {
-        margin-bottom: $space-default;
-      }
     }
   }
 }

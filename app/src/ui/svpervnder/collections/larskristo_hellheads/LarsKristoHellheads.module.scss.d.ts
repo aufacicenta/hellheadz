@@ -2,7 +2,10 @@ export type Styles = {
   "latest-collection": string;
   "latest-collection__bg-img": string;
   "latest-collection__description": string;
+  "latest-collection__faqs": string;
+  "latest-collection__faqs--title": string;
   "latest-collection__grid": string;
+  "latest-collection__grid--currency-intro": string;
   "latest-collection__grid--info-card": string;
   "latest-collection__grid--info-card-col": string;
   "latest-collection__grid--info-card-light": string;
