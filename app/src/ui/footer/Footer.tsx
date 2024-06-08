@@ -62,7 +62,7 @@ export const Footer: React.FC<FooterProps> = ({ className }) => {
               <div className={styles["footer__socials--links"]}>
                 <Typography.Link
                   className={clsx(styles["footer__socials--link"])}
-                  href="https://discord.gg/uEngc5U5"
+                  href="https://discord.gg/xZuhTDTef3"
                   target="_blank"
                 >
                   <Icon name="icon-discord" />
