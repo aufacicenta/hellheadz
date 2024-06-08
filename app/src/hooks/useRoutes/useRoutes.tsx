@@ -6,7 +6,9 @@ export const origin =
 export const routes = {
   home: () => `/`,
   marketplaces: {
-    opensea: () => `#`,
+    opensea: () => `https://opensea.io/collection/larskristo-hellheadz`,
+    magiceden: () => `https://magiceden.io/collections/ethereum/0x853bdaa30cfd5a2ec1e1d75935ebca7a0e52626d`,
+    x2y2: () => `https://x2y2.io/collection/larskristo-hellheadz/items`,
   },
   oauth: {
     discord: {

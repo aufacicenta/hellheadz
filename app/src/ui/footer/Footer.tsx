@@ -72,7 +72,7 @@ export const Footer: React.FC<FooterProps> = ({ className }) => {
                   size="s"
                   color="secondary"
                   as="link"
-                  href={`${evm.getBlockExplorerUrl()}/address/${ERC721Instance.defaultContractAddress}`}
+                  href={`${evm.getBlockExplorerUrl()}/token/${ERC721Instance.defaultContractAddress}`}
                   target="_blank"
                   leftIcon={<EtherscanIcon className={styles["footer__socials--etherscan-icon"]} />}
                 >

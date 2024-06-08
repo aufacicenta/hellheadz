@@ -6,7 +6,7 @@ import axios from "axios";
 import { ZeroXAddress } from "context/evm/wallet-selector/EvmWalletSelectorContext.types";
 
 export const SEPOLIA_TESTNET_ADDRESS = "0xB63dB681223223379d15eB7d6E21fDeEeE4ac0D8";
-export const ETHEREUM_MAINNET_ADDRESS = "0x5D003EBE7348d6D3aC1a397619ED2016711d7615";
+export const ETHEREUM_MAINNET_ADDRESS = "0x853bdaa30Cfd5A2Ec1E1d75935eBca7A0E52626D";
 
 export class ERC721Instance {
   contract: any;

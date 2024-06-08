@@ -260,6 +260,27 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 />
                 <Accordion
                   accordionHeader={
+                    <Typography.Headline3 flat>I already own a Hellhead, what now?</Typography.Headline3>
+                  }
+                  accordionContent={
+                    <>
+                      <Typography.Text>
+                        Decide on the future of Hellheadz in the owners-only Discord channel.
+                      </Typography.Text>
+                      <Button
+                        as="link"
+                        href={routes.oauth.discord.lkhh()}
+                        rightIcon={<Icon name="icon-discord" />}
+                        color="primary"
+                        variant="outlined"
+                      >
+                        Verify Ownership
+                      </Button>
+                    </>
+                  }
+                />
+                <Accordion
+                  accordionHeader={
                     <Typography.Headline3 flat>Can I sell back a Hellhead anytime?</Typography.Headline3>
                   }
                   accordionContent={
@@ -278,6 +299,14 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                     <>
                       <Typography.Text>666 only until the doom of time.</Typography.Text>
                       <Typography.Text flat>With 22 minted each month.</Typography.Text>
+                    </>
+                  }
+                />
+                <Accordion
+                  accordionHeader={<Typography.Headline3 flat>Am I a Hellhead?</Typography.Headline3>}
+                  accordionContent={
+                    <>
+                      <Typography.Text flat>... I don't know, are you?</Typography.Text>
                     </>
                   }
                 />

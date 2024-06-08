@@ -27,15 +27,32 @@ export const Marketplaces: React.FC<MarketplacesProps> = ({ className }) => {
           </Button>
         </Grid.Col>
         <Grid.Col lg={6}>
-          <Button as="link" size="m" color="secondary" href="#" target="_blank" variant="outlined" fullWidth>
+          <Button
+            as="link"
+            size="m"
+            color="secondary"
+            href={routes.marketplaces.magiceden()}
+            target="_blank"
+            variant="outlined"
+            fullWidth
+          >
             <img src="/hellheadz/marketplaces/magiceden-logo.svg" alt="MagicEden Logo" />
           </Button>
         </Grid.Col>
         <Grid.Col lg={6}>
-          <Button as="link" size="m" color="secondary" href="#" target="_blank" variant="outlined" fullWidth>
+          <Button
+            as="link"
+            size="m"
+            color="secondary"
+            href={routes.marketplaces.x2y2()}
+            target="_blank"
+            variant="outlined"
+            fullWidth
+          >
             <img src="/hellheadz/marketplaces/x2y2-logo.svg" alt="X2Y2 Logo" />
           </Button>
         </Grid.Col>
+        {/*
         <Grid.Col lg={6}>
           <Button as="link" size="m" color="secondary" href="#" target="_blank" variant="outlined" fullWidth>
             <img src="/hellheadz/marketplaces/blur-logo.png" alt="Blur Logo" />
@@ -45,7 +62,7 @@ export const Marketplaces: React.FC<MarketplacesProps> = ({ className }) => {
           <Button as="link" size="m" color="secondary" href="#" target="_blank" variant="outlined" fullWidth>
             <img src="/hellheadz/marketplaces/superrare-logo.svg" alt="Superrare Logo" />
           </Button>
-        </Grid.Col>
+        </Grid.Col> */}
       </Grid.Row>
     </div>
   );
