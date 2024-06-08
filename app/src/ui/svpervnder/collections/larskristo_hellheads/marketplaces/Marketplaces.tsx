@@ -52,6 +52,19 @@ export const Marketplaces: React.FC<MarketplacesProps> = ({ className }) => {
             <img src="/hellheadz/marketplaces/x2y2-logo.svg" alt="X2Y2 Logo" />
           </Button>
         </Grid.Col>
+        <Grid.Col lg={6}>
+          <Button
+            as="link"
+            size="m"
+            color="secondary"
+            href={routes.marketplaces.looksrare()}
+            target="_blank"
+            variant="outlined"
+            fullWidth
+          >
+            <img src="/hellheadz/marketplaces/looksrare-logo.svg" alt="LooksRare Logo" />
+          </Button>
+        </Grid.Col>
         {/*
         <Grid.Col lg={6}>
           <Button as="link" size="m" color="secondary" href="#" target="_blank" variant="outlined" fullWidth>
