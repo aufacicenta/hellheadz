@@ -9,9 +9,9 @@ export default function Document() {
       <Head>
         <link rel="icon" href="/favicon.ico" as="image" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="/svpervnder/og-image.png" />
+        <meta property="og:image" content="/hellheadz/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="/svpervnder/og-image.png" />
+        <meta name="twitter:image" content="/hellheadz/og-image.png" />
 
         <meta property="og:url" content="https://hellheadz.com/" />
 
