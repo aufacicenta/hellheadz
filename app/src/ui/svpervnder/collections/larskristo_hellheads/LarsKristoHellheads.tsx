@@ -250,6 +250,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   }
                 />
                 <Accordion
+                  isDefaultExpanded
                   accordionHeader={<Typography.Headline3 flat>Where can I purchase a Hellhead?</Typography.Headline3>}
                   accordionContent={
                     <>

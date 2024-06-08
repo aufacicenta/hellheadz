@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Icon } from "ui/icon/Icon";
 
@@ -9,8 +9,12 @@ import styles from "./Accordion.module.scss";
 export const Accordion: React.FC<AccordionProps> & {
   Header: React.FC<AccordionHeaderProps>;
   Content: React.FC<AccordionContentProps>;
-} = ({ className, accordionHeader, accordionContent }) => {
+} = ({ className, accordionHeader, accordionContent, isDefaultExpanded }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  useEffect(() => {
+    setIsExpanded(!!isDefaultExpanded);
+  }, [isDefaultExpanded]);
 
   const onClickHeaderTrigger = () => {
     setIsExpanded(!isExpanded);
