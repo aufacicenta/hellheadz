@@ -91,8 +91,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 className={clsx(styles["latest-collection__hero"], styles["latest-collection__hero--intro-text"])}
               >
                 <Typography.Headline2 className="intro-text">
-                  In 2022, <span>Larskristo</span> ventured deeper into the abyss, exploring the unsettling terrain of
-                  digital art.
+                  In 2022, <span>Larskristo</span> ventured deeper into the abyss,
+                </Typography.Headline2>
+                <Typography.Headline2 className="intro-text">
+                  exploring the unsettling terrain of digital art.
                 </Typography.Headline2>
               </section>
               <section
@@ -139,12 +141,12 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   )}
                   flat
                 >
-                  BLURRING THE LINES
+                  blurring the lines
                 </Typography.Headline2>
                 <Typography.Headline2
                   className={clsx("intro-text", styles["latest-collection__hero--intro-text-highlight"])}
                 >
-                  BETWEEN REALITY AND NIGHTMARE.
+                  between reality and nightmare.
                 </Typography.Headline2>
               </section>
             </Grid.Col>
@@ -178,7 +180,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   )}
 
                   {index === 14 && (
-                    <Grid.Col lg={4} className={styles["latest-collection__grid--info-card-col"]} key="order-matters">
+                    <Grid.Col lg={4} className={styles["latest-collection__grid--info-card-col"]} key="scarcity">
                       <Card withInnerBorder>
                         <Card.Content className={styles["latest-collection__grid--info-card"]}>
                           <Typography.TextLead>Scarcity Is Hell</Typography.TextLead>
@@ -205,7 +207,8 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                           )}
                         >
                           <Typography.Description>Hellheadz Owners Only</Typography.Description>
-                          <Typography.Headline5>JOIN DISCORD'S PRIVATE CHANNEL</Typography.Headline5>
+                          <Typography.Headline5 flat>JOIN DISCORD'S PRIVATE CHANNEL</Typography.Headline5>
+                          <Typography.Text>and decide on the future of HH</Typography.Text>
                           <div>
                             <Button
                               as="link"
@@ -231,7 +234,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
           <section className={styles["latest-collection__faqs"]} id="faqs">
             <Grid.Row justify="center">
               <Grid.Col lg={8}>
-                <Typography.Headline2 className={styles["latest-collection__faqs--title"]}>
+                <Typography.Headline2 className={styles["latest-collection__faqs--title"]} fontFamilyDisplay>
                   Frequently Asked Questions
                 </Typography.Headline2>
                 <Accordion
@@ -266,7 +269,8 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   accordionContent={
                     <>
                       <Typography.Text>
-                        Decide on the future of Hellheadz in the owners-only Discord channel.
+                        T-shirts? Collectible action figures? Backstage tickets? Oil on canvas? Decide on the future of
+                        Hellheadz in the owners-only Discord channel.
                       </Typography.Text>
                       <Button
                         as="link"

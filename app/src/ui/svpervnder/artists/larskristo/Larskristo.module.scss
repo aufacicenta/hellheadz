@@ -1,9 +1,14 @@
-@import "src/theme/base";
-@import "src/theme/mixins";
+@import url("src/theme/base");
+@import url("src/theme/mixins");
+@import url("src/ui/typography/variables");
 
 .larskristo {
   @include hero;
   display: block;
+
+  &__title {
+    font-family: $font-family-display;
+  }
 
   &__pfp {
     img {

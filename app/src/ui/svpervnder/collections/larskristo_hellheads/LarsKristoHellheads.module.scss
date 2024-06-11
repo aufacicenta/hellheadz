@@ -1,6 +1,7 @@
-@import "src/theme/base";
-@import "src/theme/mixins";
-@import "src/ui/typography/variables";
+@import url("src/theme/base");
+@import url("src/theme/mixins");
+@import url("src/theme/utilities/functions/rem");
+@import url("src/ui/typography/variables");
 
 .latest-collection {
   @include hero;
@@ -9,7 +10,7 @@
   &__bg-img {
     width: 100vw;
     height: 100vh;
-    background-image: url(/hellheadz/bg-desktop.png);
+    background-image: url("/hellheadz/bg-desktop.png");
     background-repeat: no-repeat;
     background-position: top center;
     background-size: cover;
@@ -37,10 +38,11 @@
 
       &-highlight {
         @include atLargeTablet {
-          font-size: $font-size-headline-1 !important;
+          font-size: rem-calc(70) !important;
         }
-        font-size: $font-size-headline-2 !important;
+        font-size: $font-size-headline-1 !important;
         font-weight: $font-weight-bold;
+        font-family: $font-family-display;
         color: var(--color-primary);
 
         &-top {
@@ -54,10 +56,11 @@
 
       h2:not([class*="-highlight"]) {
         @include atLargeTablet {
-          font-size: $font-size-headline-2;
+          font-size: $font-size-headline-1;
           line-height: 1.7;
         }
-        font-size: $font-size-headline-3;
+        font-size: $font-size-headline-2;
+        font-family: $font-family-display;
         line-height: 2;
         color: var(--color-typography-headline-3);
 
@@ -120,7 +123,11 @@
     padding: $navbar-height 0;
 
     &--title {
-      margin-bottom: $space-xl;
+      @include atLargeTablet {
+        font-size: $font-size-headline-1 !important;
+      }
+      margin-bottom: $space-xl !important;
+      font-family: $font-family-display !important;
       text-align: center;
     }
   }
