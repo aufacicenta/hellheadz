@@ -1,7 +1,7 @@
-@import url("src/theme/base");
-@import url("src/theme/mixins");
-@import url("src/theme/utilities/functions/rem");
-@import url("src/ui/typography/variables");
+@import "src/theme/base";
+@import "src/theme/mixins";
+@import "src/theme/utilities/functions/rem";
+@import "src/ui/typography/variables";
 
 .latest-collection {
   @include hero;

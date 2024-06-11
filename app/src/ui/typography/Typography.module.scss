@@ -1,6 +1,6 @@
-@import url("src/theme/base");
-@import url("./variables");
-@import url("./mixins");
+@import "src/theme/base";
+@import "./variables";
+@import "./mixins";
 
 @font-face {
   font-weight: 375;
