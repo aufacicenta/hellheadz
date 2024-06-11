@@ -5,6 +5,7 @@ export type Styles = {
   "typography__button-label": string;
   typography__description: string;
   typography__flat: string;
+  "typography__font-family-display": string;
   typography__headline1: string;
   typography__headline2: string;
   typography__headline3: string;

@@ -329,6 +329,7 @@ export type Styles = {
   "icon-direction-ltr": string;
   "icon-direction-rtl": string;
   "icon-disc": string;
+  "icon-discord": string;
   "icon-dna": string;
   "icon-document": string;
   "icon-document2": string;
@@ -369,6 +370,7 @@ export type Styles = {
   "icon-equalizer": string;
   "icon-eraser": string;
   "icon-escape": string;
+  "icon-etherscan": string;
   "icon-evil": string;
   "icon-exclamation": string;
   "icon-exclude": string;

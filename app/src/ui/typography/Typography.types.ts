@@ -9,6 +9,7 @@ type GeneralProps = {
   truncate?: boolean;
   align?: "center" | "right";
   color?: string;
+  fontFamilyDisplay?: boolean;
 };
 
 export type TypographyProps = HTMLAttributes<HTMLParagraphElement> & {

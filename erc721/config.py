@@ -15,6 +15,7 @@ claude_anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPICAI_API
 
 src_dir_path = "./files/hellheadz/20240523_0-21"
 thumbnails_dir_path = "./files/hellheadz/20240523_0-21/thumbnails"
+websize_dir_path = "./files/hellheadz/20240523_0-21/websize"
 watermarks_dir_path = "./files/hellheadz/20240523_0-21/watermarked"
 token_uris_dir_path = "./files/hellheadz/20240523_0-21"
 

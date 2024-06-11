@@ -3,6 +3,7 @@ export type Styles = {
   larskristo__hero: string;
   larskristo__pfp: string;
   "larskristo__socials-row": string;
+  larskristo__title: string;
   "z-depth-0": string;
   "z-depth-1": string;
   "z-depth-1-half": string;

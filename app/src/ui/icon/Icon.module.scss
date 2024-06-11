@@ -4,6 +4,22 @@
   display: inline-block;
 }
 
+.icon-discord:before {
+  color: #5865f2;
+  content: "\e9ec";
+}
+
+.icon-etherscan [class*="path1"]:before {
+  color: rgb(255, 255, 255);
+  content: "\e9ed";
+}
+
+.icon-etherscan [class*="path2"]:before {
+  margin-left: -1em;
+  color: rgb(139, 139, 139);
+  content: "\e9ee";
+}
+
 .icon-tiktok:before {
   content: "\e9ea";
 }

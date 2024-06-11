@@ -16,7 +16,7 @@ export const Larskristo: React.FC<LarskristoProps> = ({ className }) => (
       <Grid.Row>
         <Grid.Col lg={6} sm={12} xs={12}>
           <section className={styles.larskristo__hero}>
-            <Typography.Headline1>Lars Kristo</Typography.Headline1>
+            <Typography.Headline1 className={styles.larskristo__title}>Lars Kristo</Typography.Headline1>
             <Typography.TextLead>
               Larskristo's artistic journey began with a quiet intensity, delving into the shadows where emotions lie in
               their rawest form. His early works were haunting glimpses into the human soul, capturing the delicate

@@ -32,8 +32,6 @@ export const DiscordContextController = ({ children }: DiscordContextControllerP
         console.error(error);
       }
     })();
-
-    console.log(discordAuthCookie);
   }, []);
 
   const props: DiscordContextType = {

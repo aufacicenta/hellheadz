@@ -5,6 +5,12 @@ export const origin =
 
 export const routes = {
   home: () => `/`,
+  marketplaces: {
+    opensea: () => `https://opensea.io/collection/larskristo-hellheadz`,
+    magiceden: () => `https://magiceden.io/collections/ethereum/0x853bdaa30cfd5a2ec1e1d75935ebca7a0e52626d`,
+    x2y2: () => `https://x2y2.io/collection/larskristo-hellheadz/items`,
+    looksrare: () => `https://looksrare.org/collections/0x853bdaa30Cfd5A2Ec1E1d75935eBca7A0E52626D`,
+  },
   oauth: {
     discord: {
       lkhh: () => `${origin}/oauth/discord/lkhh`,

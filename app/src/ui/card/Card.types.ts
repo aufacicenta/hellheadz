@@ -9,11 +9,14 @@ export type CardProps = HTMLAttributes<HTMLDivElement> & {
   url?: string;
   shadow?: boolean;
   withSpotlightEffect?: boolean;
+  withInnerBorder?: boolean;
+  withBackgroundGrain?: boolean;
 } & SpacingProps;
 
 export type CardContentProps = {
   children: ReactNode;
   className?: string;
+  withInnerBorder?: boolean;
 };
 
 export type CardActionsProps = {

@@ -79,6 +79,7 @@
   }
 
   &_large {
+    border-radius: var(--border-radius-button-large);
     padding: 20px $space-l;
     line-height: 1.5;
   }

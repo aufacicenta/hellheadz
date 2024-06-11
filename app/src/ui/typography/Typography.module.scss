@@ -4,26 +4,41 @@
 
 @font-face {
   font-weight: 375;
-  font-family: "PPNeueMachina";
+  font-family: PPNeueMachina;
   font-style: normal;
   src: url("/fonts/PPNeueMachina-InktrapRegular.otf");
-  src: url("/fonts/PPNeueMachina-InktrapRegular.woff") format("woff"),
+  src:
+    url("/fonts/PPNeueMachina-InktrapRegular.woff") format("woff"),
     url("/fonts/PPNeueMachina-InktrapRegular.woff2") format("woff2"),
     url("/fonts/PPNeueMachina-InktrapRegular.ttf") format("truetype");
 }
 @font-face {
   font-weight: 600;
-  font-family: "PPNeueMachina";
+  font-family: PPNeueMachina;
   font-style: normal;
   src: url("/fonts/PPNeueMachina-InktrapSemibold.otf");
-  src: url("/fonts/PPNeueMachina-InktrapSemibold.woff") format("woff"),
+  src:
+    url("/fonts/PPNeueMachina-InktrapSemibold.woff") format("woff"),
     url("/fonts/PPNeueMachina-InktrapSemibold.woff2") format("woff2"),
     url("/fonts/PPNeueMachina-InktrapSemibold.ttf") format("truetype");
+}
+@font-face {
+  font-weight: 400;
+  font-family: OldEnglishText;
+  font-style: normal;
+  src:
+    url("/fonts/oldenglishtextmt.woff") format("woff"),
+    url("/fonts/oldenglishtextmt.woff2") format("woff2"),
+    url("/fonts/oldenglishtextmt.ttf") format("truetype");
 }
 
 .typography {
   @include truncate;
   position: relative;
+
+  &__font-family-display {
+    font-family: $font-family-display;
+  }
 
   &__align {
     &--center {

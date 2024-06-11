@@ -12,8 +12,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (typeof window !== "undefined") {
       const loader = document.querySelector<HTMLElement>("#global-loader");
 
+      if (process.env.NEXT_PUBLIC_VERCEL_ENV === "development") {
+        loader!.style.display = "none";
+
+        return;
+      }
+
       if (loader) {
-        loader.style.display = "none";
+        setTimeout(() => {
+          loader.style.display = "none";
+        }, 3500);
       }
     }
   }, []);

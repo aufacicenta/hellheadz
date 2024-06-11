@@ -23,6 +23,10 @@ export default `
         animation: pulse 1s infinite;
     }
 
+    #global-loader img {
+        border-radius: 7px;
+    }
+
     @keyframes pulse {
         0% {
             transform: scale(0.95);

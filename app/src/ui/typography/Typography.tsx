@@ -25,11 +25,12 @@ export const Typography: React.FC<TypographyProps> & {
   Anchor: React.FC<AnchorProps>;
 } = ({ children, className }) => <div className={clsx(styles.typography, className)}>{children}</div>;
 
-const Headline1: React.FC<TypographyProps> = ({ children, className, inline, flat, ...props }) => (
+const Headline1: React.FC<TypographyProps> = ({ children, className, inline, flat, fontFamilyDisplay, ...props }) => (
   <h1
     className={clsx(styles.typography__headline1, className, {
       [styles.typography__inline]: inline,
       [styles.typography__flat]: flat,
+      [styles["typography__font-family-display"]]: fontFamilyDisplay,
     })}
     {...props}
   >
@@ -37,11 +38,12 @@ const Headline1: React.FC<TypographyProps> = ({ children, className, inline, fla
   </h1>
 );
 
-const Headline2: React.FC<TypographyProps> = ({ children, className, flat, inline, ...props }) => (
+const Headline2: React.FC<TypographyProps> = ({ children, className, flat, inline, fontFamilyDisplay, ...props }) => (
   <h2
     className={clsx(styles.typography__headline2, className, {
       [styles.typography__inline]: inline,
       [styles.typography__flat]: flat,
+      [styles["typography__font-family-display"]]: fontFamilyDisplay,
     })}
     {...props}
   >
@@ -49,17 +51,24 @@ const Headline2: React.FC<TypographyProps> = ({ children, className, flat, inlin
   </h2>
 );
 
-const Headline3: React.FC<TypographyProps> = ({ children, className, flat, ...props }) => (
-  <h3 className={clsx(styles.typography__headline3, className, { [styles.typography__flat]: flat })} {...props}>
+const Headline3: React.FC<TypographyProps> = ({ children, className, flat, fontFamilyDisplay, ...props }) => (
+  <h3
+    className={clsx(styles.typography__headline3, className, {
+      [styles.typography__flat]: flat,
+      [styles["typography__font-family-display"]]: fontFamilyDisplay,
+    })}
+    {...props}
+  >
     {children}
   </h3>
 );
 
-const Headline4: React.FC<TypographyProps> = ({ children, className, inline, flat, ...props }) => (
+const Headline4: React.FC<TypographyProps> = ({ children, className, inline, flat, fontFamilyDisplay, ...props }) => (
   <h4
     className={clsx(styles.typography__headline4, className, {
       [styles.typography__inline]: inline,
       [styles.typography__flat]: flat,
+      [styles["typography__font-family-display"]]: fontFamilyDisplay,
     })}
     {...props}
   >
@@ -67,23 +76,44 @@ const Headline4: React.FC<TypographyProps> = ({ children, className, inline, fla
   </h4>
 );
 
-const Headline5: React.FC<TypographyProps> = ({ children, className, flat, ...props }) => (
-  <h5 className={clsx(styles.typography__headline5, className, { [styles.typography__flat]: flat })} {...props}>
+const Headline5: React.FC<TypographyProps> = ({ children, className, flat, fontFamilyDisplay, ...props }) => (
+  <h5
+    className={clsx(styles.typography__headline5, className, {
+      [styles.typography__flat]: flat,
+      [styles["typography__font-family-display"]]: fontFamilyDisplay,
+    })}
+    {...props}
+  >
     {children}
   </h5>
 );
 
-const Headline6: React.FC<TypographyProps> = ({ children, className, flat, ...props }) => (
-  <h6 className={clsx(styles.typography__headline6, className, { [styles.typography__flat]: flat })} {...props}>
+const Headline6: React.FC<TypographyProps> = ({ children, className, flat, fontFamilyDisplay, ...props }) => (
+  <h6
+    className={clsx(styles.typography__headline6, className, {
+      [styles.typography__flat]: flat,
+      [styles["typography__font-family-display"]]: fontFamilyDisplay,
+    })}
+    {...props}
+  >
     {children}
   </h6>
 );
 
-const Text: React.FC<TypographyProps> = ({ children, className, inline, flat, truncate, ...props }) => (
+const Text: React.FC<TypographyProps> = ({
+  children,
+  className,
+  inline,
+  flat,
+  truncate,
+  fontFamilyDisplay,
+  ...props
+}) => (
   <p
     className={clsx(styles.typography__text, className, {
       [styles.typography__inline]: inline,
       [styles.typography__flat]: flat,
+      [styles["typography__font-family-display"]]: fontFamilyDisplay,
       [styles.typography__truncate]: truncate,
     })}
     {...props}
@@ -92,11 +122,12 @@ const Text: React.FC<TypographyProps> = ({ children, className, inline, flat, tr
   </p>
 );
 
-const TextLead: React.FC<TypographyProps> = ({ children, className, flat, inline, ...props }) => (
+const TextLead: React.FC<TypographyProps> = ({ children, className, flat, inline, fontFamilyDisplay, ...props }) => (
   <p
     className={clsx(styles["typography__text-lead"], className, {
       [styles.typography__inline]: inline,
       [styles.typography__flat]: flat,
+      [styles["typography__font-family-display"]]: fontFamilyDisplay,
     })}
     {...props}
   >
@@ -120,12 +151,21 @@ const MiniButtonLabel: React.FC<TypographyProps> = ({ children, className }) => 
   <span className={clsx(styles["typography__mini-button-label"], className)}>{children}</span>
 );
 
-const Description: React.FC<TypographyProps> = ({ children, className, inline, flat, truncate, ...props }) => (
+const Description: React.FC<TypographyProps> = ({
+  children,
+  className,
+  inline,
+  flat,
+  truncate,
+  fontFamilyDisplay,
+  ...props
+}) => (
   <p
     className={clsx(styles.typography__description, className, {
       [styles.typography__inline]: inline,
       [styles.typography__truncate]: truncate,
       [styles.typography__flat]: flat,
+      [styles["typography__font-family-display"]]: fontFamilyDisplay,
     })}
     {...props}
   >
@@ -133,10 +173,18 @@ const Description: React.FC<TypographyProps> = ({ children, className, inline, f
   </p>
 );
 
-const MiniDescription: React.FC<TypographyProps> = ({ children, className, flat, align, ...props }) => (
+const MiniDescription: React.FC<TypographyProps> = ({
+  children,
+  className,
+  flat,
+  align,
+  fontFamilyDisplay,
+  ...props
+}) => (
   <p
     className={clsx(styles["typography__mini-description"], className, {
       [styles.typography__flat]: flat,
+      [styles["typography__font-family-display"]]: fontFamilyDisplay,
       [styles["typography__align--center"]]: align === "center",
       [styles["typography__align--right"]]: align === "right",
       [styles["typography__mini-description--as-button"]]: props.onClick,
@@ -156,6 +204,7 @@ const Link: React.FC<AnchorProps & LinkProps> = ({
   as,
   size,
   variant,
+  fontFamilyDisplay,
   ...props
 }) => (
   <NextLink
@@ -164,6 +213,7 @@ const Link: React.FC<AnchorProps & LinkProps> = ({
       [styles.typography__link]: as === undefined,
       [styles.typography__truncate]: truncate,
       [styles.typography__flat]: flat,
+      [styles["typography__font-family-display"]]: fontFamilyDisplay,
       [styles["typography__link--button"]]: as === "button",
       [buttonStyles.button]: as === "button",
       [buttonStyles["button--primary"]]: as === "button" && variant === "contained",
@@ -178,12 +228,23 @@ const Link: React.FC<AnchorProps & LinkProps> = ({
   </NextLink>
 );
 
-const Anchor: React.FC<AnchorProps> = ({ children, className, truncate, flat, as, size, variant, ...props }) => (
+const Anchor: React.FC<AnchorProps> = ({
+  children,
+  className,
+  truncate,
+  flat,
+  as,
+  size,
+  variant,
+  fontFamilyDisplay,
+  ...props
+}) => (
   <a
     className={clsx(className, {
       [styles.typography__link]: as === undefined,
       [styles.typography__truncate]: truncate,
       [styles.typography__flat]: flat,
+      [styles["typography__font-family-display"]]: fontFamilyDisplay,
       [styles["typography__link--button"]]: as === "button",
       [buttonStyles.button]: as === "button",
       [buttonStyles["button--primary"]]: as === "button" && variant === "contained",

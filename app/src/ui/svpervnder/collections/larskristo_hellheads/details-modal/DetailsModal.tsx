@@ -8,13 +8,13 @@ import { Modal } from "ui/modal/Modal";
 import { Typography } from "ui/typography/Typography";
 import { Grid } from "ui/grid/Grid";
 import { Card } from "ui/card/Card";
-import { Button } from "ui/button/Button";
 import { useLarskristoHellheadsContext } from "context/evm/larskristo-hellheads/useLarskristoHellheadsContext";
 import { Icon } from "ui/icon/Icon";
 import evm from "providers/evm";
 import { ZeroXAddress } from "context/evm/wallet-selector/EvmWalletSelectorContext.types";
 import { ERC721Instance } from "providers/evm/ERC721Instance";
 import { TokenMetadata } from "providers/evm/ERC721Instance.types";
+import { Marketplaces } from "../marketplaces/Marketplaces";
 
 import { DetailsModalProps } from "./DetailsModal.types";
 import styles from "./DetailsModal.module.scss";
@@ -119,24 +119,8 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
 
                 {!ERC721.connectedAccountIsOwner() && (
                   <Card.Actions className={styles["details-modal__actions--buy-now-buttons"]}>
-                    <Button
-                      as="link"
-                      href="#"
-                      target="_blank"
-                      variant="outlined"
-                      rightIcon={<Icon name="icon-launch" />}
-                    >
-                      Buy now in OpenSea
-                    </Button>
-                    <Button
-                      as="link"
-                      href="#"
-                      target="_blank"
-                      variant="outlined"
-                      rightIcon={<Icon name="icon-launch" />}
-                    >
-                      Buy now in MagicEden
-                    </Button>
+                    <Typography.Headline5>Buy Now</Typography.Headline5>
+                    <Marketplaces />
                   </Card.Actions>
                 )}
               </Card>
@@ -147,11 +131,6 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
                     Larskristo's artistic journey began with a quiet intensity, delving into the shadows where emotions
                     lie in their rawest form. His early works were haunting glimpses into the human soul, capturing the
                     delicate balance between vulnerability and resilience.
-                  </Typography.Text>
-                  <Typography.Text>
-                    In 2022, Larskristo ventured deeper into the abyss, exploring the unsettling terrain of AI dark art.
-                    This foray birthed HellheadS—a chilling fusion of the ordinary and the grotesque. Here, everyday
-                    objects metamorphosed into eerie spectacles, blurring the lines between reality and nightmare.
                   </Typography.Text>
                   <Grid.Container>
                     <Grid.Row justify="end">

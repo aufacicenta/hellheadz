@@ -76,6 +76,26 @@ def is_image_extension(filename):
     return filename.lower().endswith(".png") or filename.lower().endswith(".jpg")
 
 
+def update_image_size(from_directory_path, to_directory_path):
+
+    for filename in os.listdir(from_directory_path):
+
+        if is_image_extension(filename):
+
+            file_path = os.path.join(from_directory_path, filename)
+
+            with Image.open(file_path) as img:
+                size = (1080, 1080)
+
+                img.thumbnail(size)
+
+                img.save(os.path.join(to_directory_path, filename))
+
+                print(
+                    f"update_image_size: {from_directory_path} to {to_directory_path}/{filename}"
+                )
+
+
 def create_img_thumbnails(from_directory_path, to_directory_path):
     for filename in os.listdir(from_directory_path):
 
@@ -446,11 +466,12 @@ def main():
     # append_real_image_urls_to_metadata_file()
     # remove_digits_from_name()
     # create_metadata()
-    create_token_uri_from_metadata_object(metadata_file_path, token_uris_filename)
+    # create_token_uri_from_metadata_object(metadata_file_path, token_uris_filename)
     # create_token_uri_batches()
     # set_metadata_token_id_from_0_index()
     # extend_image_description_of_metadata_items()
     # create_img_thumbnails(watermarks_dir_path, thumbnails_dir_path)
+    update_image_size(watermarks_dir_path, websize_dir_path)
     # add_image_watermark()
 
 

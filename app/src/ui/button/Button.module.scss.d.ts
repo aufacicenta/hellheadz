@@ -26,6 +26,7 @@ export type Styles = {
   "button--loading": string;
   "button--medium": string;
   "button--outlined": string;
+  "button--outlined__content": string;
   "button--primary": string;
   "button--secondary": string;
   "button--small": string;

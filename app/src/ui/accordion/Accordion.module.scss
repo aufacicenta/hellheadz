@@ -1,0 +1,58 @@
+@import "src/theme/base";
+@import "src/ui/typography/variables";
+
+.accordion {
+  display: block;
+  margin-bottom: $space-default;
+
+  &__expanded {
+    [class*="accordion__header"] {
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+
+      [class*="Typography"] {
+        color: var(--color-primary);
+      }
+    }
+
+    [class*="accordion__content"] {
+      display: block;
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid var(--color-accordion-border);
+    border-radius: $border-radius;
+    padding: $space-default;
+    background-color: var(--color-background-contrast);
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &--trigger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      [class*="icon"] {
+        font-size: $font-size-headline-4;
+        color: var(--color-typography-text);
+      }
+    }
+  }
+
+  &__content {
+    display: none;
+    border: 1px solid var(--color-accordion-border);
+    border-top: none;
+    border-radius: $border-radius;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: $space-default;
+    background-color: var(--color-background-contrast);
+  }
+}

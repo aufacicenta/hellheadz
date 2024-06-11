@@ -38,8 +38,36 @@ export class DiscordBotClient {
     });
   }
 
+  async createForumThread({
+    channelId,
+    content,
+    name,
+    applied_tags,
+  }: {
+    channelId: string;
+    content: string;
+    name: string;
+    applied_tags?: string[];
+  }): Promise<Axios> {
+    const endpoint = `/channels/${channelId}/threads`;
+
+    return await this.request.post(endpoint, {
+      name,
+      applied_tags,
+      message: {
+        content,
+      },
+    });
+  }
+
   async getGuild({ guildId }: { guildId: string }): Promise<Axios> {
     const endpoint = `/guilds/${guildId}`;
+
+    return await this.request.get(endpoint);
+  }
+
+  async getChannel({ channelId }: { channelId: string }): Promise<Axios> {
+    const endpoint = `/channels/${channelId}`;
 
     return await this.request.get(endpoint);
   }
