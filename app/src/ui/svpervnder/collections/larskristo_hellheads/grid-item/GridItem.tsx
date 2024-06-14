@@ -1,16 +1,25 @@
+/* eslint-disable react/no-unknown-property */
 import clsx from "clsx";
 
 import { Grid } from "ui/grid/Grid";
 import { Card } from "ui/card/Card";
 import { Typography } from "ui/typography/Typography";
 import { Icon } from "ui/icon/Icon";
+import analytics from "providers/analytics";
 
 import styles from "./GridItem.module.scss";
 import { GridItemProps } from "./GridItem.types";
 
 export const GridItem: React.FC<GridItemProps> = ({ item, handleExpand, className }) => (
   <Grid.Col lg={2} xs={6} key={item.thumbnail} className={clsx(styles["grid-item"], className)}>
-    <Card className={styles["grid-item"]} withSpotlightEffect onClick={() => handleExpand(item)}>
+    <Card
+      className={styles["grid-item"]}
+      withSpotlightEffect
+      onClick={() => handleExpand(item)}
+      data-pirsch-event={analytics.EventTracking.click.homepage.collection_item}
+      data-pirsch-meta-name={item.name}
+      data-pirsch-meta-tokenId={item.id}
+    >
       <div className={styles["grid-item__img"]}>
         <img src={item.thumbnail} alt={item.name} />
       </div>
