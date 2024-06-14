@@ -7,6 +7,8 @@ import { Button } from "../button/Button";
 import { Typography } from "ui/typography/Typography";
 import { Icon } from "ui/icon/Icon";
 import evm from "providers/evm";
+import { useAnalyticsContext } from "context/analytics/useAnalyticsContext";
+import analytics from "providers/analytics";
 
 import { WalletSelectorProps } from "./WalletSelector.types";
 import styles from "./WalletSelector.module.scss";
@@ -15,7 +17,11 @@ export const WalletSelector: React.FC<WalletSelectorProps> = ({ className }) => 
   const { open } = useWeb3Modal();
   const { address, isConnected } = useAccount();
 
+  const AnalyticsContext = useAnalyticsContext();
+
   const handleOnDisplayWidgetClick = () => {
+    AnalyticsContext.onClick({ name: analytics.EventTracking.click.navbar.wallet_selector });
+
     if (isConnected) {
       open({ view: "Account" });
     } else {

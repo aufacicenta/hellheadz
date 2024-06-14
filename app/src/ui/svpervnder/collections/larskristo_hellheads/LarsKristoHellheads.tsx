@@ -14,6 +14,7 @@ import { Icon } from "ui/icon/Icon";
 import { Accordion } from "ui/accordion/Accordion";
 import { useAnalyticsContext } from "context/analytics/useAnalyticsContext";
 import analytics from "providers/analytics";
+import { AnalyticsEvent } from "context/analytics/AnalyticsContext.types";
 
 import styles from "./LarsKristoHellheads.module.scss";
 import { ItemMetadata, LatestCollectionProps } from "./LarsKristoHellheads.types";
@@ -27,6 +28,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
 
   const routes = useRoutes();
   const AnalyticsContext = useAnalyticsContext();
+
+  const onAnalyticsTrackingClick = (event: AnalyticsEvent) => {
+    AnalyticsContext.onClick(event);
+  };
 
   const handleExpand = (item: ItemMetadata) => {
     setCurrentItem(item);
@@ -227,6 +232,11 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                               rightIcon={<Icon name="icon-discord" />}
                               color="dark"
                               variant="outlined"
+                              onClick={() =>
+                                onAnalyticsTrackingClick({
+                                  name: analytics.EventTracking.click.homepage.collection_discord_card_button,
+                                })
+                              }
                             >
                               Verify Ownership
                             </Button>
@@ -249,6 +259,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   Frequently Asked Questions
                 </Typography.Headline2>
                 <Accordion
+                  analyticsEvent={{
+                    name: analytics.EventTracking.click.homepage.faqs_accordion_trigger,
+                    meta: { faq: "What in the hell is this, exactly?" },
+                  }}
                   accordionHeader={<Typography.Headline3 flat>What in the hell is this, exactly?</Typography.Headline3>}
                   accordionContent={
                     <>
@@ -265,6 +279,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 />
                 <Accordion
                   isDefaultExpanded
+                  analyticsEvent={{
+                    name: analytics.EventTracking.click.homepage.faqs_accordion_trigger,
+                    meta: { faq: "Where can I purchase a Hellhead?" },
+                  }}
                   accordionHeader={<Typography.Headline3 flat>Where can I purchase a Hellhead?</Typography.Headline3>}
                   accordionContent={
                     <>
@@ -274,6 +292,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   }
                 />
                 <Accordion
+                  analyticsEvent={{
+                    name: analytics.EventTracking.click.homepage.faqs_accordion_trigger,
+                    meta: { faq: "I already own a Hellhead, what now?" },
+                  }}
                   accordionHeader={
                     <Typography.Headline3 flat>I already own a Hellhead, what now?</Typography.Headline3>
                   }
@@ -289,6 +311,11 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                         rightIcon={<Icon name="icon-discord" />}
                         color="primary"
                         variant="outlined"
+                        onClick={() =>
+                          onAnalyticsTrackingClick({
+                            name: analytics.EventTracking.click.homepage.faqs_discord_button,
+                          })
+                        }
                       >
                         Verify Ownership
                       </Button>
@@ -296,6 +323,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   }
                 />
                 <Accordion
+                  analyticsEvent={{
+                    name: analytics.EventTracking.click.homepage.faqs_accordion_trigger,
+                    meta: { faq: "Can I sell back a Hellhead anytime?" },
+                  }}
                   accordionHeader={
                     <Typography.Headline3 flat>Can I sell back a Hellhead anytime?</Typography.Headline3>
                   }
@@ -310,6 +341,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   }
                 />
                 <Accordion
+                  analyticsEvent={{
+                    name: analytics.EventTracking.click.homepage.faqs_accordion_trigger,
+                    meta: { faq: "How many of them will there be?" },
+                  }}
                   accordionHeader={<Typography.Headline3 flat>How many of them will there be?</Typography.Headline3>}
                   accordionContent={
                     <>
@@ -319,6 +354,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   }
                 />
                 <Accordion
+                  analyticsEvent={{
+                    name: analytics.EventTracking.click.homepage.faqs_accordion_trigger,
+                    meta: { faq: "Am I a Hellhead?" },
+                  }}
                   accordionHeader={<Typography.Headline3 flat>Am I a Hellhead?</Typography.Headline3>}
                   accordionContent={
                     <>

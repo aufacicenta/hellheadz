@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 import { Icon } from "ui/icon/Icon";
+import { useAnalyticsContext } from "context/analytics/useAnalyticsContext";
 
 import { AccordionContentProps, AccordionHeaderProps, AccordionProps } from "./Accordion.types";
 import styles from "./Accordion.module.scss";
@@ -9,8 +10,10 @@ import styles from "./Accordion.module.scss";
 export const Accordion: React.FC<AccordionProps> & {
   Header: React.FC<AccordionHeaderProps>;
   Content: React.FC<AccordionContentProps>;
-} = ({ className, accordionHeader, accordionContent, isDefaultExpanded }) => {
+} = ({ className, accordionHeader, accordionContent, isDefaultExpanded, analyticsEvent }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const AnalyticsContext = useAnalyticsContext();
 
   useEffect(() => {
     setIsExpanded(!!isDefaultExpanded);
@@ -18,6 +21,10 @@ export const Accordion: React.FC<AccordionProps> & {
 
   const onClickHeaderTrigger = () => {
     setIsExpanded(!isExpanded);
+
+    if (analyticsEvent?.name) {
+      AnalyticsContext.onClick(analyticsEvent);
+    }
   };
 
   return (

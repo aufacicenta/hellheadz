@@ -1,5 +1,6 @@
 export type Styles = {
   footer: string;
+  footer__bottom: string;
   footer__center: string;
   "footer__center--item": string;
   "footer__center--item-flat": string;

@@ -1,0 +1,15 @@
+@import "src/theme/base";
+@import "src/theme/mixins";
+
+.events {
+  @include hero;
+  display: block;
+
+  &__hero {
+    min-height: 100vh;
+  }
+
+  &__box {
+    margin-top: $space-ml;
+  }
+}
