@@ -12,6 +12,8 @@ import { Card } from "ui/card/Card";
 import metadataBatch0_22 from "providers/svpervnder/hellheadz/metadata-batch-0-22.json";
 import { Icon } from "ui/icon/Icon";
 import { Accordion } from "ui/accordion/Accordion";
+import { useAnalyticsContext } from "context/analytics/useAnalyticsContext";
+import analytics from "providers/analytics";
 
 import styles from "./LarsKristoHellheads.module.scss";
 import { ItemMetadata, LatestCollectionProps } from "./LarsKristoHellheads.types";
@@ -24,10 +26,19 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
   const [currentItem, setCurrentItem] = useState<ItemMetadata | undefined>();
 
   const routes = useRoutes();
+  const AnalyticsContext = useAnalyticsContext();
 
   const handleExpand = (item: ItemMetadata) => {
     setCurrentItem(item);
     displayDetailsModals(true);
+
+    AnalyticsContext.onClick({
+      name: analytics.EventTracking.click.homepage.collection_item,
+      meta: {
+        name: item.name,
+        tokenId: item.id,
+      },
+    });
   };
 
   const handleClose = () => {

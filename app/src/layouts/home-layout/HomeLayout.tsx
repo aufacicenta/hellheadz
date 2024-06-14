@@ -11,6 +11,7 @@ import { EvmWalletSelectorContextController } from "context/evm/wallet-selector/
 import { Footer } from "ui/footer/Footer";
 import { AuthorizationContextController } from "context/authorization/AuthorizationContextController";
 import { DiscordContextController } from "context/discord/DiscordContextController";
+import { AnalyticsContextController } from "context/analytics/AnalyticsContextController";
 
 import { ChatLayoutProps } from "./HomeLayout.types";
 import styles from "./HomeLayout.module.scss";
@@ -44,15 +45,17 @@ export const HomeLayout: React.FC<ChatLayoutProps> = ({ children }) => {
           <ToastContextController>
             <AuthorizationContextController>
               <DiscordContextController>
-                <div id="modal-root" />
-                <div id="dropdown-portal" />
-                <div className={clsx(styles["home-layout"])}>
-                  <Navbar />
+                <AnalyticsContextController>
+                  <div id="modal-root" />
+                  <div id="dropdown-portal" />
+                  <div className={clsx(styles["home-layout"])}>
+                    <Navbar />
 
-                  <MainPanel>{children}</MainPanel>
+                    <MainPanel>{children}</MainPanel>
 
-                  <Footer />
-                </div>
+                    <Footer />
+                  </div>
+                </AnalyticsContextController>
               </DiscordContextController>
             </AuthorizationContextController>
           </ToastContextController>
