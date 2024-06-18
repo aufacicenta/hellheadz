@@ -9,7 +9,6 @@
   left: 0;
   z-index: $z-index-content;
   width: 100%;
-  border-bottom: 1px solid var(--color-background-contrast);
   background-color: var(--color-navbar-background);
 
   &__sidebar-toggle {
@@ -145,6 +144,7 @@
         width: $navbar-logo-width;
       }
       width: $navbar-logo-width-mobile;
+      color: var(--color-primary);
     }
   }
 

@@ -20,7 +20,7 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ className, fixed }
       aria-label="Change theme"
       tabIndex={0}
     >
-      <Icon name={theme === "svpervnder" ? "icon-moon" : "icon-sun"} className={styles["theme-selector__icon"]} />
+      <Icon name={theme === "aufacicenta" ? "icon-moon" : "icon-sun"} className={styles["theme-selector__icon"]} />
     </div>
   );
 };

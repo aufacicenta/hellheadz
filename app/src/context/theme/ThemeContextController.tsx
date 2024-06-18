@@ -7,10 +7,10 @@ import { LocalStorageKeys } from "hooks/useLocalStorage/useLocalStorage.types";
 import { ThemeContext } from "./ThemeContext";
 import { ThemeContextControllerProps } from "./ThemeContext.types";
 
-const themes: Theme[] = ["svpervnder"];
+const themes: Theme[] = ["aufacicenta"];
 
 export const ThemeContextController = ({ children }: ThemeContextControllerProps) => {
-  const [theme, setTheme] = useState<Theme>("svpervnder");
+  const [theme, setTheme] = useState<Theme>("aufacicenta");
 
   const localStorage = useLocalStorage();
 

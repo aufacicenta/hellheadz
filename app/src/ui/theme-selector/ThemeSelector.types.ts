@@ -6,4 +6,4 @@ export type ThemeSelectorProps = {
   fixed?: boolean;
 };
 
-export type Theme = "svpervnder";
+export type Theme = "aufacicenta";
