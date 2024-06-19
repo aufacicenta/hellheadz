@@ -11,12 +11,18 @@ export default `
         left: 0;
         bottom: 0;
         right: 0;
-        background-color: #161b1c;
+        background-color: #e4e4d8;
         display: flex;
         width: 100%;
         height: 100%;
         justify-content: center;
         align-items: center;
+
+        svg {
+            overflow: visible;
+            width: 98px;
+            height: auto;
+        }
     }
 
     #global-loader .spinner {

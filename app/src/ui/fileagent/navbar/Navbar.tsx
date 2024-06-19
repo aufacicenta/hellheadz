@@ -13,7 +13,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => (
         <Grid.Col lg={4} sm={4} xs={4}>
           <div className={clsx(styles.navbar__left)}>
             <div className={clsx(styles["navbar__left--item"], styles.navbar__logo)}>
-              <AufacicentaIcon />
+              <AufacicentaIcon className={clsx("logo")} />
             </div>
           </div>
         </Grid.Col>

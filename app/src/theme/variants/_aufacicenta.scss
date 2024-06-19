@@ -1,5 +1,7 @@
 body[data-theme="aufacicenta"] {
   --color-background: #e4e4d8;
+  --color-background-shade-mid: #dcdcd1;
+  --color-background-shade-low: #ccccc0;
   --color-background-contrast: #6e7278;
   --color-status-info: #5356fc;
   --color-status-info-light: rgb(83 86 252 / 70%);
@@ -20,7 +22,7 @@ body[data-theme="aufacicenta"] {
   --color-dark-10: #2c3035;
   --color-dark-9: #2c3035;
   --color-dark-8: #40404a;
-  --color-dark-7: #5b5b65;
+  --color-dark-7: #6e7278;
   --color-dark-6: #70707c;
   --color-dark-5: #8a8a98;
   --color-dark-4: #a9a9b7;
@@ -30,9 +32,9 @@ body[data-theme="aufacicenta"] {
   --color-primary: #4a4b6c;
   --color-primary-shade-mid: #3d3e59;
   --color-primary-shade-low: #373850;
-  --color-secondary: #fff;
-  --color-secondary-shade-mid: var(--color-dark-4);
-  --color-secondary-shade-low: var(--color-dark-7);
+  --color-secondary: #32343c;
+  --color-secondary-shade-mid: #26282e;
+  --color-secondary-shade-low: #1d1f23;
   --color-sidebar-item: var(--color-white);
   --color-sidebar-divider: var(--color-dark-8);
   --color-navbar-logo: var(--color-primary);
@@ -40,7 +42,7 @@ body[data-theme="aufacicenta"] {
   --color-button-primary: var(--color-primary);
   --color-button-primary-text: var(--color-background);
   --color-button-primary-hover: var(--color-primary);
-  --color-button-primary-hover-text: var(--color-background-contrast);
+  --color-button-primary-hover-text: var(--color-background-shade-low);
   --color-button-primary-disabled: var(--color-dark-5);
   --color-button-secondary: var(--color-white);
   --color-button-secondary-text: var(--color-white);
@@ -86,19 +88,19 @@ body[data-theme="aufacicenta"] {
   --color-theme-button-light: #fff0;
   --color-theme-button-dark: #ffffff40;
   --color-theme-button-divider: var(--color-background-contrast);
-  --color-typography-headline-1: var(--color-white);
-  --color-typography-headline-2: var(--color-white);
-  --color-typography-headline-3: var(--color-dark-4);
-  --color-typography-headline-4: var(--color-dark-4);
-  --color-typography-headline-5: var(--color-dark-4);
-  --color-typography-headline-6: var(--color-white);
-  --color-typography-text: var(--color-white);
-  --color-typography-text-lead: var(--color-dark-4);
-  --color-typography-text-bold: var(--color-white);
+  --color-typography-headline-1: var(--color-secondary);
+  --color-typography-headline-2: var(--color-secondary);
+  --color-typography-headline-3: var(--color-dark-7);
+  --color-typography-headline-4: var(--color-dark-7);
+  --color-typography-headline-5: var(--color-dark-7);
+  --color-typography-headline-6: var(--color-dark-7);
+  --color-typography-text: var(--color-secondary);
+  --color-typography-text-lead: var(--color-secondary);
+  --color-typography-text-bold: var(--color-secondary);
   --color-typography-subtitle: var(--color-dark-5);
-  --color-typography-button-label: var(--color-white);
-  --color-typography-mini-button-label: var(--color-white);
-  --color-typography-description: var(--color-dark-4);
+  --color-typography-button-label: var(--color-secondary);
+  --color-typography-mini-button-label: var(--color-secondary);
+  --color-typography-description: var(--color-secondary);
   --color-typography-mini-description: var(--color-dark-5);
   --color-typography-link: var(--color-primary);
   --color-typography-link-hover: var(--color-primary-shade-low);
@@ -128,6 +130,6 @@ body[data-theme="aufacicenta"] {
   --color-chat-sidebar-background: var(--color-background-contrast);
   --color-chat-sidebar-background-hover: var(--color-background);
   --color-table-background: var(--color-background-contrast);
-  --border-radius-button-large: 30px;
+  --button-large-border-radius: 7px;
   --color-accordion-border: var(--color-dark-5);
 }

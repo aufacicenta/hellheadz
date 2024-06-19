@@ -56,13 +56,14 @@
     &--item {
       @include atLargeTablet {
         min-height: $footer-height;
+        padding: $space-default 0;
       }
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      min-height: auto;
-      padding: $space-default 0;
+      min-height: $footer-height-mobile;
+      padding: 0;
 
       &-flat {
         min-height: auto;
@@ -100,6 +101,7 @@
     }
 
     a {
+      line-height: 30px;
       color: var(--color-typography-description);
     }
   }

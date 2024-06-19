@@ -1,0 +1,38 @@
+@import "src/theme/base";
+@import "src/theme/mixins";
+@import "src/ui/fileagent/navbar/variables";
+
+.landing-page {
+  @include hero;
+  display: block;
+
+  &__intro {
+    &--desktop {
+      @include atLargeTablet {
+        display: block;
+      }
+      display: none;
+    }
+
+    &--mobile {
+      @include atLargeTablet {
+        display: none;
+      }
+      display: block;
+    }
+  }
+
+  &__hero {
+    min-height: 100vh;
+    padding-top: 0;
+
+    &--subtitle {
+      margin-top: $space-m;
+      margin-bottom: $space-m;
+
+      span {
+        color: var(--color-primary);
+      }
+    }
+  }
+}

@@ -15,7 +15,9 @@
     var(--color-primary-shade-low)
   );
   background-position: center;
-  transition: background-image $duration-medium, color $duration-medium;
+  transition:
+    background-image $duration-medium,
+    color $duration-medium;
 
   &:hover,
   &:focus {
@@ -76,12 +78,6 @@
   &_medium {
     padding: 17px $space-l;
     line-height: 22px;
-  }
-
-  &_large {
-    border-radius: var(--border-radius-button-large);
-    padding: 20px $space-l;
-    line-height: 1.5;
   }
 
   &_invert {

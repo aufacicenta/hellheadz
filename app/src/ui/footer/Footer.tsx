@@ -47,7 +47,7 @@ export const Footer: React.FC<FooterProps> = ({ className }) => {
             <div className={styles.footer__right}>
               <div className={clsx(styles["footer__right--item"])}>
                 <Typography.Link href={routes.home()}>
-                  <AufacicentaLogoTextOnly className={styles.footer__logo} />
+                  <AufacicentaLogoTextOnly className={clsx(styles.footer__logo, "logo")} />
                 </Typography.Link>
               </div>
             </div>

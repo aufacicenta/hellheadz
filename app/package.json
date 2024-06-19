@@ -12,7 +12,7 @@
     "ts:watch": "yarn ts --watch",
     "build": "next build",
     "start": "next start",
-    "scss:class-types": "tsm 'src/**/**/*.scss' --ignore 'src/theme/*.scss' --exportType default --nameFormat none --implementation node-sass src --logLevel silent",
+    "scss:class-types": "typed-scss-modules 'src/**/**/*.scss' --ignore 'src/theme/*.scss' --exportType default --nameFormat none --implementation node-sass src --logLevel silent",
     "scss:class-types:watch": "npm run scss:class-types -- --watch",
     "plop": "plop"
   },
@@ -26,6 +26,7 @@
     "@web3modal/wagmi": "^4.2.1",
     "ag-grid-community": "^27.3.0",
     "ag-grid-react": "^27.3.0",
+    "animejs": "^3.2.2",
     "axios": "^1.5.0",
     "clsx": "^2.0.0",
     "discord.js": "^14.15.2",
@@ -62,6 +63,7 @@
     "ws": "^8.13.0"
   },
   "devDependencies": {
+    "@types/animejs": "^3.1.12",
     "@types/lodash": "^4.14.177",
     "@types/node": "^14.14.35",
     "@types/react": "^18.2.79",
@@ -76,11 +78,11 @@
     "postcss": "^8.4.31",
     "sass": "^1.63.6",
     "sass-loader": "^12.3.0",
+    "string-width": "4.1.0",
     "tslib": "^2.6.2",
     "typed-scss-modules": "^4.1.1",
     "typescript": "^5.2.2",
-    "wrap-ansi": "7.0.0",
-    "string-width": "4.1.0"
+    "wrap-ansi": "7.0.0"
   },
   "resolutions": {
     "wrap-ansi": "7.0.0",

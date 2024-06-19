@@ -1,3 +1,4 @@
+/* stylelint-disable annotation-no-unknown */
 $footer-height: 77px !default;
 $footer-height-mobile: 48px !default;
 
@@ -12,7 +13,7 @@ $z-index-form-dropdown: 5;
 $z-index-tooltip: 6;
 $z-index-toasts: 7;
 
-$mq-x-small: 0px !default;
+$mq-x-small: 0 !default;
 $mq-small: 540px !default;
 $mq-medium: 740px !default;
 $mq-large: 960px !default;
@@ -26,7 +27,7 @@ $breakpoints: map-merge(
     sm: $mq-small,
     md: $mq-medium,
     lg: $mq-large,
-    lgP: $mq-large-plus,
+    lgp: $mq-large-plus,
     xl: $mq-x-large,
   ),
   $breakpoints
@@ -51,7 +52,7 @@ $grid-gutters: map-merge(
       inside: 16px,
       outside: 64px,
     ),
-    lgP: (
+    lgp: (
       inside: 16px,
       outside: 64px,
     ),
@@ -73,11 +74,11 @@ $border-radius-large: 8px !default;
 $border-radius-circle: 50% !default;
 $border-radius-pill: 32px !default;
 $border-radius-card: 0.75rem !default;
-$border-radius-button: 28px !default;
+$border-radius-button: 7px !default;
 $border-radius-input: 7px !default;
 $border-radius-modal: 7px !default;
 
-$space-default: rem-calc(16) !default;
+$space-default: rem-calc($font-size-base) !default;
 $gutter-width: $space-default * 2;
 $space-xxs: $space-default / 8 !default;
 $space-xs: $space-default / 4 !default;
@@ -113,8 +114,8 @@ $shadow-fluffy: 0 17px 22px 0 var(--color-black) !default;
 $shadow-input: 0 1px 1px var(--color-dark-5) !default;
 $shadow-select: 0 2px 2px var(--color-dark-5) !default;
 
-$shadow-sm: 0 1px 1px 0 rgba(var(--color-dark-1), 0.05) !default;
-$shadow-md: 0 2px 2px 0 rgba(var(--color-dark-1), 0.05) !default;
+$shadow-sm: 0 1px 1px 0 rgb(var(--color-dark-1) 0.05) !default;
+$shadow-md: 0 2px 2px 0 rgb(var(--color-dark-1) 0.05) !default;
 
 $border: 1px solid var(--color-dark-5) !default;
 $border-disabled: 1px solid var(--color-dark-1) !default;
@@ -127,45 +128,45 @@ $border-divider-inverse: 1px solid #3b3e42 !default;
 $border-light: 1px solid var(--color-dark-3) !default;
 
 $box-shadow-default-width: 2px !default;
-$box-shadow-border: 0 1px 1px rgba(9, 10, 11, 0.05) !default;
+$box-shadow-border: 0 1px 1px rgb(9 10 11 / 5%) !default;
 $box-shadow-border-large: 0 0 0 $box-shadow-default-width var(--color-primary)-bright !default;
-$box-shadow-focus: 0 0 0 3px rgba(var(--color-dark-3), 0.3) !default;
+$box-shadow-focus: 0 0 0 3px rgb(var(--color-dark-3) 0.3) !default;
 $box-shadow-focus-large: 0 0 0 6px var(--color-primary)-light !default;
 $box-shadow-error: 0 0 0 3px var(--color-status-critical)-lighter !default;
 $box-shadow-ok: 0 0 0 3px var(--color-status-ok-lighter) !default;
 $box-shadow-warning: 0 0 0 3px var(--color-status-warning-lighter) !default;
 
 $animation-rotate: rotate;
-$animation-moveDownIn: moveDownIn;
-$animation-moveDownOut: moveDownOut;
-$animation-moveLeftIn: moveLeftIn;
-$animation-moveLeftOut: moveLeftOut;
-$animation-moveRightIn: moveRightIn;
-$animation-moveRightOut: moveRightOut;
-$animation-moveUpIn: moveUpIn;
-$animation-moveUpOut: moveUpOut;
-$animation-slideDownIn: slideDownIn;
-$animation-slideDownOut: slideDownOut;
-$animation-slideLeftIn: slideLeftIn;
-$animation-slideLeftOut: slideLeftOut;
-$animation-slideRightIn: slideRightIn;
-$animation-slideRightOut: slideRightOut;
-$animation-slideUpIn: slideUpIn;
-$animation-slideUpOut: slideUpOut;
-$animation-fadeIn: fadeIn;
-$animation-fadeOut: fadeOut;
-$animation-zoomIn: zoomIn;
-$animation-zoomOut: zoomOut;
-$animation-zoomBigIn: zoomBigIn;
-$animation-zoomBigOut: zoomBigOut;
-$animation-zoomUpIn: zoomUpIn;
-$animation-zoomUpOut: zoomUpOut;
-$animation-zoomLeftIn: zoomLeftIn;
-$animation-zoomLeftOut: zoomLeftOut;
-$animation-zoomRightIn: zoomRightIn;
-$animation-zoomRightOut: zoomRightOut;
-$animation-zoomDownIn: zoomDownIn;
-$animation-zoomDownOut: zoomDownOut;
+$animation-moveDownIn: movedownin;
+$animation-moveDownOut: movedownout;
+$animation-moveLeftIn: moveleftin;
+$animation-moveLeftOut: moveleftout;
+$animation-moveRightIn: moverightin;
+$animation-moveRightOut: moverightout;
+$animation-moveUpIn: moveupin;
+$animation-moveUpOut: moveupout;
+$animation-slideDownIn: slidedownin;
+$animation-slideDownOut: slidedownout;
+$animation-slideLeftIn: slideleftin;
+$animation-slideLeftOut: slideleftout;
+$animation-slideRightIn: sliderightin;
+$animation-slideRightOut: sliderightout;
+$animation-slideUpIn: slideupin;
+$animation-slideUpOut: slideupout;
+$animation-fadeIn: fadein;
+$animation-fadeOut: fadeout;
+$animation-zoomIn: zoomin;
+$animation-zoomOut: zoomout;
+$animation-zoomBigIn: zoombigin;
+$animation-zoomBigOut: zoombigout;
+$animation-zoomUpIn: zoomupin;
+$animation-zoomUpOut: zoomupout;
+$animation-zoomLeftIn: zoomleftin;
+$animation-zoomLeftOut: zoomleftout;
+$animation-zoomRightIn: zoomrightin;
+$animation-zoomRightOut: zoomrightout;
+$animation-zoomDownIn: zoomdownin;
+$animation-zoomDownOut: zoomdownout;
 
 $ease-linear: linear;
 $ease-out: cubic-bezier(0.215, 0.61, 0.355, 1) !default;
@@ -212,54 +213,51 @@ $dropdown-item-height: 50px !default;
   box-shadow: none !important;
 }
 
-/* 2dp elevation modified*/
+/* 2dp elevation modified */
 
 .z-depth-1 {
   box-shadow:
-    0 2px 2px 0 rgba(91, 91, 101, 0.14),
-    0 3px 1px -2px rgba(91, 91, 101, 0.12),
-    0 1px 5px 0 rgba(91, 91, 101, 0.2);
+    0 2px 2px 0 rgb(91 91 101 / 14%),
+    0 3px 1px -2px rgb(91 91 101 / 12%),
+    0 1px 5px 0 rgb(91 91 101 / 20%);
 }
 
 .z-depth-1-half {
   box-shadow:
-    0 3px 3px 0 rgba(91, 91, 101, 0.14),
-    0 1px 7px 0 rgba(91, 91, 101, 0.12),
-    0 3px 1px -1px rgba(91, 91, 101, 0.2);
+    0 3px 3px 0 rgb(91 91 101 / 14%),
+    0 1px 7px 0 rgb(91 91 101 / 12%),
+    0 3px 1px -1px rgb(91 91 101 / 20%);
 }
 
-/* 6dp elevation modified*/
+/* 6dp elevation modified */
 
 .z-depth-2 {
-  box-shadow:
-    0 4px 5px 0 rgba(91, 91, 101, 0.14),
-    0 1px 10px 0 rgba(91, 91, 101, 0.12),
-    0 2px 4px -1px rgba(91, 91, 101, 0.3);
+  box-shadow: 2px 2px 0 0 rgb(50 52 60 / 90%);
 }
 
-/* 12dp elevation modified*/
+/* 12dp elevation modified */
 
 .z-depth-3 {
   box-shadow:
-    0 8px 17px 2px rgba(91, 91, 101, 0.14),
-    0 3px 14px 2px rgba(91, 91, 101, 0.12),
-    0 5px 5px -3px rgba(91, 91, 101, 0.2);
+    0 8px 17px 2px rgb(91 91 101 / 14%),
+    0 3px 14px 2px rgb(91 91 101 / 12%),
+    0 5px 5px -3px rgb(91 91 101 / 20%);
 }
 
 /* 16dp elevation */
 
 .z-depth-4 {
   box-shadow:
-    0 16px 24px 2px rgba(91, 91, 101, 0.14),
-    0 6px 30px 5px rgba(91, 91, 101, 0.12),
-    0 8px 10px -7px rgba(91, 91, 101, 0.2);
+    0 16px 24px 2px rgb(91 91 101 / 14%),
+    0 6px 30px 5px rgb(91 91 101 / 12%),
+    0 8px 10px -7px rgb(91 91 101 / 20%);
 }
 
 /* 24dp elevation */
 
 .z-depth-5 {
   box-shadow:
-    0 24px 38px 3px rgba(91, 91, 101, 0.14),
-    0 9px 46px 8px rgba(91, 91, 101, 0.12),
-    0 11px 15px -7px rgba(91, 91, 101, 0.2);
+    0 24px 38px 3px rgb(91 91 101 / 14%),
+    0 9px 46px 8px rgb(91 91 101 / 12%),
+    0 11px 15px -7px rgb(91 91 101 / 20%);
 }

@@ -1,8 +1,0 @@
-@import "src/theme/base";
-@import "src/theme/mixins";
-@import "src/ui/fileagent/navbar/variables";
-
-.home {
-  @include hero;
-  display: block;
-}

@@ -1,4 +1,5 @@
 @import "src/theme/base";
+@import "src/theme/spacing";
 @import "src/theme/button/primary";
 @import "src/theme/button/button-outline";
 @import "src/ui/typography/variables";
@@ -17,13 +18,20 @@ $HALF_LOADER_SIZE: 15px;
 
 .button {
   @extend .button-primary;
+  @extend .z-depth-2;
   display: inline-block;
   width: fit-content;
   min-width: auto;
+  border: 2px solid var(--color-secondary);
   line-height: 0;
   white-space: nowrap;
   text-align: center;
   cursor: pointer;
+
+  &:hover,
+  &:focus {
+    box-shadow: none;
+  }
 
   &__respect-case {
     text-transform: none;
@@ -90,7 +98,9 @@ $HALF_LOADER_SIZE: 15px;
   }
 
   &--large {
-    @extend .button-primary_large;
+    border-radius: var(--button-large-border-radius);
+    padding: rem-calc(24) $space-l;
+    font-size: $font-size-text-lead;
   }
 
   &--medium {

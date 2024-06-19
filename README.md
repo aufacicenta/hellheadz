@@ -114,7 +114,7 @@ yarn dev:debug
 You'll need these values in `app/.env`:
 
 ```bash
-export NODE_ENV=test
+export NEXT_PUBLIC_VERCEL_ENV=test
 export NEXT_PUBLIC_ORIGIN="http://localhost:3003"
 
 export NEXT_PUBLIC_CHAT_AI_API="googleai" # "googleai" OR "openai"

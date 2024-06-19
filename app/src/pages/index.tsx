@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 
 import { HomeLayout } from "layouts/home-layout/HomeLayout";
-import { Home } from "ui/svpervnder/home/Home";
+import { LandingPage } from "ui/aufacicenta/landing-page/LandingPage";
 
 const Index: NextPage = () => {
   const { t } = useTranslation("head");
@@ -18,7 +18,7 @@ const Index: NextPage = () => {
         <meta property="og:description" content={t("head.og.description")} />
       </Head>
 
-      <Home />
+      <LandingPage />
     </HomeLayout>
   );
 };

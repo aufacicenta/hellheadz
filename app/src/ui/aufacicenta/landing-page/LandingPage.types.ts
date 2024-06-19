@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export type HomeProps = {
+export type LandingPageProps = {
   children?: ReactNode;
   className?: string;
 };

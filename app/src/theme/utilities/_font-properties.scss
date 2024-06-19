@@ -1,6 +1,8 @@
+/* stylelint-disable media-query-no-invalid */
+/* stylelint-disable order/order */
 @mixin font-properties($fs-map) {
-  @if deep-map-check($fs-map, "font", "lineHeight") {
-    line-height: get("font.lineHeight", $fs-map);
+  @if deep-map-check($fs-map, "font", "lineheight") {
+    line-height: get("font.lineheight", $fs-map);
   }
   @if deep-map-check($fs-map, "font", "weight") {
     font-weight: get("font.weight", $fs-map);
@@ -17,8 +19,8 @@
   @if deep-map-check($fs-map, "font", "stretch") {
     font-stretch: get("font.stretch", $fs-map);
   }
-  @if deep-map-check($fs-map, "font", "fontFamily") {
-    font-family: get("font.fontFamily", $fs-map);
+  @if deep-map-check($fs-map, "font", "fontfamily") {
+    font-family: get("font.fontfamily", $fs-map);
   }
   @if deep-map-check($fs-map, "font", "letterSpacing") {
     letter-spacing: get("font.letterSpacing", $fs-map);
