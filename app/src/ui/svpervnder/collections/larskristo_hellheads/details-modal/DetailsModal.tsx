@@ -36,7 +36,8 @@ export const DetailsModal: React.FC<DetailsModalProps> = ({ onClose, className, 
 
     (async () => {
       const tokenURI = await ERC721.tokenURI(item.id);
-      const result = await ERC721Instance.getTokenMetadata(tokenURI);
+      console.log({ tokenURI });
+      const result = await ERC721Instance.getTokenMetadata(tokenURI.replaceAll(" ", ""));
 
       setMetadata(result?.data);
     })();

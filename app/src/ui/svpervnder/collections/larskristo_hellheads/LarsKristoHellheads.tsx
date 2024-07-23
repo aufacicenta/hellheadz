@@ -10,6 +10,7 @@ import { Button } from "ui/button/Button";
 import { useRoutes } from "hooks/useRoutes/useRoutes";
 import { Card } from "ui/card/Card";
 import metadataBatch0_22 from "providers/svpervnder/hellheadz/metadata-batch-0-22.json";
+import metadataBatch23_44 from "providers/svpervnder/hellheadz/metadata-batch-23-44.json";
 import { Icon } from "ui/icon/Icon";
 import { Accordion } from "ui/accordion/Accordion";
 import { useAnalyticsContext } from "context/analytics/useAnalyticsContext";
@@ -21,6 +22,8 @@ import { ItemMetadata, LatestCollectionProps } from "./LarsKristoHellheads.types
 import { DetailsModal } from "./details-modal/DetailsModal";
 import { GridItem } from "./grid-item/GridItem";
 import { Marketplaces } from "./marketplaces/Marketplaces";
+
+const metadata = [...metadataBatch0_22, ...metadataBatch23_44];
 
 export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className }) => {
   const [isDetailsModalVisible, displayDetailsModals] = useState(false);
@@ -180,7 +183,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
               />
             </div>
             <Grid.Row>
-              {metadataBatch0_22.map((item: ItemMetadata, index) => (
+              {metadata.map((item: ItemMetadata, index) => (
                 <>
                   {index === 6 && (
                     <Grid.Col lg={8} className={styles["latest-collection__grid--info-card-col"]} key="order-matters">
@@ -241,6 +244,31 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                               Verify Ownership
                             </Button>
                           </div>
+                        </Card.Content>
+                      </Card>
+                    </Grid.Col>
+                  )}
+
+                  {index === 30 && (
+                    <Grid.Col lg={6} className={styles["latest-collection__grid--info-card-col"]} key="scarcity">
+                      <Card withInnerBorder>
+                        <Card.Content className={styles["latest-collection__grid--info-card"]}>
+                          <Typography.TextLead>The 2nd Batch Is Here!</Typography.TextLead>
+                          <Typography.Headline3>
+                            From Insomnia (Token ID #23) to Mummo (Token ID #43)
+                          </Typography.Headline3>
+                          <Typography.Description flat>The wait is over.</Typography.Description>
+                        </Card.Content>
+                      </Card>
+                    </Grid.Col>
+                  )}
+
+                  {index === 43 && (
+                    <Grid.Col lg={10} className={styles["latest-collection__grid--info-card-col"]} key="scarcity">
+                      <Card withInnerBorder>
+                        <Card.Content className={styles["latest-collection__grid--info-card"]}>
+                          <Typography.TextLead>Expect The 3rd Batch!</Typography.TextLead>
+                          <Typography.Headline3>August 22nd, 2024</Typography.Headline3>
                         </Card.Content>
                       </Card>
                     </Grid.Col>
