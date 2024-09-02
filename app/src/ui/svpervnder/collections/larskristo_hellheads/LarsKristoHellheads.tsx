@@ -9,8 +9,9 @@ import { Typography } from "ui/typography/Typography";
 import { Button } from "ui/button/Button";
 import { useRoutes } from "hooks/useRoutes/useRoutes";
 import { Card } from "ui/card/Card";
-import metadataBatch0_22 from "providers/svpervnder/hellheadz/metadata-batch-0-22.json";
-import metadataBatch23_44 from "providers/svpervnder/hellheadz/metadata-batch-23-44.json";
+import metadataBatch0_22 from "providers/svpervnder/hellheadz/metadata-batch-0-21.json";
+import metadataBatch22_43 from "providers/svpervnder/hellheadz/metadata-batch-22-43.json";
+import metadataBatch44_66 from "providers/svpervnder/hellheadz/metadata-batch-44-66.json";
 import { Icon } from "ui/icon/Icon";
 import { Accordion } from "ui/accordion/Accordion";
 import { useAnalyticsContext } from "context/analytics/useAnalyticsContext";
@@ -23,7 +24,7 @@ import { DetailsModal } from "./details-modal/DetailsModal";
 import { GridItem } from "./grid-item/GridItem";
 import { Marketplaces } from "./marketplaces/Marketplaces";
 
-const metadata = [...metadataBatch0_22, ...metadataBatch23_44];
+const metadata = [...metadataBatch0_22, ...metadataBatch22_43, ...metadataBatch44_66];
 
 export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className }) => {
   const [isDetailsModalVisible, displayDetailsModals] = useState(false);

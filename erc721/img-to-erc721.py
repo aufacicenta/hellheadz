@@ -102,7 +102,7 @@ def create_img_thumbnails(from_directory_path, to_directory_path):
     for filename in sorted(os.listdir(from_directory_path)):
 
         if is_image_extension(filename):
-
+            print(f"create_img_thumbnails: {filename}")
             file_path = os.path.join(from_directory_path, filename)
 
             with Image.open(file_path) as img:
@@ -343,7 +343,7 @@ def complete_image_filenames():
         metadata_list = json.load(f)
 
     for filename in sorted(os.listdir(originals_dir_path)):
-        if thumbnail_extension not in filename and is_image_extension(filename):
+        if is_image_extension(filename):
 
             for metadata in metadata_list:
                 name = metadata["name"]

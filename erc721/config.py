@@ -13,7 +13,7 @@ open_ai_client = OpenAI(
 
 claude_anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPICAI_API_KEY"))
 
-src_dir_path = "./files/hellheadz/20240723_22-44"
+src_dir_path = "./files/hellheadz/20240902_44-66"
 originals_dir_path = f"{src_dir_path}/originals"
 thumbnails_dir_path = f"{src_dir_path}/thumbnails"
 websize_dir_path = f"{src_dir_path}/websize"
@@ -22,14 +22,14 @@ token_uris_dir_path = f"{src_dir_path}"
 
 thumbnail_extension = "_thumbnail"
 
-metadata_file_path = "metadata/hellheadz/20240723_metadata-batch-22-44.json"
-metadata_ai_descriptions_file_name = "20240723_metadata-batch-22-44.json"
+metadata_file_path = "metadata/hellheadz/20240902_metadata-batch-44-66.json"
+metadata_ai_descriptions_file_name = "20240902_metadata-batch-44-66.json"
 
 watermark_text = "LarsKristo"
 author_text = "LarsKristo"
 generic_description_text = "Larskristo Hellheadz"
 
-token_uris_filename = f"{token_uris_dir_path}/20240723_token-uris-batch-22-44.json"
+token_uris_filename = f"{token_uris_dir_path}/20240902_token-uris-batch-45-66.json"
 
 ipfs_gateway_url = "https://blockchainassetregistry.infura-ipfs.io/ipfs/"
 
