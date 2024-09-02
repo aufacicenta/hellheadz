@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import clsx from "clsx";
 
 import { Grid } from "ui/grid/Grid";

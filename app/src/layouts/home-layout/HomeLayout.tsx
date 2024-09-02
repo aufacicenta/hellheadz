@@ -11,6 +11,7 @@ import { EvmWalletSelectorContextController } from "context/evm/wallet-selector/
 import { Footer } from "ui/footer/Footer";
 import { AuthorizationContextController } from "context/authorization/AuthorizationContextController";
 import { DiscordContextController } from "context/discord/DiscordContextController";
+import { AnalyticsContextController } from "context/analytics/AnalyticsContextController";
 
 import { ChatLayoutProps } from "./HomeLayout.types";
 import styles from "./HomeLayout.module.scss";
@@ -21,7 +22,20 @@ export const HomeLayout: React.FC<ChatLayoutProps> = ({ children }) => {
   return (
     <>
       {process.env.NEXT_PUBLIC_VERCEL_ENV === "production" && (
-        <Script defer src="https://api.pirsch.io/pa.js" id="pianjs" data-code="X8onK5mQgqhkgQzuKWUBs08SnTqpig5x" />
+        <Script
+          defer
+          src="https://api.pirsch.io/pa.js"
+          id="pianjs"
+          data-code={process.env.NEXT_PUBLIC_PIRSCH_ANALYTICS_PID}
+        />
+      )}
+      {process.env.NEXT_PUBLIC_VERCEL_ENV === "development" && (
+        <Script
+          defer
+          src="https://api.pirsch.io/pa.js"
+          id="pianjs"
+          data-code={process.env.NEXT_PUBLIC_PIRSCH_ANALYTICS_PID}
+        />
       )}
       <Head>
         <meta property="og:locale" content={locale} />
@@ -31,15 +45,17 @@ export const HomeLayout: React.FC<ChatLayoutProps> = ({ children }) => {
           <ToastContextController>
             <AuthorizationContextController>
               <DiscordContextController>
-                <div id="modal-root" />
-                <div id="dropdown-portal" />
-                <div className={clsx(styles["home-layout"])}>
-                  <Navbar />
+                <AnalyticsContextController>
+                  <div id="modal-root" />
+                  <div id="dropdown-portal" />
+                  <div className={clsx(styles["home-layout"])}>
+                    <Navbar />
 
-                  <MainPanel>{children}</MainPanel>
+                    <MainPanel>{children}</MainPanel>
 
-                  <Footer />
-                </div>
+                    <Footer />
+                  </div>
+                </AnalyticsContextController>
               </DiscordContextController>
             </AuthorizationContextController>
           </ToastContextController>

@@ -9,9 +9,14 @@ import { Typography } from "ui/typography/Typography";
 import { Button } from "ui/button/Button";
 import { useRoutes } from "hooks/useRoutes/useRoutes";
 import { Card } from "ui/card/Card";
-import metadataBatch0_22 from "providers/svpervnder/hellheadz/metadata-batch-0-22.json";
+import metadataBatch0_22 from "providers/svpervnder/hellheadz/metadata-batch-0-21.json";
+import metadataBatch22_43 from "providers/svpervnder/hellheadz/metadata-batch-22-43.json";
+import metadataBatch44_66 from "providers/svpervnder/hellheadz/metadata-batch-44-66.json";
 import { Icon } from "ui/icon/Icon";
 import { Accordion } from "ui/accordion/Accordion";
+import { useAnalyticsContext } from "context/analytics/useAnalyticsContext";
+import analytics from "providers/analytics";
+import { AnalyticsEvent } from "context/analytics/AnalyticsContext.types";
 
 import styles from "./LarsKristoHellheads.module.scss";
 import { ItemMetadata, LatestCollectionProps } from "./LarsKristoHellheads.types";
@@ -19,15 +24,30 @@ import { DetailsModal } from "./details-modal/DetailsModal";
 import { GridItem } from "./grid-item/GridItem";
 import { Marketplaces } from "./marketplaces/Marketplaces";
 
+const metadata = [...metadataBatch0_22, ...metadataBatch22_43, ...metadataBatch44_66];
+
 export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className }) => {
   const [isDetailsModalVisible, displayDetailsModals] = useState(false);
   const [currentItem, setCurrentItem] = useState<ItemMetadata | undefined>();
 
   const routes = useRoutes();
+  const AnalyticsContext = useAnalyticsContext();
+
+  const onAnalyticsTrackingClick = (event: AnalyticsEvent) => {
+    AnalyticsContext.onClick(event);
+  };
 
   const handleExpand = (item: ItemMetadata) => {
     setCurrentItem(item);
     displayDetailsModals(true);
+
+    AnalyticsContext.onClick({
+      name: analytics.EventTracking.click.homepage.collection_item,
+      meta: {
+        name: item.name,
+        tokenId: item.id,
+      },
+    });
   };
 
   const handleClose = () => {
@@ -164,7 +184,7 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
               />
             </div>
             <Grid.Row>
-              {metadataBatch0_22.map((item: ItemMetadata, index) => (
+              {metadata.map((item: ItemMetadata, index) => (
                 <>
                   {index === 6 && (
                     <Grid.Col lg={8} className={styles["latest-collection__grid--info-card-col"]} key="order-matters">
@@ -216,10 +236,40 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                               rightIcon={<Icon name="icon-discord" />}
                               color="dark"
                               variant="outlined"
+                              onClick={() =>
+                                onAnalyticsTrackingClick({
+                                  name: analytics.EventTracking.click.homepage.collection_discord_card_button,
+                                })
+                              }
                             >
                               Verify Ownership
                             </Button>
                           </div>
+                        </Card.Content>
+                      </Card>
+                    </Grid.Col>
+                  )}
+
+                  {index === 30 && (
+                    <Grid.Col lg={6} className={styles["latest-collection__grid--info-card-col"]} key="scarcity">
+                      <Card withInnerBorder>
+                        <Card.Content className={styles["latest-collection__grid--info-card"]}>
+                          <Typography.TextLead>The 2nd Batch Is Here!</Typography.TextLead>
+                          <Typography.Headline3>
+                            From Insomnia (Token ID #23) to Mummo (Token ID #43)
+                          </Typography.Headline3>
+                          <Typography.Description flat>The wait is over.</Typography.Description>
+                        </Card.Content>
+                      </Card>
+                    </Grid.Col>
+                  )}
+
+                  {index === 43 && (
+                    <Grid.Col lg={10} className={styles["latest-collection__grid--info-card-col"]} key="scarcity">
+                      <Card withInnerBorder>
+                        <Card.Content className={styles["latest-collection__grid--info-card"]}>
+                          <Typography.TextLead>Expect The 3rd Batch!</Typography.TextLead>
+                          <Typography.Headline3>August 22nd, 2024</Typography.Headline3>
                         </Card.Content>
                       </Card>
                     </Grid.Col>
@@ -238,6 +288,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   Frequently Asked Questions
                 </Typography.Headline2>
                 <Accordion
+                  analyticsEvent={{
+                    name: analytics.EventTracking.click.homepage.faqs_accordion_trigger,
+                    meta: { faq: "What in the hell is this, exactly?" },
+                  }}
                   accordionHeader={<Typography.Headline3 flat>What in the hell is this, exactly?</Typography.Headline3>}
                   accordionContent={
                     <>
@@ -254,6 +308,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                 />
                 <Accordion
                   isDefaultExpanded
+                  analyticsEvent={{
+                    name: analytics.EventTracking.click.homepage.faqs_accordion_trigger,
+                    meta: { faq: "Where can I purchase a Hellhead?" },
+                  }}
                   accordionHeader={<Typography.Headline3 flat>Where can I purchase a Hellhead?</Typography.Headline3>}
                   accordionContent={
                     <>
@@ -263,6 +321,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   }
                 />
                 <Accordion
+                  analyticsEvent={{
+                    name: analytics.EventTracking.click.homepage.faqs_accordion_trigger,
+                    meta: { faq: "I already own a Hellhead, what now?" },
+                  }}
                   accordionHeader={
                     <Typography.Headline3 flat>I already own a Hellhead, what now?</Typography.Headline3>
                   }
@@ -278,6 +340,11 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                         rightIcon={<Icon name="icon-discord" />}
                         color="primary"
                         variant="outlined"
+                        onClick={() =>
+                          onAnalyticsTrackingClick({
+                            name: analytics.EventTracking.click.homepage.faqs_discord_button,
+                          })
+                        }
                       >
                         Verify Ownership
                       </Button>
@@ -285,6 +352,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   }
                 />
                 <Accordion
+                  analyticsEvent={{
+                    name: analytics.EventTracking.click.homepage.faqs_accordion_trigger,
+                    meta: { faq: "Can I sell back a Hellhead anytime?" },
+                  }}
                   accordionHeader={
                     <Typography.Headline3 flat>Can I sell back a Hellhead anytime?</Typography.Headline3>
                   }
@@ -299,6 +370,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   }
                 />
                 <Accordion
+                  analyticsEvent={{
+                    name: analytics.EventTracking.click.homepage.faqs_accordion_trigger,
+                    meta: { faq: "How many of them will there be?" },
+                  }}
                   accordionHeader={<Typography.Headline3 flat>How many of them will there be?</Typography.Headline3>}
                   accordionContent={
                     <>
@@ -308,6 +383,10 @@ export const LarsKristoHellheads: React.FC<LatestCollectionProps> = ({ className
                   }
                 />
                 <Accordion
+                  analyticsEvent={{
+                    name: analytics.EventTracking.click.homepage.faqs_accordion_trigger,
+                    meta: { faq: "Am I a Hellhead?" },
+                  }}
                   accordionHeader={<Typography.Headline3 flat>Am I a Hellhead?</Typography.Headline3>}
                   accordionContent={
                     <>
